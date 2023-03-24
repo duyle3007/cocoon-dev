@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./wordpress:/var/www/html:delegated
+  
+  mysql:
+    platform: linux/amd64
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql:/var/lib/mysql:delegated
+  
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./wordpress:/var/www/html:delegated
+  
+  wp:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: wp
+    entrypoint: ['wp', '--allow-root']
+    volumes:
+      - ./wordpress:/var/www/html:delegated
+
+volumes:
+  mysql:
