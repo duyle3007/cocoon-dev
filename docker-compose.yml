@@ -39,6 +39,21 @@ services:
     entrypoint: ['wp', '--allow-root']
     volumes:
       - ./wordpress:/var/www/html:delegated
+  
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
+    container_name: frontend
+    volumes:
+      - ./frontend/:/app
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+
 
 volumes:
   mysql:
