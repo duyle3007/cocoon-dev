@@ -1,3 +1,4 @@
+import LeafletMap from "@/components/LeafletMap/LeafletMap";
 import Header from "../../Header/Header";
 
 const HomePage = () => {
@@ -5,6 +6,7 @@ const HomePage = () => {
     <div className="homepage">
       <Header />
       This is homepage
+      <LeafletMap />
     </div>
   );
 };
