@@ -1,5 +1,10 @@
-import LeafletMap from "@/components/LeafletMap/LeafletMap";
+// import LeafletMap from "@/components/LeafletMap/LeafletMap";
 import Header from "../../Header/Header";
+import dynamic from "next/dynamic";
+
+const LeafletMap = dynamic(() => import("@/components/LeafletMap/LeafletMap"), {
+  ssr: false,
+});
 
 const HomePage = () => {
   return (
