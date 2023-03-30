@@ -1,8 +1,9 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import MarkerCluster from "./MarketCluster";
 
 const addressPoints = [
   { lat: -37.8839, lng: 175.3745188667, name: "571" },
@@ -44,24 +45,13 @@ const LeafletMap = () => {
     <MapContainer
       center={[addressPoints[0].lat, addressPoints[0].lng]}
       zoom={13}
-      scrollWheelZoom={false}
+      touchZoom={true}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[addressPoints[0].lat, addressPoints[0].lng]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-      <L.MarkerClusterGroup>
-        {addressPoints.map((location, index) => (
-          <Marker key={index} position={[location.lat, location.lng]}>
-            <Popup>{location.name}</Popup>
-          </Marker>
-        ))}
-      </L.MarkerClusterGroup>
+      <MarkerCluster markers={addressPoints} />
     </MapContainer>
   );
 };

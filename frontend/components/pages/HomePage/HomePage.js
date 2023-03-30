@@ -1,4 +1,3 @@
-// import LeafletMap from "@/components/LeafletMap/LeafletMap";
 import Header from "../../Header/Header";
 import dynamic from "next/dynamic";
 
