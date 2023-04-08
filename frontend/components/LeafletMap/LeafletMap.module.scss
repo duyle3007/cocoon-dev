@@ -1,0 +1,29 @@
+.mapContainer {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100%;
+  .searchResultList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 40px 16px;
+    .locationCard {
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid black;
+      cursor: pointer;
+      .locationImage {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+      .locationContent {
+        padding: 8px;
+      }
+    }
+  }
+}
