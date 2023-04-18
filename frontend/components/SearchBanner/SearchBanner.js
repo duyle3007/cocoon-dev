@@ -1,9 +1,9 @@
-import { Button, Input, Select } from "antd";
+import { Button, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import styles from "./SearchBanner.module.scss";
+
 import SelectWithPrefix from "../SelectWithPrefix/SelectWithPrefix";
 
-const { Option } = Select;
+import styles from "./SearchBanner.module.scss";
 
 const SearchBanner = () => {
   return (

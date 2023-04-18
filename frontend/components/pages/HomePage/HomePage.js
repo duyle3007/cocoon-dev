@@ -11,7 +11,7 @@ const HomePage = () => {
         muted
         loop
         className={styles.youtubeEmbed}
-        poster="https://cf.bstatic.com/xdata/images/hotel/max1280x900/280376741.jpg?k=5ed6e914c1cb16dd98dec8078680e0cf2b62e71fa4143950045a2a67dfe3958b&o=&hp=1"
+        poster={"/placeholder_banner.png"}
       >
         <source
           src="https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download"
