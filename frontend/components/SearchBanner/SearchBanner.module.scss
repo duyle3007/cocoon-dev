@@ -1,0 +1,9 @@
+.searchBanner {
+  @apply p-10 bg-white w-[400px];
+  .input {
+    padding: 16px;
+    input {
+      font-family: "Whitney Book";
+    }
+  }
+}

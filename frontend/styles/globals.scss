@@ -1,0 +1,21 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@font-face {
+  font-family: "Goudy Old Style";
+  src: url("../fonts/goudy-old-style/GOUDOS.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Whitney Book";
+  src: url("../fonts/whitney-book/whitney-book.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#__next {
+  font-family: "Whitney";
+}

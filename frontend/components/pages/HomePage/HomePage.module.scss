@@ -1,0 +1,20 @@
+.homepage {
+  .youtubeEmbed {
+    width: 100%;
+    height: auto;
+  }
+  .banner {
+    @apply absolute w-[1200px] flex flex-row justify-between top-[209px] left-0 right-0 mx-auto items-center;
+    .leftBanner {
+      @apply text-white pl-[106px];
+      .headerTitle {
+        @apply text-[64px] leading-[77px] w-8;
+        font-family: "Goudy Old Style";
+      }
+      .headerSub {
+        @apply text-2xl pt-4;
+        font-family: "Gill Sans";
+      }
+    }
+  }
+}

@@ -1,7 +1,26 @@
-.header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
+.headerContainer {
+  @apply absolute top-0 left-0 flex w-full text-white z-[1];
+
+  .headerContent {
+    @apply flex flex-row mx-auto justify-between w-[1200px] border-b-[1px] border-opacity-50 border-[#E8E8E8] py-10;
+  }
+  .logo {
+    @apply h-8 object-cover;
+  }
+  .headerMenu {
+    @apply flex flex-row items-center gap-12 text-sm;
+    span,
+    div {
+      @apply cursor-pointer;
+    }
+  }
+  .dropdown {
+    @apply flex flex-row items-center gap-[10px];
+  }
+  .contactInfo {
+    @apply flex flex-row gap-8 items-center;
+    span {
+      @apply cursor-pointer;
+    }
+  }
 }
