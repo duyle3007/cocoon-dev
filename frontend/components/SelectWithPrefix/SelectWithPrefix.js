@@ -10,6 +10,7 @@ const SelectWithPrefix = ({ options = [], prefix, ...props }) => {
         showSearch
         placeholder={"Select"}
         bordered={false}
+        suffixIcon={<img src="/homepage/arrow-down.svg" />}
         optionFilterProp="children"
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

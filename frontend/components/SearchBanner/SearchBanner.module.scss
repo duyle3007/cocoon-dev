@@ -1,7 +1,28 @@
 .searchBanner {
-  @apply p-10 bg-white w-[400px];
+  @apply bg-white w-[400px];
+  font-family: "Whitney";
+  .tabContainer {
+    @apply flex justify-between pt-10  mb-8;
+    border-bottom: 1px solid #e0e0e0;
+    padding-inline: 66.5px;
+  }
+  .tab {
+    font-size: 14px;
+    line-height: 20px;
+    opacity: 0.5;
+    @apply cursor-pointer pb-4;
+    transition: all 0.3s;
+  }
+  .tabActive {
+    opacity: 1;
+    border-bottom: 2px solid #404040;
+    @apply text-[#404040];
+  }
+  .tabContent {
+    @apply px-10 pb-10;
+  }
   .input {
-    padding: 16px;
+    @apply p-4 rounded-none;
     input {
       font-family: "Whitney Book";
     }

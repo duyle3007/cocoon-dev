@@ -103,10 +103,7 @@ const Header = () => {
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerContent}>
-        <img
-          src="https://www.edigitalagency.com.au/wp-content/uploads/Disney-logo-png.png"
-          className={styles.logo}
-        />
+        <img src="/logo.svg" className={styles.logo} />
 
         <div className={styles.headerMenu}>
           <span>HOME</span>
