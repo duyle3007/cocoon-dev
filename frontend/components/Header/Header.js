@@ -1,8 +1,11 @@
-import { Dropdown, Space } from "antd";
-import { DownOutlined, PhoneOutlined, MailOutlined } from "@ant-design/icons";
-import styles from "./Header.module.scss";
+import { Dropdown } from "antd";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-const destinationItems = [
+import styles from "./Header.module.scss";
+import Link from "next/link";
+
+const DESTINATION_LIST = [
   {
     key: "1",
     label: (
@@ -64,7 +67,6 @@ const destinationItems = [
         France
       </a>
     ),
-    disabled: true,
   },
   {
     key: "4",
@@ -93,39 +95,84 @@ const serviceItems = [
         rel="noopener noreferrer"
         href="https://www.antgroup.com"
       >
-        Photoshoots / Events
+        Phohrefshoots / Events
       </a>
     ),
   },
 ];
 
 const Header = () => {
-  return (
-    <div className={styles.headerContainer}>
-      <div className={styles.headerContent}>
-        <img src="/logo.svg" className={styles.logo} />
+  const router = useRouter();
 
+  const isHomepage = router.asPath === "/";
+
+  return (
+    <div
+      className={`${styles.headerContainer} ${
+        !isHomepage && styles.whiteHeader
+      }`}
+    >
+      <div
+        className={`${styles.headerContent}  ${
+          !isHomepage && styles.whiteContent
+        }`}
+      >
+        <Link href="/">
+          <img
+            src={isHomepage ? "/logo.svg" : "/blackLogo.svg"}
+            className={styles.logo}
+          />
+        </Link>
         <div className={styles.headerMenu}>
-          <span>HOME</span>
-          <span>ABOUT US</span>
-          <Dropdown menu={{ items: destinationItems }}>
+          <Link
+            href="/"
+            className={isHomepage ? styles.active : styles.nonActive}
+          >
+            <span>HOME</span>
+          </Link>
+          <Link
+            href="/about-us"
+            className={
+              router.asPath === "/about-us"
+                ? styles.activeBlack
+                : styles.nonActive
+            }
+          >
+            <span>ABOUT US</span>
+          </Link>
+          <Dropdown
+            menu={{ items: DESTINATION_LIST }}
+            overlayClassName={styles.dropdownMenu}
+          >
             <div className={styles.dropdown}>
               DESTINATION
-              <DownOutlined />
+              <img src="/downArrow.svg" />
             </div>
           </Dropdown>
-          <Dropdown menu={{ items: serviceItems }}>
+          <Dropdown
+            menu={{ items: serviceItems }}
+            overlayClassName={styles.dropdownMenu}
+          >
             <div className={styles.dropdown}>
               SERVICE
-              <DownOutlined />
+              <img src="/downArrow.svg" />
             </div>
           </Dropdown>
-          <span>CONTACT US</span>
+          <Link
+            href="/contact-us"
+            className={
+              router.asPath === "/contact-us"
+                ? styles.activeBlack
+                : styles.nonActive
+            }
+          >
+            <span>CONTACT US</span>
+          </Link>
         </div>
 
         <div className={styles.contactInfo}>
-          <PhoneOutlined />
-          <MailOutlined />
+          <img src="/phoneIcon.svg" />
+          <img src="/emailIcon.svg" />
           <span>BOOK NOW</span>
         </div>
       </div>

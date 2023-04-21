@@ -7,7 +7,7 @@
     "build": "npm run build:css && next build",
     "start": "next start",
     "lint": "next lint",
-    "build:css": "tailwindcss build styles/global.scss -o styles/output.css"
+    "build:css": "tailwindcss build styles/globals.scss -o styles/output.css"
   },
   "dependencies": {
     "antd": "^5.3.2",

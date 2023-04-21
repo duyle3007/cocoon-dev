@@ -1,0 +1,148 @@
+.footer {
+  .signupContainer {
+    @apply max-w-[1238px] mx-auto flex justify-between pt-8 pb-12 items-center;
+    border-bottom: 1px solid #e8e8e8;
+    div:first-child {
+      font-family: "Goudy Old Style";
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: 0.05em;
+      width: 20%;
+    }
+    div:nth-child(2) {
+      font-family: Whitney Book;
+      font-size: 14px;
+      line-height: 20px;
+      max-width: 40%;
+      letter-spacing: 0.006em;
+      opacity: 0.8;
+    }
+    button {
+      background-color: #404040;
+      padding-block: 18px;
+      font-family: "Whitney";
+      font-size: 12px;
+      width: 20%;
+      transition: all 0.3s;
+      @apply rounded-none text-white h-auto;
+      &:hover {
+        background-color: #90744f;
+        color: white;
+        border-color: #90744f;
+      }
+    }
+  }
+
+  .cocoonInfo {
+    @apply max-w-[1238px] mx-auto flex py-12 justify-between;
+    .left {
+      @apply flex flex-col gap-[58px];
+      width: 20%;
+      font-family: Whitney Book;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.006em;
+      color: #585858;
+      opacity: 0.8;
+      img {
+        width: 150px;
+        height: auto;
+      }
+    }
+    .middle {
+      @apply max-w-[40%] flex justify-between w-full;
+      .cocoon {
+        @apply flex flex-col;
+        h4 {
+          font-family: "Goudy Old Style";
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 22px;
+          letter-spacing: 0.05em;
+          margin-bottom: 24px;
+        }
+        a {
+          margin-bottom: 8px;
+          font-family: "Whitney Book";
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0.006em;
+          color: #585858;
+          opacity: 0.8;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+      .contact {
+        h4 {
+          font-family: "Goudy Old Style";
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 22px;
+          letter-spacing: 0.05em;
+          margin-bottom: 24px;
+        }
+        .info {
+          @apply flex gap-2 items-center;
+          margin-bottom: 8px;
+          font-family: "Whitney Book";
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0.006em;
+          color: #585858;
+          opacity: 0.8;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          img {
+            @apply h-4 w-4;
+          }
+        }
+      }
+    }
+    .seoDaddy {
+      width: 20%;
+      @apply flex justify-end items-end;
+      img {
+        height: 32px;
+        width: auto;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .copyrightContainer {
+    border-top: 1px solid #e8e8e8;
+    .copyright {
+      @apply max-w-[1238px] mx-auto py-[26px] flex justify-between;
+    }
+    .left {
+      font-family: "Whitney Book";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.006em;
+    }
+    .right {
+      @apply flex;
+      h5 {
+        font-family: "Whitney Book";
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.006em;
+        margin-right: 17px;
+      }
+      img {
+        @apply w-6 h-6 mr-5 cursor-pointer;
+        &:last-child {
+          @apply mr-0;
+        }
+      }
+    }
+  }
+}

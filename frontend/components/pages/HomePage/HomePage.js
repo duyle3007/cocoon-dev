@@ -1,11 +1,17 @@
-import SearchBanner from "@/components/SearchBanner/SearchBanner";
-import Header from "../../Header/Header";
+import SearchBanner from "@/components/pages/HomePage/SearchBanner/SearchBanner";
 import styles from "./HomePage.module.scss";
+import Headline from "@/components/pages/HomePage/Headline/Headline";
+import Slideshow from "@/components/pages/HomePage/Slideshow/Slideshow";
+import Holiday from "@/components/pages/HomePage/Holiday/Holiday";
+import Photoshoot from "./Photoshoot/Photoshoot";
+import Event from "./Event/Event";
+import Service from "./Service/Service";
+import SayAboutUs from "./SayAboutUs/SayAboutUs";
+import Intro from "./Intro/Intro";
 
 const HomePage = () => {
   return (
     <div className={styles.homepage}>
-      <Header />
       <video
         autoPlay
         muted
@@ -28,6 +34,16 @@ const HomePage = () => {
 
         <SearchBanner />
       </div>
+
+      <Headline />
+      <Slideshow />
+
+      <Holiday />
+      <Photoshoot />
+      <Event />
+      <Service />
+      <SayAboutUs />
+      <Intro />
     </div>
   );
 };

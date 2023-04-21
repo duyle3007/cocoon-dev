@@ -1,0 +1,29 @@
+.intro {
+  background: #f2eee8;
+  padding-block: 121px;
+  margin-top: 76px;
+  .introContainer {
+    @apply max-w-[1238px] mx-auto flex items-center justify-between gap-[106px];
+    padding-left: 107px;
+  }
+  .leftContent {
+    flex: 1;
+  }
+  .title {
+    font-family: "Goudy Old Style";
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    max-width: 300px;
+  }
+  .description {
+    font-family: Whitney Book;
+    line-height: 20px;
+    letter-spacing: 0.006em;
+  }
+  img {
+    width: 55%;
+    height: 400px;
+  }
+}

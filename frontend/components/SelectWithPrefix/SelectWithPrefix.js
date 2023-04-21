@@ -2,6 +2,8 @@ import { Select } from "antd";
 
 import styles from "./SelectWithPrefix.module.scss";
 
+const { Option } = Select;
+
 const SelectWithPrefix = ({ options = [], prefix, ...props }) => {
   return (
     <div className={styles.selectPrefix}>
@@ -18,7 +20,9 @@ const SelectWithPrefix = ({ options = [], prefix, ...props }) => {
         {...props}
       >
         {options.map((option) => (
-          <Option value={option.value}>{option.name}</Option>
+          <Option value={option.value} key={option.value}>
+            {option.name}
+          </Option>
         ))}
       </Select>
     </div>

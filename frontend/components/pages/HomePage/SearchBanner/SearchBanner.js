@@ -1,15 +1,35 @@
 import { Button, DatePicker, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
-import SelectWithPrefix from "../SelectWithPrefix/SelectWithPrefix";
+import SelectWithPrefix from "../../../SelectWithPrefix/SelectWithPrefix";
 
 import styles from "./SearchBanner.module.scss";
-import { useState } from "react";
 
 const TAB_VALUES = {
   HOLIDAY: "holiday",
   PHOTOSHOOT: "photoshoot",
 };
+
+const DESTINATION_LIST = [
+  {
+    name: "All destinations",
+    value: "all",
+  },
+  {
+    name: "Australia",
+    value: "australia",
+  },
+  {
+    name: "France",
+    value: "france",
+  },
+  {
+    name: "Egypt",
+    value: "egypt",
+  },
+];
+
 const SearchBanner = () => {
   const [activeTab, setActiveTab] = useState(TAB_VALUES.HOLIDAY);
   const [momentStartDate, setMomentStartDate] = useState(null);
@@ -55,33 +75,35 @@ const SearchBanner = () => {
         <Input
           type="search"
           placeholder="Enter keyword"
-          prefix={<SearchOutlined />}
+          prefix={<img src="/homepage/searchIcon.svg" />}
           className={styles.input}
         />
         <div className={styles.title}>LOCATION</div>
         <SelectWithPrefix
           prefix={<img src="/homepage/discoverIcon.svg" />}
           placeholder="Choose a destination"
+          options={DESTINATION_LIST}
         />
-        <div className="flex gap-4">
-          <div className="flex flex-col">
+        <div className="flex gap-4 justify-between">
+          <div className="flex flex-col w-full">
             <div className={styles.title}>CHECK IN</div>
             <DatePicker
-              format="MMM DD,YYYY"
+              format="MMM DD, YYYY"
               disabledDate={disabledStartDate}
               onChange={onChangeStartDay}
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <div className={styles.title}>CHECK OUT</div>
             <DatePicker
               disabledDate={disabledEndDate}
+              format="MMM DD, YYYY"
               onChange={onChangeEndDay}
             />
           </div>
         </div>
-        <Button>SEARCH</Button>
+        <Button className={styles.searchBtn}>SEARCH</Button>
       </div>
     </div>
   );
