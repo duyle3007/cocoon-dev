@@ -1,0 +1,16 @@
+.slideShowContainer {
+  @apply max-w-[1238px] mx-auto mt-[119px] relative;
+  .slideShow {
+    @apply w-full;
+    img {
+      @apply w-full object-cover h-full h-[560px];
+    }
+  }
+
+  :global .anticon-left {
+    @apply left-6 absolute top-1/2  text-[40px] text-white;
+  }
+  :global .anticon-right {
+    @apply right-6 absolute top-1/2  text-[40px] text-white;
+  }
+}

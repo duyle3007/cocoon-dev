@@ -1,0 +1,27 @@
+.hotelCard {
+  @apply w-full relative cursor-pointer;
+
+  .thumbnailContainer {
+    @apply w-full h-full;
+    overflow: hidden;
+  }
+  .thumbnail {
+    @apply w-full h-full object-cover;
+    transition: transform 0.5s ease;
+    &:hover {
+      transform: scale(1.5);
+    }
+  }
+  .info {
+    @apply absolute bottom-6 left-6 text-white gap-2;
+    .name {
+      @apply text-[#F3F3F3] text-xl;
+      font-family: Whitney;
+      letter-spacing: 0.01em;
+    }
+    .priceAndLocation {
+      @apply text-sm flex gap-6;
+      font-family: "Whitney Book";
+    }
+  }
+}

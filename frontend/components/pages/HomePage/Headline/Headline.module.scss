@@ -1,0 +1,28 @@
+.headline {
+  @apply flex max-w-[1050px] mx-auto pt-[131px] gap-[106px];
+  .leftHeadline {
+    font-family: Whitney Book;
+    @apply text-lg w-3/4;
+    div:first-child {
+      @apply mb-6;
+    }
+  }
+  .rightHeadline {
+    div {
+      font-family: "Goudy Old Style";
+      font-size: 40px;
+      line-height: 48px;
+      letter-spacing: 0.05em;
+      margin-bottom: 35px;
+    }
+    button {
+      @apply px-[92px] py-[18px] h-auto text-white text-xs rounded-none;
+      background-color: #90744f;
+      font-family: Whitney;
+      &:hover {
+        @apply text-white;
+        border-color: #90744f;
+      }
+    }
+  }
+}

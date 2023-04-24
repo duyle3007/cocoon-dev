@@ -1,0 +1,40 @@
+.sayAboutUs {
+  @apply mt-[186px] max-w-[1238px] mx-auto;
+  padding-inline: 107px;
+  .title {
+    font-size: 40px;
+    line-height: 48px;
+    font-family: "Goudy Old Style";
+    margin-bottom: 47px;
+    text-align: center;
+  }
+  .carousel {
+    @apply flex items-center justify-between;
+    .leftArrow,
+    .rightArrow {
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .content {
+      @apply flex flex-col gap-6 items-center;
+      width: 50%;
+    }
+    .picture {
+      @apply w-[240px] h-[240px] rounded-full;
+    }
+    .description {
+      @apply text-sm;
+      max-width: 444px;
+      opacity: 0.6;
+      font-family: Whitney Book;
+      letter-spacing: 0.006em;
+      text-align: center;
+      color: #bd9a7b;
+    }
+    .name {
+      @apply text-xs;
+      font-family: Whitney;
+      letter-spacing: 0.05em;
+    }
+  }
+}
