@@ -1,9 +1,11 @@
 import { Input } from "antd";
 
+import styles from "./SearchControl.module.scss";
+
 const { Search } = Input;
 const SearchControl = ({ onSearch }) => {
   return (
-    <div>
+    <div className={styles.searchControl}>
       <Search
         placeholder="input search text"
         allowClear

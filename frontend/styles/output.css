@@ -544,6 +544,14 @@ video {
   gap: 1rem;
 }
 
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 @font-face {
   font-family: "Goudy Old Style";
 
@@ -566,8 +574,14 @@ video {
 
 #__next {
   font-family: "Whitney";
+  height: 100%;
 }
 
 .ant-dropdown-menu-submenu .ant-dropdown-menu {
   border-radius: 0;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
 }

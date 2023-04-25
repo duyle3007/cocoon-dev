@@ -113,9 +113,9 @@ const LeafletMap = () => {
       <div className={styles.searchContainer}>
         <SearchControl onSearch={onSearch} />
         <div className={styles.searchResultList}>
-          {listLocation.map((location) => {
+          {listLocation.map((location, index) => {
             return (
-              <div className={styles.locationCard}>
+              <div className={styles.locationCard} key={index}>
                 <img src={location.url} className={styles.locationImage} />
                 <div className={styles.locationContent}>
                   <div>{location.name}</div>
@@ -131,6 +131,7 @@ const LeafletMap = () => {
         }
         zoom={13}
         touchZoom={true}
+        zoomControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
