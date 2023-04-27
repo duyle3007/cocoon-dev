@@ -4,9 +4,9 @@ import styles from "./SelectWithPrefix.module.scss";
 
 const { Option } = Select;
 
-const SelectWithPrefix = ({ options = [], prefix, ...props }) => {
+const SelectWithPrefix = ({ options = [], prefix, className, ...props }) => {
   return (
-    <div className={styles.selectPrefix}>
+    <div className={`${styles.selectPrefix} ${className && className}`}>
       {prefix && prefix}
       <Select
         showSearch

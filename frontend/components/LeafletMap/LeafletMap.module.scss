@@ -1,40 +1,21 @@
 .mapContainer {
   display: flex;
+  height: calc(100vh - 85px);
   .searchContainer {
     width: 30%;
-    height: calc(100vh - 85px);
     overflow: auto;
     :global .leaflet-marker-icon {
       width: fit-content !important;
     }
   }
-  .searchResultList {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    padding: 40px 16px;
-    flex: 1;
-    .locationCard {
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid black;
-      cursor: pointer;
-      .locationImage {
-        height: 150px;
-        width: 100%;
-        object-fit: cover;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-      }
-      .locationContent {
-        padding: 8px;
-      }
-    }
-  }
 
   :global .leaflet-container {
     flex: 1;
+    z-index: 0;
     height: auto;
+  }
+
+  .right {
+    @apply relative flex flex-1 h-auto;
   }
 }

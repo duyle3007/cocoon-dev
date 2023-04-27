@@ -1,0 +1,21 @@
+.mapControl {
+  @apply absolute top-10 left-0 flex px-[70px] justify-between w-full items-center;
+  .selectPrefix {
+    @apply w-[310px] bg-white py-2;
+  }
+  .searchType {
+    @apply flex gap-4;
+    .info {
+      @apply flex gap-2 opacity-50 py-2 px-4 items-center cursor-pointer h-fit;
+      font-family: "Whitney";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.07em;
+    }
+    .active {
+      @apply opacity-100;
+      border: 1px solid #404040;
+    }
+  }
+}

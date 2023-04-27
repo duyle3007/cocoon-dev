@@ -5,6 +5,7 @@ import { useState } from "react";
 import SelectWithPrefix from "../../../SelectWithPrefix/SelectWithPrefix";
 
 import styles from "./SearchBanner.module.scss";
+import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 
 const TAB_VALUES = {
   HOLIDAY: "holiday",
@@ -32,24 +33,6 @@ const DESTINATION_LIST = [
 
 const SearchBanner = () => {
   const [activeTab, setActiveTab] = useState(TAB_VALUES.HOLIDAY);
-  const [momentStartDate, setMomentStartDate] = useState(null);
-  const [momentEndDate, setMomentEndDate] = useState(null);
-
-  const disabledEndDate = (current) => {
-    return momentStartDate ? current && current < momentStartDate : false;
-  };
-
-  const disabledStartDate = (current) => {
-    return momentEndDate ? current && current > momentEndDate : false;
-  };
-
-  const onChangeStartDay = (date) => {
-    setMomentStartDate(date);
-  };
-
-  const onChangeEndDay = (date) => {
-    setMomentEndDate(date);
-  };
 
   return (
     <div className={styles.searchBanner}>
@@ -84,25 +67,7 @@ const SearchBanner = () => {
           placeholder="Choose a destination"
           options={DESTINATION_LIST}
         />
-        <div className="flex gap-4 justify-between">
-          <div className="flex flex-col w-full">
-            <div className={styles.title}>CHECK IN</div>
-            <DatePicker
-              format="MMM DD, YYYY"
-              disabledDate={disabledStartDate}
-              onChange={onChangeStartDay}
-            />
-          </div>
-
-          <div className="flex flex-col w-full">
-            <div className={styles.title}>CHECK OUT</div>
-            <DatePicker
-              disabledDate={disabledEndDate}
-              format="MMM DD, YYYY"
-              onChange={onChangeEndDay}
-            />
-          </div>
-        </div>
+        <RangeDatePicker />
         <Button className={styles.searchBtn}>SEARCH</Button>
       </div>
     </div>
