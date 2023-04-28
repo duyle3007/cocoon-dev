@@ -17,7 +17,11 @@ const addressPoints = [
     lat: -37.8839,
     lng: 175.3745188667,
     name: "Paris",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+      "https://www.myluxoria.com/storage/app/uploads/public/630/77d/1e4/63077d1e4e7a2970728706.jpg",
+      "https://cdn.lecollectionist.com/lc/production/uploads/photos/house-1910/2018-04-30-214088d759242733859024dd8690041f.jpg?q=65",
+    ],
     destinationUrl: "",
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
@@ -27,12 +31,15 @@ const addressPoints = [
     discount: 10,
     price: 3500,
     oldPrice: 4000,
+    type: "Holidays",
   },
   {
     lat: -37.8869090667,
     lng: 175.3657417333,
     name: "London",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -45,7 +52,9 @@ const addressPoints = [
     lat: -37.8894207167,
     lng: 175.4015351167,
     name: "Madagascar",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -58,7 +67,9 @@ const addressPoints = [
     lat: -37.8927369333,
     lng: 175.4087452333,
     name: "Vietnam",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -71,7 +82,9 @@ const addressPoints = [
     lat: -37.90585105,
     lng: 175.4453463833,
     name: "NamSourth",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -84,7 +97,9 @@ const addressPoints = [
     lat: -37.9064188833,
     lng: 175.4441556833,
     name: "Chicago",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -97,7 +112,9 @@ const addressPoints = [
     lat: -37.90584715,
     lng: 175.4463564333,
     name: "United",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -110,7 +127,9 @@ const addressPoints = [
     lat: -37.9033391333,
     lng: 175.4244005667,
     name: "China",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
@@ -123,7 +142,9 @@ const addressPoints = [
     lat: -37.9061991333,
     lng: 175.4492620333,
     name: "Beach Valley",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka lasdk dwimdw kcjiwdk",
     numBedroom: 4,
     numBathroom: 5,
@@ -134,7 +155,9 @@ const addressPoints = [
     lat: -37.9058955167,
     lng: 175.4445613167,
     name: "Sillicon Valley",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
     numBathroom: 5,
@@ -146,7 +169,9 @@ const addressPoints = [
     lat: -37.88888045,
     lng: 175.39146475,
     name: "Summer Beach",
-    url: "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    url: [
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/97/bf/7b/oh-pool-cabanas.jpg",
+    ],
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,
     numBathroom: 5,
@@ -178,12 +203,12 @@ const LeafletMap = () => {
         location.name.toLowerCase().includes(value.toLowerCase())
       );
       setListLocation(filterLocationList);
-      filterLocationList.length > 0 &&
+      if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
           filterLocationList[0].lat,
           filterLocationList[0].lng,
         ]);
-
+      }
       return;
     }
     setListLocation(addressPoints);
@@ -201,7 +226,7 @@ const LeafletMap = () => {
         searchType={searchType}
         onClick={navigateTo}
         handleReinitClick={() => {
-          leafletRef.current.invalidateSize();
+          leafletRef.current?.invalidateSize();
         }}
       />
       <div className={styles.right}>

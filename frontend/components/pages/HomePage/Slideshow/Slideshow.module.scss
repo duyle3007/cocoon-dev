@@ -1,16 +1,37 @@
 .slideShowContainer {
-  @apply max-w-[1238px] mx-auto mt-[119px] relative;
+  @apply max-w-[1238px] relative;
   .slideShow {
-    @apply w-full;
+    @apply w-full h-full;
     img {
-      @apply w-full object-cover h-full h-[560px];
+      @apply w-full object-cover h-full;
     }
   }
 
-  :global .anticon-left {
-    @apply left-6 absolute top-1/2  text-[40px] text-white;
+  .leftArrowCard {
+    @apply left-0 absolute bottom-0 text-[10px] text-white p-4 cursor-pointer;
   }
-  :global .anticon-right {
-    @apply right-6 absolute top-1/2  text-[40px] text-white;
+
+  .rightArrowCard {
+    @apply right-0 absolute bottom-0 text-[10px] text-white p-4 cursor-pointer;
+  }
+
+  .leftArrow {
+    @apply left-6 absolute top-1/2  text-[40px] text-white cursor-pointer;
+  }
+
+  .rightArrow {
+    @apply right-6 absolute top-1/2  text-[40px] text-white cursor-pointer;
+  }
+
+  :global(.slick-dots-bottom) {
+    @apply bottom-[1px] max-w-[70%] mx-auto;
+  }
+
+  :global(.slick-list),
+  :global(.ant-carousel),
+  :global(.slick-track),
+  :global(.slick-slide),
+  :global(.slick-slide > div) {
+    @apply h-full;
   }
 }

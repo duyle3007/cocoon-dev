@@ -4,16 +4,13 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import styles from "./Slideshow.module.scss";
 
-const data = [
-  {
-    url: "https://e0.pxfuel.com/wallpapers/142/699/desktop-wallpaper-maldives-resort-in-high-resolution-for-get-island-resort.jpg",
-  },
-  {
-    url: "https://i.pinimg.com/originals/cd/40/bc/cd40bcf0a42a320ff97cc3314a24dd7d.jpg",
-  },
-];
-
-const Slideshow = () => {
+const Slideshow = ({
+  data,
+  className,
+  cardMode = false,
+  dots = false,
+  ...props
+}) => {
   const carouselRef = useRef();
 
   const onNextSlide = () => {
@@ -25,21 +22,33 @@ const Slideshow = () => {
   };
 
   return (
-    <div className={styles.slideShowContainer}>
+    <div className={`${styles.slideShowContainer} ${className && className}`}>
       <Carousel
         ref={carouselRef}
         effect="fade"
         className={styles.slideShow}
-        dots={false}
+        dots={dots}
       >
         {data.map((image, index) => (
-          <div key={index}>
-            <img src={image.url} />
-          </div>
+          <img src={image} key={index} />
         ))}
       </Carousel>
-      <LeftOutlined onClick={onPrevSlide} />
-      <RightOutlined onClick={onNextSlide} />
+      {data.length > 1 && (
+        <>
+          <div
+            className={cardMode ? styles.leftArrowCard : styles.leftArrow}
+            onClick={onPrevSlide}
+          >
+            <LeftOutlined />
+          </div>
+          <div
+            className={cardMode ? styles.rightArrowCard : styles.rightArrow}
+            onClick={onNextSlide}
+          >
+            <RightOutlined />
+          </div>
+        </>
+      )}
     </div>
   );
 };

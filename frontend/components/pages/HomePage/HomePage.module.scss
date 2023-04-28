@@ -3,6 +3,9 @@
     width: 100%;
     height: auto;
   }
+  .slideShow {
+    @apply mt-[119px] mx-auto h-[560px];
+  }
   .banner {
     @apply absolute w-[1238px] flex flex-row justify-between top-[209px] left-0 right-0 mx-auto items-center;
     .leftBanner {

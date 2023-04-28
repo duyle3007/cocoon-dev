@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import FilterCard from "./FilterCard/FilterCard";
+
 import styles from "./SearchByFilter.module.scss";
 
 const SearchByFilter = ({ listLocation }) => {
@@ -14,6 +16,13 @@ const SearchByFilter = ({ listLocation }) => {
           SORT BY: {sortValue}
           <img src="/searchPage/sort.svg" />
         </div>
+      </div>
+
+      <div className={styles.filterResult}>
+        {listLocation.length > 0 &&
+          listLocation.map((location, index) => (
+            <FilterCard villa={location} key={index} />
+          ))}
       </div>
     </div>
   );

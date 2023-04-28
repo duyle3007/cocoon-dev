@@ -9,6 +9,12 @@ import Service from "./Service/Service";
 import SayAboutUs from "./SayAboutUs/SayAboutUs";
 import Intro from "./Intro/Intro";
 
+const data = [
+  "https://e0.pxfuel.com/wallpapers/142/699/desktop-wallpaper-maldives-resort-in-high-resolution-for-get-island-resort.jpg",
+  ,
+  "https://i.pinimg.com/originals/cd/40/bc/cd40bcf0a42a320ff97cc3314a24dd7d.jpg",
+];
+
 const HomePage = () => {
   return (
     <div className={styles.homepage}>
@@ -36,7 +42,7 @@ const HomePage = () => {
       </div>
 
       <Headline />
-      <Slideshow />
+      <Slideshow data={data} className={styles.slideShow} />
 
       <Holiday />
       <Photoshoot />

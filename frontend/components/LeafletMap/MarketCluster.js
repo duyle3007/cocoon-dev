@@ -54,6 +54,13 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           const currChild = this.getElement().querySelector(":first-child");
           currChild.classList.add(styles.activeMarker);
         });
+        marker.on("popupopen", function () {
+          const popupContent = document.querySelector(".leaflet-popup-content");
+
+          popupContent.addEventListener("click", function () {
+            console.log("Popup clicked");
+          });
+        });
 
         if (name) {
           const popupContent = `
@@ -66,7 +73,7 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           </div>`
               : ""
           }
-          <img src=${url} class=${styles.locationImage} />
+          <img src=${url[0]} class=${styles.locationImage} />
           <div class=${styles.locationContent}>
             <h5 class=${styles.name}>${name}</h5>
             <div class=${styles.infoWrapper}>

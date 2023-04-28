@@ -6,6 +6,7 @@ import SelectWithPrefix from "../../../SelectWithPrefix/SelectWithPrefix";
 
 import styles from "./SearchBanner.module.scss";
 import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
+import Link from "next/link";
 
 const TAB_VALUES = {
   HOLIDAY: "holiday",
@@ -68,7 +69,9 @@ const SearchBanner = () => {
           options={DESTINATION_LIST}
         />
         <RangeDatePicker />
-        <Button className={styles.searchBtn}>SEARCH</Button>
+        <Link href="/search">
+          <Button className={styles.searchBtn}>SEARCH</Button>
+        </Link>
       </div>
     </div>
   );
