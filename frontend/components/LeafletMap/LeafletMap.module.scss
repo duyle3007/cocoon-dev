@@ -1,0 +1,21 @@
+.mapContainer {
+  display: flex;
+  height: calc(100vh - 85px);
+  .searchContainer {
+    width: 30%;
+    overflow: auto;
+    :global .leaflet-marker-icon {
+      width: fit-content !important;
+    }
+  }
+
+  :global .leaflet-container {
+    flex: 1;
+    z-index: 0;
+    height: auto;
+  }
+
+  .right {
+    @apply relative flex flex-1 h-auto;
+  }
+}

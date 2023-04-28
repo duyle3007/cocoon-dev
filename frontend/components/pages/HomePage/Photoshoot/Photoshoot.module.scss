@@ -1,0 +1,35 @@
+.holidayContainer {
+  @apply w-[1238px] mx-auto mt-[168px];
+  .header {
+    @apply px-[105.5px] flex justify-between mb-8;
+    .leftHeader {
+      div:first-child {
+        font-family: "Goudy Old Style";
+        font-size: 40px;
+        line-height: 48px;
+      }
+      div {
+        font-family: "Whitney Book";
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+    .rightHeader {
+      @apply flex items-end gap-4 text-xs cursor-pointer h-fit self-end;
+      transition: all 0.3s;
+      font-family: Whitney;
+      span {
+        @apply mb-[1px];
+      }
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+  .listHotel {
+    display: grid;
+    grid-template-areas: "item1 item2 item3";
+    gap: 24px;
+    height: 250px;
+  }
+}

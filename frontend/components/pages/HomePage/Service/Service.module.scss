@@ -1,0 +1,45 @@
+.serviceContainer {
+  @apply mt-[171px] max-w-[1238px] flex mx-auto items-center justify-between px-[107px] gap-[76px];
+  img {
+    @apply w-[500px] h-[500px] object-cover;
+    transition: all 0.3s;
+  }
+
+  h4 {
+    font-size: 40px;
+    line-height: 48px;
+    font-family: Goudy Old Style;
+    margin-bottom: 24px;
+  }
+  .subTitle {
+    font-size: 18px;
+    line-height: 24px;
+    font-family: Whitney Book;
+  }
+
+  .serviceList {
+    @apply mt-[38px] mb-[30px];
+    .service {
+      @apply cursor-pointer;
+      font-family: Whitney Book;
+      font-size: 14px;
+      line-height: 20px;
+      color: #404040;
+      opacity: 0.5;
+      transition: all 0.3s;
+      .serviceName {
+        font-size: 20px;
+        line-height: 24px;
+        font-family: Goudy Old Style;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+    }
+    .active {
+      opacity: 1;
+    }
+    :global .ant-divider {
+      margin: 16px 0;
+    }
+  }
+}

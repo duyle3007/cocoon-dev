@@ -1,7 +1,60 @@
-.header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
+.headerContainer {
+  @apply absolute top-0 left-0 flex w-full text-white z-[1];
+
+  .headerContent {
+    @apply flex flex-row mx-auto justify-between w-[1238px] border-b-[1px] border-opacity-50 border-[#E8E8E8] items-center;
+  }
+  .whiteContent {
+    color: #404040;
+    img {
+      filter: invert(24%) sepia(7%) saturate(4%) hue-rotate(355deg)
+        brightness(100%) contrast(96%) !important;
+    }
+  }
+  .logo {
+    @apply h-8 object-cover cursor-pointer;
+  }
+  .headerMenu {
+    @apply flex flex-row items-center gap-12 text-sm;
+    span,
+    div {
+      @apply cursor-pointer;
+    }
+    .nonActive,
+    a {
+      @apply py-8;
+    }
+  }
+  .active {
+    border-bottom: 2px solid white;
+  }
+  .activeBlack {
+    border-bottom: 2px solid black;
+  }
+  .dropdown {
+    @apply flex flex-row items-center gap-[10px];
+  }
+  .contactInfo {
+    @apply flex flex-row gap-8 items-center;
+    span {
+      @apply cursor-pointer;
+    }
+    img {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(97deg)
+        brightness(106%) contrast(103%);
+    }
+  }
+}
+.whiteHeader {
+  background: white;
+  position: relative;
+}
+
+.dropdownMenu {
+  :global .ant-dropdown-menu {
+    @apply rounded-none;
+  }
 }

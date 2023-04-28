@@ -1,0 +1,122 @@
+.customMarkerWrapper {
+  width: fit-content;
+}
+.customMarkerContent {
+  @apply flex items-center w-fit gap-2 relative;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+  font-family: "Whitney Book";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  color: #404040;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ffffff;
+  }
+}
+.activeMarker {
+  background-color: #404040;
+  color: white;
+  &:after {
+    border-top: 10px solid #404040;
+  }
+}
+
+.markerPopupWrapper {
+  left: -100px !important;
+
+  :global .leaflet-popup-content-wrapper {
+    @apply rounded-none p-0;
+  }
+  :global .leaflet-popup-content {
+    margin: 0;
+  }
+  :global .leaflet-popup-tip-container {
+    display: none;
+  }
+  .locationImage {
+    width: 310px;
+    height: 200px;
+    object-fit: cover;
+  }
+  .markerPopup {
+    width: max-content;
+    .discountWrapper {
+      @apply absolute top-0 left-0 text-white text-xs gap-2 flex items-center px-4 py-2;
+      font-family: "Whitney";
+      letter-spacing: 0.05em;
+      background: #90744f;
+      img {
+      }
+    }
+    .locationImage {
+      width: 310px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .locationContent {
+      @apply p-6 flex flex-col gap-2 max-w-[310px] flex-wrap;
+      .name {
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: 0.05em;
+      }
+      .infoWrapper {
+        @apply flex gap-4;
+        font-family: "Whitney Book";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        .info {
+          @apply flex gap-2;
+          span {
+            @apply max-w-[110px] overflow-hidden text-ellipsis whitespace-nowrap;
+          }
+        }
+      }
+
+      .divider {
+        @apply mb-6 mt-4;
+        border-top: 1px solid #e8e8e8;
+      }
+
+      .priceWrapper {
+        @apply flex gap-1 items-end;
+        .price {
+          font-family: "Goudy Old Style";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 24px;
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.05em;
+        }
+        span {
+          font-family: "Whitney";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 14px;
+          letter-spacing: 0.05em;
+          color: #404040;
+          opacity: 0.5;
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+}
