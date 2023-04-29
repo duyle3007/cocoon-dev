@@ -1,9 +1,7 @@
-import { useEffect, forwardRef } from "react";
+import { useEffect, forwardRef, useImperativeHandle } from "react";
 import L from "leaflet";
 import "leaflet.markercluster/dist/leaflet.markercluster";
 import { useMap } from "react-leaflet";
-import { useImperativeHandle } from "react/cjs/react.development";
-import { Divider } from "antd";
 
 import styles from "./MarkerCluster.module.scss";
 

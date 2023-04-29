@@ -13,7 +13,16 @@
     }
   }
   .info {
-    @apply absolute bottom-6 left-6 text-white gap-2;
+    @apply absolute w-full h-full bottom-0 left-0 text-white gap-2 p-4 flex flex-col justify-end;
+
+    background: linear-gradient(
+        180deg,
+        rgba(129, 100, 62, 0) 47.18%,
+        rgba(144, 116, 79, 0.5) 100%
+      ),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 60.72%, rgba(0, 0, 0, 0.5) 100%);
+    background-blend-mode: normal, multiply;
+
     .name {
       @apply text-[#F3F3F3] text-xl;
       font-family: Whitney;
