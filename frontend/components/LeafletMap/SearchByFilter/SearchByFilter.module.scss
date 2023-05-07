@@ -4,4 +4,14 @@
   .filterResult {
     @apply flex flex-col gap-4 overflow-auto;
   }
+  .sortSelect {
+    :global(.ant-select-selector) {
+      @apply pl-0;
+    }
+    :global(.ant-select-selection-item) {
+      @apply pr-8 text-xs flex items-center;
+      font-family: "Whitney";
+      text-transform: uppercase;
+    }
+  }
 }

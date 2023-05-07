@@ -1,9 +1,27 @@
-import { Input } from "antd";
+import { Checkbox, Input, Segmented, Select, Slider } from "antd";
 import { useState } from "react";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  LeftOutlined,
+  RightOutlined,
+  MinusOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+
+import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
+import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
 
 import styles from "./SearchControl.module.scss";
-import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
+
+const { Option } = Select;
+
+const LOCATION_LIST = [
+  { label: "All location", value: "all" },
+  { label: "Beach holidays", value: "beach" },
+  { label: "Beachfront", value: "beachfront" },
+  { label: "Waterfront", value: "waterfront" },
+  { label: "Views", value: "view" },
+  { label: "Unique Places", value: "unique" },
+];
 
 const SearchControl = ({
   onSearch,
@@ -14,6 +32,14 @@ const SearchControl = ({
 }) => {
   const [tabActive, setTabActive] = useState("holiday");
   const [isMinimized, setIsMinimized] = useState(false);
+
+  // search value
+  const [selectedBedroom, setSelectedBedroom] = useState("Any");
+  const [selectedBed, setSelectedBed] = useState("Any");
+  const [selectedBadroom, setSelectedBadroom] = useState("Any");
+
+  const [maxGuest, setMaxGuest] = useState(0);
+  const [filterLocationList, setFilterLocationList] = useState([]);
 
   const onMinimize = () => {
     setIsMinimized(true);
@@ -27,6 +53,18 @@ const SearchControl = ({
     setTimeout(() => {
       handleReinitClick();
     }, 200);
+  };
+
+  const updateLocationFilter = (selectedLocation) => {
+    const temp = [...filterLocationList];
+    if (filterLocationList.some((location) => location === selectedLocation)) {
+      setFilterLocationList(
+        temp.filter((location) => location !== selectedLocation)
+      );
+    } else {
+      temp.push(selectedLocation);
+      setFilterLocationList(temp);
+    }
   };
 
   return (
@@ -67,7 +105,115 @@ const SearchControl = ({
                 className={styles.input}
                 onChange={onSearch}
               />
+              <Select
+                placeholder="Choose villa type"
+                className={styles.villaTypeSelector}
+              >
+                <Option value="private">Private Villas</Option>
+                <Option value="apartment">Apartments</Option>
+                <Option value="luxury">Luxury Lodges</Option>
+              </Select>
               <RangeDatePicker />
+              <div>
+                <div className={styles.inputTitle}>Bedrooms</div>
+                <SegmenedSelector
+                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                  selectedOption={selectedBedroom}
+                  onClick={(value) => setSelectedBedroom(value)}
+                />
+              </div>
+              <div>
+                <div className={styles.inputTitle}>Bed</div>
+                <SegmenedSelector
+                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                  selectedOption={selectedBed}
+                  onClick={(value) => setSelectedBed(value)}
+                />
+              </div>
+              <div>
+                <div className={styles.inputTitle}>Bathrooms</div>
+                <SegmenedSelector
+                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                  selectedOption={selectedBadroom}
+                  onClick={(value) => setSelectedBadroom(value)}
+                />
+              </div>
+            </div>
+            <div className={styles.inputWrapper} style={{ gap: "48px" }}>
+              <div>
+                <div className="flex justify-between items-center">
+                  <div className={styles.priceTitle}>PRICE PER NIGHT (AUD)</div>
+                  <div className={styles.maxPrice}>$500 to +$5,000</div>
+                </div>
+
+                <Slider
+                  className={styles.sliderPrice}
+                  step={100}
+                  range={{ draggableTrack: true }}
+                  defaultValue={[800, 2000]}
+                  tooltip={{
+                    open: true,
+                    placement: "bottom",
+                    formatter: (value) => <div>${value}</div>,
+                    getPopupContainer: (trigger) => {
+                      return trigger;
+                    },
+                  }}
+                  max={5000}
+                  min={500}
+                  // onChange={onChange}
+                />
+              </div>
+              <div className="flex justify-between">
+                <div
+                  className={styles.inputTitle}
+                  style={{ marginBottom: "0px" }}
+                >
+                  Choose max guest
+                </div>
+                <div className="flex gap-4 items-center">
+                  <div
+                    className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
+                    onClick={() => {
+                      maxGuest > 0 && setMaxGuest(maxGuest - 1);
+                    }}
+                  >
+                    <MinusOutlined />
+                  </div>
+                  {maxGuest}
+                  <div
+                    className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
+                    onClick={() => setMaxGuest(maxGuest + 1)}
+                  >
+                    <PlusOutlined />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.inputWrapper}>
+              <div className={styles.featuresTitle}>FEATURES</div>
+              <Checkbox.Group className={styles.featureSelector}>
+                <Checkbox value="ac">Air Conditioning</Checkbox>
+                <Checkbox value="pool">Pool</Checkbox>
+                <Checkbox value="gym">Gym</Checkbox>
+                <Checkbox value="tub">Hot Tub</Checkbox>
+                <Checkbox value="bbq">BBQ Grill</Checkbox>
+              </Checkbox.Group>
+            </div>
+
+            <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+              {LOCATION_LIST.map((location) => (
+                <div
+                  className={`${styles.locationSelector} ${
+                    filterLocationList.some(
+                      (item) => item === location.value
+                    ) && styles.selectedLocation
+                  }`}
+                  onClick={() => updateLocationFilter(location.value)}
+                >
+                  {location.label}
+                </div>
+              ))}
             </div>
           </div>
         ) : (

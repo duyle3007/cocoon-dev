@@ -1,6 +1,10 @@
+@import "styles/variables.scss";
+
 .footer {
+  border-top: 1px solid rgba(64, 64, 64, 0.2);
   .signupContainer {
-    @apply max-w-[1238px] mx-auto flex justify-between pt-8 pb-12 items-center;
+    @apply mx-auto flex justify-between pt-8 pb-12 items-center;
+    max-width: $mWidth;
     border-bottom: 1px solid #e8e8e8;
     div:first-child {
       font-family: "Goudy Old Style";
@@ -34,7 +38,8 @@
   }
 
   .cocoonInfo {
-    @apply max-w-[1238px] mx-auto flex py-12 justify-between;
+    @apply mx-auto flex py-12 justify-between;
+    max-width: $mWidth;
     .left {
       @apply flex flex-col gap-[58px];
       width: 20%;
@@ -118,7 +123,8 @@
   .copyrightContainer {
     border-top: 1px solid #e8e8e8;
     .copyright {
-      @apply max-w-[1238px] mx-auto py-[26px] flex justify-between;
+      @apply mx-auto py-[26px] flex justify-between;
+      max-width: $mWidth;
     }
     .left {
       font-family: "Whitney Book";

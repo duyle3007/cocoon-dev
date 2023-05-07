@@ -1,7 +1,7 @@
 .rangeDatePicker {
   @apply flex gap-4 justify-between;
   .title {
-    @apply pt-4 pb-1 text-[#404040] text-sm;
+    @apply pb-1 text-[#404040] text-sm;
   }
   :global .ant-picker {
     @apply rounded-none p-4 w-full;

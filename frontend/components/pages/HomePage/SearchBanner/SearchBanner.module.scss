@@ -1,27 +1,26 @@
 .searchBanner {
-  @apply bg-white w-[400px];
+  @apply bg-white flex w-[1036px] absolute top-[80%] left-0 right-0 mx-auto items-center;
   font-family: "Whitney";
-  .tabContainer {
-    @apply flex justify-between pt-10  mb-8;
-    border-bottom: 1px solid #e0e0e0;
-    padding-inline: 66.5px;
+  .searchItem {
+    @apply flex flex-col pr-4 ml-4 py-4;
+    width: 19%;
+    border-right: 0.5px solid rgba(64, 64, 64, 0.2);
+    .guestDropdownWrapper {
+      @apply flex items-center;
+    }
+    .guestValue {
+      @apply opacity-50 ml-3 text-sm w-full;
+      letter-spacing: 0.006em;
+      font-family: "Whitney Book";
+    }
+    :global(.ant-select-selector) {
+      @apply p-0;
+    }
+    :global(.ant-picker) {
+      @apply p-0;
+    }
   }
-  .tab {
-    font-size: 14px;
-    line-height: 20px;
-    opacity: 0.5;
-    @apply cursor-pointer pb-4;
-    transition: all 0.1s;
-    letter-spacing: 0.07em;
-  }
-  .tabActive {
-    opacity: 1;
-    border-bottom: 2px solid #404040;
-    @apply text-[#404040];
-  }
-  .tabContent {
-    @apply px-10 pb-10;
-  }
+
   .input {
     @apply p-4 rounded-none;
     input {
@@ -29,7 +28,7 @@
     }
   }
   .title {
-    @apply pt-4 pb-1 text-[#404040] text-sm;
+    @apply text-[#404040] text-sm mb-4;
   }
   :global .ant-picker {
     @apply rounded-none p-4 w-full;
@@ -39,13 +38,31 @@
     @apply mr-[12px];
   }
   .searchBtn {
-    @apply w-full py-4 h-auto mt-8 rounded-none;
+    @apply w-full py-4 px-9 h-auto rounded-none text-white;
     font-family: "Whitney";
     border: 1px solid #404040;
+    background-color: #90744f;
+    border-color: #90744f;
     &:hover {
       @apply text-white;
-      background-color: #90744f;
-      border-color: #90744f;
+    }
+  }
+}
+
+.guestDropdown {
+  @apply flex flex-col gap-4 p-4 bg-white w-[200px];
+  font-family: "Whitney Book";
+  color: #333333;
+  .plusMinus {
+    @apply flex items-center gap-2;
+  }
+  .minusIcon,
+  .plusIcon {
+    @apply w-6 h-6 rounded-full bg-[#90744f] flex justify-center items-center cursor-pointer;
+    svg {
+      font-size: 12px;
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(172deg)
+        brightness(103%) contrast(103%);
     }
   }
 }

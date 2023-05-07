@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 .slideShowContainer {
-  @apply max-w-[1238px] relative;
+  @apply relative;
+  max-width: $mWidth;
   .slideShow {
     @apply w-full h-full;
     img {
