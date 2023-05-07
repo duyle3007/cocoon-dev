@@ -1,8 +1,11 @@
+@import "styles/variables.scss";
+
 .headerContainer {
   @apply absolute top-0 left-0 flex w-full text-white z-[1];
 
   .headerContent {
-    @apply flex flex-row mx-auto justify-between w-[1238px] border-b-[1px] border-opacity-50 border-[#E8E8E8] items-center;
+    @apply flex flex-row mx-auto justify-between border-b-[1px] border-opacity-50 border-[#E8E8E8] items-center;
+    width: $mWidth;
   }
   .whiteContent {
     color: #404040;

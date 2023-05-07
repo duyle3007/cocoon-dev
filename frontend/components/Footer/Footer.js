@@ -15,7 +15,7 @@ const Footer = () => {
 
       <div className={styles.cocoonInfo}>
         <div className={styles.left}>
-          <img src="blackLogo.svg" className={styles.logo} />
+          <img src="/blackLogo.svg" className={styles.logo} />
           Cocoon Luxury Properties provides luxury homes for holiday and
           vacations, corporate events and photoshoots.
         </div>

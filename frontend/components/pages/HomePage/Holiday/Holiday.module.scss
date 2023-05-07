@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 .holidayContainer {
-  @apply w-[1238px] mx-auto mt-[168px];
+  @apply mx-auto mt-[168px];
+  width: $mWidth;
   .header {
     @apply px-[105.5px] flex justify-between mb-8;
     .leftHeader {

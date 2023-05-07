@@ -22,7 +22,7 @@ const addressPoints = [
       "https://www.myluxoria.com/storage/app/uploads/public/630/77d/1e4/63077d1e4e7a2970728706.jpg",
       "https://cdn.lecollectionist.com/lc/production/uploads/photos/house-1910/2018-04-30-214088d759242733859024dd8690041f.jpg?q=65",
     ],
-    destinationUrl: "",
+    destinationUrl: "/paris-by-night",
     location: "Tangalle, Sri Lanka",
     location: "Tangalle, Sri Lanka",
     numBedroom: 4,

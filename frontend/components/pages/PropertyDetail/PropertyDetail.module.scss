@@ -1,0 +1,19 @@
+@import "styles/variables.scss";
+
+.propertyDetail {
+  @apply pb-[120px] mx-auto;
+  max-width: $mWidth;
+  .breadcumb {
+    @apply pt-7 pb-[26px];
+    font-family: "Whitney Book";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.006em;
+    color: #404040;
+  }
+  .breadcumbActive {
+    @apply uppercase;
+    color: $primaryColor;
+  }
+}

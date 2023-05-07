@@ -1,3 +1,5 @@
+@import "styles/variables.scss";
+
 .homepage {
   .videoWrapper {
     position: relative;
@@ -28,7 +30,8 @@
     @apply mt-[119px] mx-auto h-[560px];
   }
   .banner {
-    @apply absolute w-[1238px] flex flex-col justify-between top-1/3 left-0 right-0 mx-auto items-center;
+    @apply absolute flex flex-col justify-between top-1/3 left-0 right-0 mx-auto items-center;
+    width: $mWidth;
     .leftBanner {
       @apply text-white  flex flex-col items-center;
       .headerTitle {

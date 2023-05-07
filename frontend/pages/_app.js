@@ -1,6 +1,7 @@
-import "styles/globals.scss";
 import "antd/dist/reset.css";
 import "leaflet/dist/leaflet.css";
+import "styles/globals.scss";
+
 import Layout from "@/components/Layout/Layout";
 import Head from "next/head";
 import { ConfigProvider } from "antd";

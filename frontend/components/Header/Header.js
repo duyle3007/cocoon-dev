@@ -164,16 +164,6 @@ const Header = () => {
           >
             <span>PHOTOSHOOTS/ EVENTS</span>
           </Link>
-          <Link
-            href="/about-us"
-            className={
-              router.asPath === "/about-us"
-                ? styles.activeBlack
-                : styles.nonActive
-            }
-          >
-            <span>ABOUT US</span>
-          </Link>
         </div>
 
         <div className={styles.contactInfo}>
