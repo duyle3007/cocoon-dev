@@ -4,6 +4,7 @@ import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
 import MainTab from "./MainTab/MainTab";
 import Calendar from "./Calendar/Calendar";
+import RelatedVilla from "./RelatedVilla/RelatedVilla";
 
 import styles from "./PropertyDetail.module.scss";
 
@@ -92,6 +93,7 @@ const PropertyDetail = () => {
 
       <MainTab info={dumb_data} />
       <Calendar info={dumb_data} />
+      <RelatedVilla info={dumb_data}/>
     </div>
   );
 };
