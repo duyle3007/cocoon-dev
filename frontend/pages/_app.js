@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }) {
         theme={{
           token: {
             colorPrimary: "#90744F",
+            borderRadius: 0
           },
         }}
       >

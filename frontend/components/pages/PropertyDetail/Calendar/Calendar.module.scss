@@ -1,0 +1,57 @@
+@import 'styles/variables.scss';
+
+.calendar {
+    @apply w-[644px] h-auto mx-auto flex flex-col gap-16 mt-[100px];
+    h1 {
+        font-family: 'Goudy Old Style';
+font-weight: 400;
+font-size: 40px;
+line-height: 48px;
+text-align: center;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: #90744F;
+    }
+    .mainView {
+        @apply w-full bg-[#F2EEE8] px-[34px] pt-[27px] pb-8 flex flex-col gap-6;
+    }
+    .calendarNote {
+        @apply bg-white gap-4 py-2 px-4 h-auto w-full flex;
+        .note {
+            font-family: 'Whitney';
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #404040;
+        }
+    }
+    .chooseDate {
+        @apply flex flex-col gap-5 py-6 px-8 bg-white w-full;
+        
+    }
+    .priceTotal {
+        @apply flex flex-col gap-2;
+        span {
+            font-family: 'Whitney';
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.07em;
+            color: #404040;
+        }
+    }
+    .enquiryButton {
+        @apply py-4 px-[54px] h-auto w-fit self-center;
+        background-color: $primaryColor;
+        font-family: 'Whitney';
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.05em;
+        color: #FFFFFF;
+
+    }
+
+}

@@ -1,11 +1,11 @@
 import { Breadcrumb } from "antd";
 
-import styles from "./PropertyDetail.module.scss";
-import Slideshow from "../HomePage/Slideshow/Slideshow";
-import Image from "@/components/Image/Image";
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
 import MainTab from "./MainTab/MainTab";
+import Calendar from "./Calendar/Calendar";
+
+import styles from "./PropertyDetail.module.scss";
 
 const dumb_data = {
   name: "Villa Palm Beach",
@@ -91,6 +91,7 @@ const PropertyDetail = () => {
       </div>
 
       <MainTab info={dumb_data} />
+      <Calendar info={dumb_data} />
     </div>
   );
 };
