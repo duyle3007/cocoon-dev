@@ -3,9 +3,7 @@ import styles from "./HotelCard.module.scss";
 const HotelCard = ({ item, className }) => {
   return (
     <div className={`${styles.hotelCard} ${className}`}>
-      <div className={styles.thumbnailContainer}>
-        <img src={item?.thumbnailUrl} className={styles.thumbnail} />
-      </div>
+      
       <div className={styles.info}>
         <div className={styles.name}>{item?.name}</div>
         <div className={styles.priceAndLocation}>
@@ -22,6 +20,9 @@ const HotelCard = ({ item, className }) => {
             {item?.location}
           </div>
         </div>
+      </div>
+      <div className={styles.thumbnailContainer}>
+        <img src={item?.thumbnailUrl} className={styles.thumbnail} />
       </div>
     </div>
   );

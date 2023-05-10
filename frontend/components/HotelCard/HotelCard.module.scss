@@ -13,7 +13,7 @@
     }
   }
   .info {
-    @apply absolute w-full h-full bottom-0 left-0 text-white gap-2 p-4 flex flex-col justify-end;
+    @apply absolute w-full h-full bottom-0 left-0 text-white gap-2 p-4 flex flex-col justify-end z-[1];
 
     background: linear-gradient(
         180deg,
@@ -32,5 +32,8 @@
       @apply text-sm flex gap-6;
       font-family: "Whitney Book";
     }
+  }
+  .info:hover + .thumbnailContainer > .thumbnail {
+    transform: scale(1.5);
   }
 }
