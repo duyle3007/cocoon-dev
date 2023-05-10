@@ -1,13 +1,15 @@
-
 import { useState } from 'react'
+import { Button } from 'antd'
+import Link from 'next/link'
 
 import RangeDatePicker from '@/components/RangeDatePicker/RangeDatePicker'
 
 import styles from './Calendar.module.scss'
-import { Button } from 'antd'
+
 
 const Calendar = () => {
     const [totalPrice, setTotalPrice] = useState("0.00")
+
     return (
             <div className={styles.calendar}>
                 <h1>Calendar</h1>
@@ -39,7 +41,9 @@ const Calendar = () => {
                         <span>{totalPrice} AUD</span>
                     </div>
                 </div>
+                <Link href="/enquiry" className='flex flex-col'>
                 <Button className={styles.enquiryButton}>GO TO  ENQUIRY FORM</Button>
+                </Link>
                 </div>
                 </div>
             </div>
