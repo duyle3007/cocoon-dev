@@ -1,5 +1,6 @@
 import Slideshow from "@/components/pages/HomePage/Slideshow/Slideshow";
 import { Button } from "antd";
+import Link from "next/link";
 
 import styles from "./FilterCard.module.scss";
 
@@ -51,7 +52,9 @@ const FilterCard = ({ villa }) => {
             )}
             <span> /NIGHT</span>
           </div>
-          <Button className={styles.viewBtn}>VIEW DETAILS</Button>
+          <Link href={`properties/${villa.destinationUrl}` || "/properties"}>
+            <Button className={styles.viewBtn}>VIEW DETAILS</Button>
+          </Link>
         </div>
       </div>
     </div>

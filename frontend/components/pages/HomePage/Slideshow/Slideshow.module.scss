@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 .slideShowContainer {
-  @apply max-w-[1238px] relative;
+  @apply relative;
+  max-width: $mWidth;
   .slideShow {
     @apply w-full h-full;
     img {
@@ -24,7 +27,7 @@
   }
 
   :global(.slick-dots-bottom) {
-    @apply bottom-[1px] max-w-[70%] mx-auto;
+    @apply bottom-[21px] max-w-[70%] mx-auto;
   }
 
   :global(.slick-list),

@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 .sayAboutUs {
-  @apply mt-[186px] max-w-[1238px] mx-auto;
+  @apply mt-[186px] mx-auto;
+  max-width: $mWidth;
   padding-inline: 107px;
   .title {
     font-size: 40px;

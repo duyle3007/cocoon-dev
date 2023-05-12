@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 .serviceContainer {
-  @apply mt-[171px] max-w-[1238px] flex mx-auto items-center justify-between px-[107px] gap-[76px];
+  @apply mt-[171px] flex mx-auto items-center justify-between px-[107px] gap-[76px];
+  max-width: $mWidth;
   img {
     @apply w-[500px] h-[500px] object-cover;
     transition: all 0.3s;

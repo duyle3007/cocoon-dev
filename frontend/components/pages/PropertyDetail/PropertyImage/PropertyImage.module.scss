@@ -1,0 +1,12 @@
+.propertyImage {
+  @apply flex flex-col gap-4 w-[40%] absolute left-0;
+  .slider {
+    @apply h-[391px];
+  }
+  .imageSmall {
+    @apply h-[112px] w-full cursor-pointer;
+  }
+}
+.placeholder {
+  @apply h-[519px] w-[70%];
+}

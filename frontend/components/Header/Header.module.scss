@@ -1,8 +1,11 @@
+@import "styles/variables.scss";
+
 .headerContainer {
   @apply absolute top-0 left-0 flex w-full text-white z-[1];
 
   .headerContent {
-    @apply flex flex-row mx-auto justify-between w-[1238px] border-b-[1px] border-opacity-50 border-[#E8E8E8] items-center;
+    @apply flex flex-row mx-auto justify-between border-b-[1px] border-opacity-50 border-[#E8E8E8] items-center;
+    width: $mWidth;
   }
   .whiteContent {
     color: #404040;
@@ -36,15 +39,35 @@
   }
   .contactInfo {
     @apply flex flex-row gap-8 items-center;
-    span {
-      @apply cursor-pointer;
+    .searchInput {
+      @apply max-w-[120px];
+      :global(.ant-input) {
+        @apply text-white;
+      }
+      :global(.ant-input::placeholder) {
+        @apply text-white opacity-50 pl-6;
+      }
     }
-    img {
-      width: 22px;
-      height: 22px;
-      cursor: pointer;
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(97deg)
-        brightness(106%) contrast(103%);
+    .searchInputBlack {
+      :global(.ant-input) {
+        @apply text-black;
+      }
+      :global(.ant-input::placeholder) {
+        @apply text-black;
+      }
+    }
+    .searchIcon {
+      @apply w-4 h-4 text-white;
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(172deg)
+        brightness(103%) contrast(103%);
+    }
+    .bookBtn {
+      @apply px-6 py-[18px] cursor-pointer text-xs;
+      border: 1px solid #ffffff;
+      letter-spacing: 0.05em;
+    }
+    .bookBtnBlack {
+      @apply border-black;
     }
   }
 }
@@ -55,6 +78,12 @@
 
 .dropdownMenu {
   :global .ant-dropdown-menu {
-    @apply rounded-none;
+    @apply rounded-none p-0;
+  }
+  :global(.ant-dropdown-menu-item) {
+    padding: 10px !important;
+  }
+  :global(.ant-dropdown-menu-submenu-title) {
+    padding-block: 10px !important;
   }
 }

@@ -1,6 +1,10 @@
+@import "styles/variables.scss";
+
 .footer {
+  border-top: 1px solid rgba(64, 64, 64, 0.2);
   .signupContainer {
-    @apply max-w-[1238px] mx-auto flex justify-between pt-8 pb-12 items-center;
+    @apply mx-auto flex justify-between pt-8 pb-12 items-center;
+    max-width: $mWidth;
     border-bottom: 1px solid #e8e8e8;
     div:first-child {
       font-family: "Goudy Old Style";
@@ -18,7 +22,8 @@
       opacity: 0.8;
     }
     button {
-      background-color: #404040;
+      @apply text-white;
+      background-color: #90744f;
       padding-block: 18px;
       font-family: "Whitney";
       font-size: 12px;
@@ -26,15 +31,16 @@
       transition: all 0.3s;
       @apply rounded-none text-white h-auto;
       &:hover {
-        background-color: #90744f;
-        color: white;
+        background-color: white;
+        color: #90744f;
         border-color: #90744f;
       }
     }
   }
 
   .cocoonInfo {
-    @apply max-w-[1238px] mx-auto flex py-12 justify-between;
+    @apply mx-auto flex py-12 justify-between;
+    max-width: $mWidth;
     .left {
       @apply flex flex-col gap-[58px];
       width: 20%;
@@ -100,6 +106,7 @@
           }
           img {
             @apply h-4 w-4;
+            opacity: 0.3;
           }
         }
       }
@@ -118,7 +125,8 @@
   .copyrightContainer {
     border-top: 1px solid #e8e8e8;
     .copyright {
-      @apply max-w-[1238px] mx-auto py-[26px] flex justify-between;
+      @apply mx-auto py-[26px] flex justify-between;
+      max-width: $mWidth;
     }
     .left {
       font-family: "Whitney Book";

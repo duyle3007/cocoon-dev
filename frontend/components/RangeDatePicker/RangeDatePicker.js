@@ -1,9 +1,10 @@
 import { DatePicker } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./RangeDatePicker.module.scss";
+import moment from "moment";
 
-const RangeDatePicker = () => {
+const RangeDatePicker = ({ onSelect }) => {
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
 
@@ -14,6 +15,12 @@ const RangeDatePicker = () => {
   const disabledStartDate = (current) => {
     return momentEndDate ? current && current > momentEndDate : false;
   };
+
+  useEffect(() => {
+    if (momentStartDate && momentEndDate) {
+      onSelect([momentStartDate, momentEndDate]);
+    }
+  }, [momentStartDate, momentEndDate]);
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);

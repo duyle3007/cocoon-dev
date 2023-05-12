@@ -1,0 +1,33 @@
+.propertyIntro {
+  @apply text-[#404040] flex flex-col justify-center w-full;
+  font-family: "Whitney";
+  .name {
+    @apply uppercase;
+    font-family: "Goudy Old Style";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 40px;
+  }
+  .description {
+    @apply mt-[38px];
+    font-family: "Whitney Book";
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    color: #404040;
+  }
+  .roomInfo {
+    @apply flex gap-5 mt-10;
+    .roomItem {
+      @apply flex items-center gap-3;
+      font-family: "Whitney Book";
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.01em;
+      color: #404040;
+    }
+  }
+}

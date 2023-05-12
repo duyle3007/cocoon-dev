@@ -1,9 +1,12 @@
+@import "styles/variables.scss";
+
 .intro {
   background: #f2eee8;
   padding-block: 121px;
   margin-top: 76px;
   .introContainer {
-    @apply max-w-[1238px] mx-auto flex items-center justify-between gap-[106px];
+    @apply mx-auto flex items-center justify-between gap-[106px];
+    max-width: $mWidth;
     padding-left: 107px;
   }
   .leftContent {

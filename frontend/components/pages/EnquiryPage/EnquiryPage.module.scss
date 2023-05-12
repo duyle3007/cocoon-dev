@@ -1,0 +1,28 @@
+@import 'styles/variables.scss';
+
+.enquiryPage {
+    .upperForm {
+        @apply mx-auto flex flex-col mt-6;
+        max-width: $mWidth;
+    }
+    h1 {
+        margin-top: 16px;
+        margin-bottom: 60px;
+        font-family: 'Goudy Old Style';
+font-weight: 400;
+font-size: 40px;
+line-height: 48px;
+text-align: center;
+letter-spacing: 0.05em;
+color: #90744F;
+    }
+    .backBtn {
+        @apply flex items-center cursor-pointer gap-4;
+        font-family: 'Whitney';
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+letter-spacing: 0.07em;
+color: #404040;
+    }
+}

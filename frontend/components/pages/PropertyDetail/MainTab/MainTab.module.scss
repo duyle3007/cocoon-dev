@@ -1,0 +1,25 @@
+.mainTab {
+  @apply mt-[120px];
+  .tabBar {
+    :global(.ant-tabs-nav-wrap) {
+      @apply justify-center;
+    }
+    :global(.ant-tabs-nav:before) {
+      border: none;
+    }
+    :global(.ant-tabs-tab > .ant-tabs-tab-btn) {
+      font-family: "Whitney";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #404040;
+      opacity: 0.5;
+    }
+    :global(.ant-tabs-tab-active > .ant-tabs-tab-btn) {
+      opacity: 1;
+    }
+  }
+}

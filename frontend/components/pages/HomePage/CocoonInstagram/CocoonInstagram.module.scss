@@ -1,0 +1,44 @@
+@import "styles/variables.scss";
+
+.cocoonInstagram {
+  @apply flex flex-col my-[120px] mx-auto;
+  max-width: $mWidth;
+  color: #404040;
+  .title {
+    @apply text-[40px] leading-[48px] mb-2;
+    font-family: "Goudy Old Style";
+  }
+  .sub {
+    @apply flex justify-between w-full items-center;
+    letter-spacing: 0.05em;
+  }
+  .followInsta {
+    @apply text-xs gap-4 flex items-center cursor-pointer;
+    letter-spacing: 0.05em;
+    font-family: "Whitney";
+  }
+  .sub {
+    @apply text-lg;
+    letter-spacing: 0.01em;
+    font-family: "Whitney Book";
+  }
+  .listImage {
+    @apply mt-8 grid gap-6 h-[250px];
+    grid-template-columns: repeat(4, 1fr);
+    .instaCard {
+      @apply h-[250px] w-full cursor-pointer relative;
+      img {
+        @apply w-full h-full;
+        object-fit: cover;
+      }
+      .instaIcon {
+        @apply absolute top-3 right-3 flex p-[11px] h-auto rounded;
+        border: 1px solid #ffffff;
+        svg {
+          filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(172deg)
+            brightness(103%) contrast(103%);
+        }
+      }
+    }
+  }
+}

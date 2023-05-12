@@ -1,0 +1,24 @@
+
+.relatedVilla {
+    @apply mt-[160px] flex flex-col gap-8;
+    .title {
+        @apply flex flex-col gap-2 self-center text-center text-[#404040];
+        h2 {
+            font-family: 'Goudy Old Style';
+font-weight: 400;
+font-size: 40px;
+line-height: 48px;
+letter-spacing: 0.05em;
+        }
+        h5 {
+            font-family: 'Whitney Book';
+font-weight: 500;
+font-size: 18px;
+line-height: 24px;
+letter-spacing: 0.01em;
+        }
+    }
+    .villaList {
+        @apply grid grid-cols-3 grid-flow-row w-full h-[250px] gap-6;
+    }
+}

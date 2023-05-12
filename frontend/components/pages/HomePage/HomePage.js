@@ -8,6 +8,7 @@ import Event from "./Event/Event";
 import Service from "./Service/Service";
 import SayAboutUs from "./SayAboutUs/SayAboutUs";
 import Intro from "./Intro/Intro";
+import CocoonInstagram from "./CocoonInstagram/CocoonInstagram";
 
 const data = [
   "https://e0.pxfuel.com/wallpapers/142/699/desktop-wallpaper-maldives-resort-in-high-resolution-for-get-island-resort.jpg",
@@ -18,28 +19,31 @@ const data = [
 const HomePage = () => {
   return (
     <div className={styles.homepage}>
-      <video
-        autoPlay
-        muted
-        loop
-        className={styles.youtubeEmbed}
-        poster={"/placeholder_banner.png"}
-      >
-        <source
-          src="https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+      <div className={styles.videoWrapper}>
+        <video
+          autoPlay
+          muted
+          loop
+          className={styles.youtubeEmbed}
+          poster={"/placeholder_banner.png"}
+        >
+          <source
+            src="https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
       <div className={styles.banner}>
         <div className={styles.leftBanner}>
-          <div className={styles.headerTitle}>COCOON LUXURY</div>
-          <div className={styles.headerSub}>Accommodation Specialist</div>
+          <div className={styles.headerTitle}>COCOON LUXURY PROPERTIES</div>
+          <div className={styles.headerSub}>
+            Luxury Holidays homes and Locations Specialist.
+          </div>
         </div>
-
-        <SearchBanner />
       </div>
+      <SearchBanner />
 
       <Headline />
       <Slideshow data={data} className={styles.slideShow} />
@@ -50,6 +54,7 @@ const HomePage = () => {
       <Service />
       <SayAboutUs />
       <Intro />
+      <CocoonInstagram />
     </div>
   );
 };

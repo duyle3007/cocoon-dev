@@ -1,9 +1,9 @@
-import { Dropdown } from "antd";
-import { useEffect, useState } from "react";
+import { Dropdown, Input } from "antd";
 import { useRouter } from "next/router";
 
 import styles from "./Header.module.scss";
 import Link from "next/link";
+import Image from "../Image/Image";
 
 const DESTINATION_LIST = [
   {
@@ -24,7 +24,21 @@ const DESTINATION_LIST = [
     children: [
       {
         key: "2-1",
-        label: "Lower North Shore",
+        label: "North Queensland (65)",
+        children: [
+          {
+            key: "2-1-1",
+            label: "Manly (12)",
+          },
+          {
+            key: "2-1-2",
+            label: "Vaucluse (13)",
+          },
+          {
+            key: "2-1-3",
+            label: "Point Piper (4)",
+          },
+        ],
       },
       {
         key: "2-2",
@@ -74,29 +88,21 @@ const DESTINATION_LIST = [
   },
 ];
 
-const serviceItems = [
+const AUSTRALIA_LIST = [
   {
     key: "1",
     label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        Holiday
-      </a>
+      <Link target="_blank" href="/search?villaType=private">
+        Private Villas
+      </Link>
     ),
   },
   {
     key: "2",
     label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        Phohrefshoots / Events
-      </a>
+      <Link target="_blank" href="/search?villaType=luxury">
+        Luxury Lodges
+      </Link>
     ),
   },
 ];
@@ -130,16 +136,15 @@ const Header = () => {
           >
             <span>HOME</span>
           </Link>
-          <Link
-            href="/about-us"
-            className={
-              router.asPath === "/about-us"
-                ? styles.activeBlack
-                : styles.nonActive
-            }
+          <Dropdown
+            menu={{ items: AUSTRALIA_LIST }}
+            overlayClassName={styles.dropdownMenu}
           >
-            <span>ABOUT US</span>
-          </Link>
+            <div className={styles.dropdown}>
+              AUSTRALIA
+              <img src="/downArrow.svg" />
+            </div>
+          </Dropdown>
           <Dropdown
             menu={{ items: DESTINATION_LIST }}
             overlayClassName={styles.dropdownMenu}
@@ -149,31 +154,39 @@ const Header = () => {
               <img src="/downArrow.svg" />
             </div>
           </Dropdown>
-          <Dropdown
-            menu={{ items: serviceItems }}
-            overlayClassName={styles.dropdownMenu}
-          >
-            <div className={styles.dropdown}>
-              SERVICE
-              <img src="/downArrow.svg" />
-            </div>
-          </Dropdown>
           <Link
-            href="/contact-us"
+            href="/search#photoshoot"
             className={
-              router.asPath === "/contact-us"
+              router.asPath === "/search#photoshoot"
                 ? styles.activeBlack
                 : styles.nonActive
             }
           >
-            <span>CONTACT US</span>
+            <span>PHOTOSHOOTS/ EVENTS</span>
           </Link>
         </div>
 
         <div className={styles.contactInfo}>
-          <img src="/phoneIcon.svg" />
-          <img src="/emailIcon.svg" />
-          <span>BOOK NOW</span>
+          <Input
+            className={`${styles.searchInput} ${
+              !isHomepage && styles.searchInputBlack
+            }`}
+            placeholder="Search"
+            bordered={false}
+            suffix={
+              <Image
+                src="/homepage/searchIcon.svg"
+                className={styles.searchIcon}
+              />
+            }
+          />
+          <span
+            className={`${styles.bookBtn} ${
+              !isHomepage && styles.bookBtnBlack
+            }`}
+          >
+            BOOK NOW
+          </span>
         </div>
       </div>
     </div>
