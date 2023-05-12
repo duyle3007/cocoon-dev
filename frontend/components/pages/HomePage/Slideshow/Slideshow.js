@@ -4,6 +4,7 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import styles from "./Slideshow.module.scss";
 
+// eslint-disable-next-line react/display-name
 const Slideshow = forwardRef(
   ({ data, className, cardMode = false, dots = false, ...props }, ref) => {
     const carouselRef = useRef();

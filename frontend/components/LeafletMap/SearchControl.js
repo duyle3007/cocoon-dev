@@ -204,6 +204,7 @@ const SearchControl = ({
             <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
               {LOCATION_LIST.map((location) => (
                 <div
+                  key={location.value}
                   className={`${styles.locationSelector} ${
                     filterLocationList.some(
                       (item) => item === location.value

@@ -7,6 +7,7 @@ import Calendar from "./Calendar/Calendar";
 import RelatedVilla from "./RelatedVilla/RelatedVilla";
 
 import styles from "./PropertyDetail.module.scss";
+import Link from "next/link";
 
 const dumb_data = {
   name: "Villa Palm Beach",
@@ -74,10 +75,10 @@ const PropertyDetail = () => {
         className={styles.breadcumb}
         items={[
           {
-            title: <a href="/">Home</a>,
+            title: <Link href="/">Home</Link>,
           },
           {
-            title: <a href="/search">Holiday</a>,
+            title: <Link href="/search">Holiday</Link>,
           },
           {
             title: (

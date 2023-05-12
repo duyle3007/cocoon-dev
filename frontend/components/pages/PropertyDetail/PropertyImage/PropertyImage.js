@@ -19,6 +19,7 @@ const PropertyImage = ({ listImage }) => {
         <div className="grid grid-flow-row grid-cols-5 gap-4">
           {listImage.slice(0, 5).map((image, index) => (
             <Image
+              key={index}
               src={image}
               className={styles.imageSmall}
               preview={false}

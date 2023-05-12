@@ -53,8 +53,8 @@ const CocoonInstagram = () => {
         </a>
       </div>
       <div className={styles.listImage}>
-        {INSTA_LIST.map((property) => (
-          <InstaCard property={property} />
+        {INSTA_LIST.map((property, index) => (
+          <InstaCard key={index} property={property} />
         ))}
       </div>
     </div>
