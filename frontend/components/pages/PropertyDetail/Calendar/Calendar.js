@@ -14,7 +14,7 @@ import moment from "moment";
 const Calendar = () => {
   const [totalPrice, setTotalPrice] = useState("0.00");
   const disableRangeStart = new Date("2023-05-10");
-  const disableRangeEnd = new Date("2023-05-20");
+  const disableRangeEnd = new Date("2023-05-16");
   const [selectedDates, setSelectedDates] = useState(null);
 
   useEffect(() => {
@@ -22,9 +22,11 @@ const Calendar = () => {
       const disabledDays = document.querySelectorAll(
         ".react-calendar__tile[disabled]"
       );
-      console.log("disabledDays", disabledDays);
       if (disabledDays.length) {
-        disabledDays[0].classList.add(styles.firstDisabled);
+        disabledDays[0].classList.add(styles.firstDateDisabled);
+        disabledDays[disabledDays.length - 1].classList.add(
+          styles.lastDateDisabled
+        );
       }
     }
   });
