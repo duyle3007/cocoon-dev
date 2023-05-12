@@ -93,7 +93,7 @@ const PropertyDetail = () => {
 
       <MainTab info={dumb_data} />
       <Calendar info={dumb_data} />
-      <RelatedVilla info={dumb_data}/>
+      <RelatedVilla info={dumb_data} />
     </div>
   );
 };
