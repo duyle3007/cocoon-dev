@@ -1,0 +1,100 @@
+@import "styles/variables.scss";
+
+.aboutUsPage {
+  @apply flex flex-col;
+  .upperIntro {
+    max-width: $mWidth;
+    @apply mx-auto w-full mt-[96px] px-[106px] gap-20 flex flex-col;
+    :global(.ant-divider) {
+      @apply min-w-[106px] w-[106px];
+    }
+  }
+  h4 {
+    font-family: "Goudy Old Style";
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #90744f;
+  }
+  .content {
+    font-family: "Whitney Book";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.006em;
+    color: #404040;
+  }
+  .properties {
+    @apply flex gap-[211px] items-center;
+    .left {
+      @apply w-[41%];
+    }
+    .right {
+      @apply flex-1 w-[425px];
+    }
+  }
+  .mission {
+    @apply flex gap-[106px] items-center;
+    .left {
+      @apply w-[41%];
+    }
+    .right {
+      @apply flex-1 w-[425px];
+    }
+  }
+  .location {
+    @apply flex gap-[106px] items-center;
+    .left {
+      @apply w-[41%];
+    }
+    .right {
+      @apply flex-1 w-[425px];
+    }
+  }
+  .firstBanner {
+    @apply h-[500px] w-[425px];
+  }
+  .secondBanner {
+    @apply h-[350px] w-[530px];
+  }
+  .thirdBanner {
+    @apply h-[350px] w-[612px];
+  }
+
+  .benefit {
+    @apply flex flex-col justify-center px-[182px] mt-10;
+    h4 {
+      @apply text-center;
+    }
+    .sub {
+      @apply pt-6 pb-12 px-8;
+      font-family: "Whitney Book";
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: 0.01em;
+      color: #404040;
+    }
+    .benefitDetail {
+      @apply flex flex-col gap-4;
+      .item {
+        @apply flex gap-6 items-start;
+        font-family: "Whitney Book";
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        letter-spacing: 0.01em;
+        color: #404040;
+        img {
+          @apply w-6 h-6;
+        }
+        span {
+          @apply w-full;
+        }
+      }
+    }
+  }
+}

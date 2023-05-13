@@ -22,6 +22,13 @@
       background-color: $primaryColor;
       border-color: $primaryColor;
     }
+    :global(.ant-popconfirm-buttons),
+    :global(.ant-popconfirm-message) {
+      @apply hidden;
+    }
+    :global(.ant-popconfirm-description) {
+      @apply m-0;
+    }
   }
   h1 {
     @apply mb-8;
@@ -29,6 +36,9 @@
 
   .form {
     @apply flex flex-col bg-white p-8 w-[50%] self-center;
+    textarea {
+      resize: none;
+    }
   }
   .rowItem {
     @apply grid grid-cols-2 gap-6 items-end;
@@ -64,5 +74,24 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #404040;
+  }
+}
+
+.needHelpContent {
+  @apply flex flex-col gap-2;
+  font-family: "Whitney Book";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.006em;
+  color: #404040;
+  .info {
+    @apply text-[#90744F] flex gap-2 items-center uppercase;
+  }
+  .icon {
+    @apply w-4 h-4;
+    filter: invert(49%) sepia(22%) saturate(687%) hue-rotate(354deg)
+      brightness(91%) contrast(90%);
   }
 }

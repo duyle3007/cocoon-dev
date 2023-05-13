@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Popconfirm } from "antd";
 
 import Image from "@/components/Image/Image";
 
@@ -6,14 +6,41 @@ import styles from "./ContactUs.module.scss";
 
 const { TextArea } = Input;
 
+const NeedHelpContent = () => {
+  return (
+    <div className={styles.needHelpContent}>
+      <div>If you have any question please don't hesitate to contact us</div>
+      <div className={styles.info}>
+        <Image src="./phoneIcon.svg" className={styles.icon} /> 0407 008 176
+      </div>
+      <div className={styles.info}>
+        <Image src="./emailIcon.svg" className={styles.icon} />{" "}
+        julian@cocoonluxuryproperties.com
+      </div>
+      <div className={styles.info}>
+        <Image src="./emailIcon.svg" className={styles.icon} />{" "}
+        manish@cocoonluxuryproperties.com
+      </div>
+    </div>
+  );
+};
+
 const ContactUs = () => {
   return (
     <div className={styles.contactUs}>
       <div className={styles.wrapper}>
-        <div className={styles.helpBtn}>
-          <Image src="/enquiryPage/questionIcon.svg" />
-          <span>NEED HELP?</span>
-        </div>
+        <Popconfirm
+          placement="bottomRight"
+          getPopupContainer={(trigger) => {
+            return trigger;
+          }}
+          description={<NeedHelpContent />}
+        >
+          <div className={styles.helpBtn}>
+            <Image src="/enquiryPage/questionIcon.svg" />
+            <span>NEED HELP?</span>
+          </div>
+        </Popconfirm>
 
         <h1>CONTACT US</h1>
 
