@@ -11,6 +11,8 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import styles from "./Calendar.module.scss";
 import moment from "moment";
 
+let initDisableClassname = false;
+
 const Calendar = () => {
   const [totalPrice, setTotalPrice] = useState("0.00");
   const disableRangeStart = new Date("2023-05-10");
@@ -22,11 +24,13 @@ const Calendar = () => {
       const disabledDays = document.querySelectorAll(
         ".react-calendar__tile[disabled]"
       );
-      if (disabledDays.length) {
+      console.log("disabledDays", disabledDays, initDisableClassname);
+      if (disabledDays.length && !initDisableClassname) {
         disabledDays[0].classList.add(styles.firstDateDisabled);
         disabledDays[disabledDays.length - 1].classList.add(
           styles.lastDateDisabled
         );
+        initDisableClassname = true;
       }
     }
   });
@@ -48,7 +52,6 @@ const Calendar = () => {
   const tileClassName = ({ date, view }) => {
     if (view === "month" && selectedDates) {
       if (isDateInRange(date, disableRangeStart, disableRangeEnd)) {
-        console.log("hello", date);
         return styles.disable;
       }
     }

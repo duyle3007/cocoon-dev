@@ -1,0 +1,68 @@
+@import "styles/variables.scss";
+
+.contactUs {
+  @apply w-full h-[858px];
+  background: url("/enquiryPage/contactUsBanner.png");
+  .wrapper {
+    @apply mx-auto relative flex flex-col pt-12 pb-[120px];
+    max-width: $mWidth;
+  }
+  .helpBtn {
+    @apply flex gap-2 self-end rounded cursor-pointer;
+    border: 1px solid #ffffff;
+    padding: 8px 12px;
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.07em;
+    color: #ffffff;
+    transition: 0.3s all;
+    &:hover {
+      background-color: $primaryColor;
+      border-color: $primaryColor;
+    }
+  }
+  h1 {
+    @apply mb-8;
+  }
+
+  .form {
+    @apply flex flex-col bg-white p-8 w-[50%] self-center;
+  }
+  .rowItem {
+    @apply grid grid-cols-2 gap-6 items-end;
+  }
+  .formInput {
+    @apply p-4 w-full flex items-center;
+    height: 50px !important;
+    font-family: "Whitney Book";
+  }
+  .sendBtn {
+    @apply px-6 py-4 h-auto uppercase self-center shadow-transparent;
+    background-color: $primaryColor;
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    transition: 0.3s all;
+    &:hover {
+      @apply bg-white;
+      border-color: $primaryColor;
+      color: $primaryColor;
+    }
+  }
+  :global(.ant-form) {
+    @apply flex flex-col;
+  }
+  :global(.ant-form-item-label) {
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #404040;
+  }
+}

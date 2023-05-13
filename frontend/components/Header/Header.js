@@ -9,11 +9,7 @@ const DESTINATION_LIST = [
   {
     key: "1",
     label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
+      <a rel="noopener noreferrer" href="https://www.antgroup.com">
         All destinations
       </a>
     ),
@@ -73,11 +69,7 @@ const DESTINATION_LIST = [
   {
     key: "3",
     label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.luohanacademy.com"
-      >
+      <a rel="noopener noreferrer" href="https://www.luohanacademy.com">
         France
       </a>
     ),
@@ -91,19 +83,11 @@ const DESTINATION_LIST = [
 const AUSTRALIA_LIST = [
   {
     key: "1",
-    label: (
-      <Link target="_blank" href="/search?villaType=private">
-        Private Villas
-      </Link>
-    ),
+    label: <Link href="/search?villaType=private">Private Villas</Link>,
   },
   {
     key: "2",
-    label: (
-      <Link target="_blank" href="/search?villaType=luxury">
-        Luxury Lodges
-      </Link>
-    ),
+    label: <Link href="/search?villaType=luxury">Luxury Lodges</Link>,
   },
 ];
 
@@ -185,7 +169,7 @@ const Header = () => {
               !isHomepage && styles.bookBtnBlack
             }`}
           >
-            BOOK NOW
+            SEND INQUIRE
           </span>
         </div>
       </div>
