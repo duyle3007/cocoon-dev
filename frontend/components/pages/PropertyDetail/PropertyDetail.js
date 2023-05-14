@@ -54,6 +54,39 @@ const dumb_data = {
     "Indoor Fireplace",
     "Washer",
   ],
+  videos: [
+    "https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download",
+    "https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download",
+  ],
+  reviews: [
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+  ],
   bookedDate: ["4/5/2023", "9/5/2023"],
   relatedVilla: [
     {

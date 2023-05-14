@@ -1,5 +1,5 @@
-import { Checkbox, Input, Segmented, Select, Slider } from "antd";
-import { useState } from "react";
+import { Checkbox, Input, Select, Slider } from "antd";
+import { useEffect, useState } from "react";
 import {
   LeftOutlined,
   RightOutlined,
@@ -11,6 +11,7 @@ import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
 
 import styles from "./SearchControl.module.scss";
+import { useRouter } from "next/router";
 
 const { Option } = Select;
 
@@ -30,16 +31,29 @@ const SearchControl = ({
   handleReinitClick,
   searchType,
 }) => {
+  const router = useRouter();
+
   const [tabActive, setTabActive] = useState("holiday");
   const [isMinimized, setIsMinimized] = useState(false);
 
   // search value
+  const [villaType, setVillaType] = useState(null);
   const [selectedBedroom, setSelectedBedroom] = useState("Any");
   const [selectedBed, setSelectedBed] = useState("Any");
   const [selectedBadroom, setSelectedBadroom] = useState("Any");
 
   const [maxGuest, setMaxGuest] = useState(0);
   const [filterLocationList, setFilterLocationList] = useState([]);
+
+  useEffect(() => {
+    const hash = router.asPath.split("#")[1];
+    if (hash) {
+      setTabActive(hash);
+    }
+    if (router.query.villaType) {
+      setVillaType(router.query.villaType);
+    }
+  }, [router]);
 
   const onMinimize = () => {
     setIsMinimized(true);
@@ -86,9 +100,9 @@ const SearchControl = ({
             </div>
             <div
               className={`${styles.tab} ${
-                tabActive === "photo" && styles.active
+                tabActive === "photoshoots" && styles.active
               }`}
-              onClick={() => setTabActive("photo")}
+              onClick={() => setTabActive("photoshoots")}
             >
               PHOTOSHOOTS/EVENTS
             </div>
@@ -107,23 +121,27 @@ const SearchControl = ({
               />
               <Select
                 placeholder="Choose villa type"
+                value={villaType}
                 className={styles.villaTypeSelector}
+                onChange={(value) => setVillaType(value)}
               >
                 <Option value="private">Private Villas</Option>
                 <Option value="apartment">Apartments</Option>
                 <Option value="luxury">Luxury Lodges</Option>
               </Select>
               <RangeDatePicker />
+              {tabActive === "holiday" && (
+                <div>
+                  <div className={styles.inputTitle}>Bedrooms</div>
+                  <SegmenedSelector
+                    listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                    selectedOption={selectedBedroom}
+                    onClick={(value) => setSelectedBedroom(value)}
+                  />
+                </div>
+              )}
               <div>
-                <div className={styles.inputTitle}>Bedrooms</div>
-                <SegmenedSelector
-                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
-                  selectedOption={selectedBedroom}
-                  onClick={(value) => setSelectedBedroom(value)}
-                />
-              </div>
-              <div>
-                <div className={styles.inputTitle}>Bed</div>
+                <div className={styles.inputTitle}>Beds</div>
                 <SegmenedSelector
                   listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
                   selectedOption={selectedBed}
@@ -139,57 +157,61 @@ const SearchControl = ({
                 />
               </div>
             </div>
-            <div className={styles.inputWrapper} style={{ gap: "48px" }}>
-              <div>
-                <div className="flex justify-between items-center">
-                  <div className={styles.priceTitle}>PRICE PER NIGHT (AUD)</div>
-                  <div className={styles.maxPrice}>$500 to +$5,000</div>
-                </div>
+            {tabActive === "holiday" && (
+              <div className={styles.inputWrapper} style={{ gap: "48px" }}>
+                <div>
+                  <div className="flex justify-between items-center">
+                    <div className={styles.priceTitle}>
+                      PRICE PER NIGHT (AUD)
+                    </div>
+                    <div className={styles.maxPrice}>$500 to +$5,000</div>
+                  </div>
 
-                <Slider
-                  className={styles.sliderPrice}
-                  step={100}
-                  range={{ draggableTrack: true }}
-                  defaultValue={[800, 2000]}
-                  tooltip={{
-                    open: true,
-                    placement: "bottom",
-                    formatter: (value) => <div>${value}</div>,
-                    getPopupContainer: (trigger) => {
-                      return trigger;
-                    },
-                  }}
-                  max={5000}
-                  min={500}
-                  // onChange={onChange}
-                />
-              </div>
-              <div className="flex justify-between">
-                <div
-                  className={styles.inputTitle}
-                  style={{ marginBottom: "0px" }}
-                >
-                  Choose max guest
-                </div>
-                <div className="flex gap-4 items-center">
-                  <div
-                    className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
-                    onClick={() => {
-                      maxGuest > 0 && setMaxGuest(maxGuest - 1);
+                  <Slider
+                    className={styles.sliderPrice}
+                    step={100}
+                    range={{ draggableTrack: true }}
+                    defaultValue={[800, 2000]}
+                    tooltip={{
+                      open: true,
+                      placement: "bottom",
+                      formatter: (value) => <div>${value}</div>,
+                      getPopupContainer: (trigger) => {
+                        return trigger;
+                      },
                     }}
-                  >
-                    <MinusOutlined />
-                  </div>
-                  {maxGuest}
+                    max={5000}
+                    min={500}
+                    // onChange={onChange}
+                  />
+                </div>
+                <div className="flex justify-between">
                   <div
-                    className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                    onClick={() => setMaxGuest(maxGuest + 1)}
+                    className={styles.inputTitle}
+                    style={{ marginBottom: "0px" }}
                   >
-                    <PlusOutlined />
+                    Choose max guest
+                  </div>
+                  <div className="flex gap-4 items-center">
+                    <div
+                      className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
+                      onClick={() => {
+                        maxGuest > 0 && setMaxGuest(maxGuest - 1);
+                      }}
+                    >
+                      <MinusOutlined />
+                    </div>
+                    {maxGuest}
+                    <div
+                      className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
+                      onClick={() => setMaxGuest(maxGuest + 1)}
+                    >
+                      <PlusOutlined />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className={styles.inputWrapper}>
               <div className={styles.featuresTitle}>FEATURES</div>
               <Checkbox.Group className={styles.featureSelector}>

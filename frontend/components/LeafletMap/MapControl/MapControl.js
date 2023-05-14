@@ -1,3 +1,6 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 
 import styles from "./MapControl.module.scss";
@@ -22,13 +25,25 @@ const DESTINATION_LIST = [
 ];
 
 const MapControl = ({ searchType, onChangeSearchType }) => {
+  const router = useRouter();
+
+  const [destination, setDestination] = useState(null);
+
+  useEffect(() => {
+    if (router.query.destination) {
+      setDestination(router.query.destination);
+    }
+  }, [router]);
+
   return (
     <div className={styles.mapControl}>
       <SelectWithPrefix
         className={styles.selectPrefix}
+        value={destination}
         prefix={<img src="/homepage/discoverIcon.svg" />}
         placeholder="Choose a destination"
         options={DESTINATION_LIST}
+        onChange={(value) => setDestination(value)}
       />
       <div className={styles.searchType}>
         <div

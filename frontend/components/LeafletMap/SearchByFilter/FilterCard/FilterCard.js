@@ -52,7 +52,7 @@ const FilterCard = ({ villa }) => {
             )}
             <span> /NIGHT</span>
           </div>
-          <Link href={`properties/${villa.destinationUrl}` || "/properties"}>
+          <Link href={`properties${villa.destinationUrl}` || "/properties"}>
             <Button className={styles.viewBtn}>VIEW DETAILS</Button>
           </Link>
         </div>

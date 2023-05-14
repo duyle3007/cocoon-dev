@@ -25,7 +25,7 @@ const Footer = () => {
           <div className={styles.cocoon}>
             <h4>COCOON</h4>
             <Link href="/about-us">About us</Link>
-            <Link href="/photoshoots">Photoshoots / Events</Link>
+            <Link href="/search#photoshoots">Photoshoots / Events</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Term & Conditions</Link>
           </div>

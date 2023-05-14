@@ -2,8 +2,10 @@ import { Tabs } from "antd";
 
 import DetailTab from "./DetailTab/DetailTab";
 import AmenityTab from "./AmenityTab/AmenityTab";
+import VideoTab from "./VideoTab/VideoTab";
 
 import styles from "./MainTab.module.scss";
+import ReviewTab from "./ReviewTab/ReviewTab";
 
 const MainTab = ({ info }) => {
   return (
@@ -25,7 +27,7 @@ const MainTab = ({ info }) => {
           {
             key: "3",
             label: `VIDEO`,
-            children: `Content of Tab Pane 3`,
+            children: <VideoTab info={info} />,
           },
           {
             key: "4",
@@ -35,7 +37,7 @@ const MainTab = ({ info }) => {
           {
             key: "5",
             label: `REVIEW`,
-            children: `Content of Tab Pane 3`,
+            children: <ReviewTab info={info} />,
           },
         ]}
       />

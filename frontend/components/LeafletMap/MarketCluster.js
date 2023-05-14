@@ -2,12 +2,14 @@ import { useEffect, forwardRef, useImperativeHandle } from "react";
 import L from "leaflet";
 import "leaflet.markercluster/dist/leaflet.markercluster";
 import { useMap } from "react-leaflet";
+import { useRouter } from "next/router";
 
 import styles from "./MarkerCluster.module.scss";
 
 // eslint-disable-next-line react/display-name
 const MarkerCluster = forwardRef(({ markers }, ref) => {
   const map = useMap();
+  const router = useRouter();
 
   useEffect(() => {
     if (!map) return;
@@ -56,7 +58,7 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           const popupContent = document.querySelector(".leaflet-popup-content");
 
           popupContent.addEventListener("click", function () {
-            console.log("Popup clicked");
+            router.push(`/properties/paris-by-night`);
           });
         });
 

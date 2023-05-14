@@ -8,11 +8,7 @@ import Image from "../Image/Image";
 const DESTINATION_LIST = [
   {
     key: "1",
-    label: (
-      <a rel="noopener noreferrer" href="https://www.antgroup.com">
-        All destinations
-      </a>
-    ),
+    label: <Link href="/search?destination=all">All destinations</Link>,
   },
   {
     key: "2",
@@ -68,15 +64,11 @@ const DESTINATION_LIST = [
   },
   {
     key: "3",
-    label: (
-      <a rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        France
-      </a>
-    ),
+    label: <Link href="/search?destination=france">France</Link>,
   },
   {
     key: "4",
-    label: "Egypt",
+    label: <Link href="/search?destination=egypt">Egypt</Link>,
   },
 ];
 
@@ -139,9 +131,9 @@ const Header = () => {
             </div>
           </Dropdown>
           <Link
-            href="/search#photoshoot"
+            href="/search#photoshoots"
             className={
-              router.asPath === "/search#photoshoot"
+              router.asPath === "/search#photoshoots"
                 ? styles.activeBlack
                 : styles.nonActive
             }
@@ -164,13 +156,15 @@ const Header = () => {
               />
             }
           />
-          <span
-            className={`${styles.bookBtn} ${
-              !isHomepage && styles.bookBtnBlack
-            }`}
-          >
-            SEND INQUIRE
-          </span>
+          <Link href="/enquiry">
+            <span
+              className={`${styles.bookBtn} ${
+                !isHomepage && styles.bookBtnBlack
+              }`}
+            >
+              SEND INQUIRE
+            </span>
+          </Link>
         </div>
       </div>
     </div>
