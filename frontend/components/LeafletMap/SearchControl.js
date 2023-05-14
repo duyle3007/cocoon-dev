@@ -37,6 +37,7 @@ const SearchControl = ({
   const [isMinimized, setIsMinimized] = useState(false);
 
   // search value
+  const [searchValue, setSearchValue] = useState(null);
   const [villaType, setVillaType] = useState(null);
   const [selectedBedroom, setSelectedBedroom] = useState("Any");
   const [selectedBed, setSelectedBed] = useState("Any");
@@ -52,6 +53,10 @@ const SearchControl = ({
     }
     if (router.query.villaType) {
       setVillaType(router.query.villaType);
+    }
+    if (router.query.searchValue) {
+      setSearchValue(router.query.searchValue);
+      onSearch(router.query.searchValue);
     }
   }, [router]);
 
@@ -114,10 +119,14 @@ const SearchControl = ({
             <div className={styles.inputWrapper}>
               <Input
                 type="search"
+                value={searchValue}
                 placeholder="Villa name or location"
                 prefix={<img src="/homepage/searchIcon.svg" />}
                 className={styles.input}
-                onChange={onSearch}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                  onSearch(e.target.value);
+                }}
               />
               <Select
                 placeholder="Choose villa type"
@@ -244,10 +253,14 @@ const SearchControl = ({
             <div className={styles.inputWrapper}>
               <Input
                 type="search"
+                value={searchValue}
                 placeholder="Villa name or location"
                 prefix={<img src="/homepage/searchIcon.svg" />}
                 className={styles.input}
-                onChange={onSearch}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                  onSearch(e.target.value);
+                }}
               />
             </div>
             <div className={styles.numResult}>

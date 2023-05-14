@@ -155,6 +155,9 @@ const Header = () => {
                 className={styles.searchIcon}
               />
             }
+            onPressEnter={(e) =>
+              router.push(`/search?searchValue=${e.target.value}`)
+            }
           />
           <Link href="/enquiry">
             <span

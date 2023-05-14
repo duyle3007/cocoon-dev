@@ -197,7 +197,7 @@ const LeafletMap = () => {
   const [listLocation, setListLocation] = useState(addressPoints);
   const [searchType, setSearchType] = useState("filter");
 
-  const onSearch = ({ target: { value } }) => {
+  const onSearch = (value) => {
     if (value) {
       const filterLocationList = addressPoints.filter((location) =>
         location.name.toLowerCase().includes(value.toLowerCase())
@@ -205,8 +205,8 @@ const LeafletMap = () => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0].lat,
-          filterLocationList[0].lng,
+          filterLocationList[0]?.lat,
+          filterLocationList[0]?.lng,
         ]);
       }
       return;
@@ -215,7 +215,9 @@ const LeafletMap = () => {
   };
 
   const navigateTo = (lat, lng) => {
-    mapRef.current.flyTo([lat, lng], 18);
+    if (lat && lng) {
+      mapRef.current.flyTo([lat, lng], 18);
+    }
   };
 
   return (
@@ -235,10 +237,9 @@ const LeafletMap = () => {
         ) : (
           <MapContainer
             center={
-              listLocation.length > 0 && [
-                listLocation[0].lat,
-                listLocation[0].lng,
-              ]
+              listLocation.length > 0
+                ? [listLocation[0].lat, listLocation[0].lng]
+                : [-37.8839, 175.3745188667]
             }
             ref={leafletRef}
             zoom={13}
