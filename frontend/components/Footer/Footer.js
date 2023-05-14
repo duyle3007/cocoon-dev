@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import styles from "./Footer.module.scss";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -23,10 +24,10 @@ const Footer = () => {
         <div className={styles.middle}>
           <div className={styles.cocoon}>
             <h4>COCOON</h4>
-            <a href="/about-us">About us</a>
-            <a href="/photoshoots">Photoshoots / Events</a>
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Term & Conditions</a>
+            <Link href="/about-us">About us</Link>
+            <Link href="/photoshoots">Photoshoots / Events</Link>
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Term & Conditions</Link>
           </div>
 
           <div className={styles.contact}>
