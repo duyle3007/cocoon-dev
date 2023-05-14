@@ -17,10 +17,10 @@ const RangeDatePicker = ({ onSelect }) => {
   };
 
   useEffect(() => {
-    if (momentStartDate && momentEndDate) {
+    if (momentStartDate && momentEndDate && onSelect) {
       onSelect([momentStartDate, momentEndDate]);
     }
-  }, [momentStartDate, momentEndDate]);
+  }, [momentStartDate, momentEndDate, onSelect]);
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
