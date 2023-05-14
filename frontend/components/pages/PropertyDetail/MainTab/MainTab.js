@@ -1,6 +1,9 @@
 import { Tabs } from "antd";
-import styles from "./MainTab.module.scss";
+
 import DetailTab from "./DetailTab/DetailTab";
+import AmenityTab from "./AmenityTab/AmenityTab";
+
+import styles from "./MainTab.module.scss";
 
 const MainTab = ({ info }) => {
   return (
@@ -17,7 +20,7 @@ const MainTab = ({ info }) => {
           {
             key: "2",
             label: `AMENITIES`,
-            children: `Content of Tab Pane 2`,
+            children: <AmenityTab info={info} />,
           },
           {
             key: "3",

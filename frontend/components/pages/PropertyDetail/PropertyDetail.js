@@ -43,6 +43,17 @@ const dumb_data = {
       "The house is situated in the world-famous beachside suburb of Palm Beach. Located above exclusive Palm Beach, a 3-minute drive from the beachfront and a seven-minute walk.",
     getArround: "A car is considered essential.",
   },
+  amenities: [
+    "TV / Cable TV",
+    "Free Parking",
+    "Children",
+    "Dryer",
+    "Kitchen",
+    "Essentials",
+    "Heating",
+    "Indoor Fireplace",
+    "Washer",
+  ],
   bookedDate: ["4/5/2023", "9/5/2023"],
   relatedVilla: [
     {
