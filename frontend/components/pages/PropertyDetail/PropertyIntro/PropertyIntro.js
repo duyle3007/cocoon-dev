@@ -1,7 +1,7 @@
 import { HeartOutlined } from "@ant-design/icons";
+import Image from "@/components/Image/Image";
 
 import styles from "./PropertyIntro.module.scss";
-import Image from "@/components/Image/Image";
 
 const PropertyIntro = ({ info }) => {
   return (

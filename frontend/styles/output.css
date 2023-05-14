@@ -562,8 +562,17 @@ video {
   width: 1.75rem;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-full {
   width: 100%;
+}
+
+.min-w-\[106px\] {
+  min-width: 106px;
 }
 
 .cursor-pointer {

@@ -9,7 +9,9 @@ const { TextArea } = Input;
 const NeedHelpContent = () => {
   return (
     <div className={styles.needHelpContent}>
-      <div>If you have any question please don't hesitate to contact us</div>
+      <div>
+        If you have any question please don&apos;t hesitate to contact us
+      </div>
       <div className={styles.info}>
         <Image src="./phoneIcon.svg" className={styles.icon} /> 0407 008 176
       </div>
