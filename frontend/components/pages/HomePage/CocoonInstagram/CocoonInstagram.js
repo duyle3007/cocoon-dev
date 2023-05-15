@@ -1,7 +1,8 @@
 const INSTAGRAM_URL = "https://www.instagram.com/cocoonluxuryproperties/";
+import { InstagramOutlined } from "@ant-design/icons";
 
 import Image from "@/components/Image/Image";
-import { InstagramOutlined } from "@ant-design/icons";
+import { isMobile } from "@/utils/utils";
 
 import styles from "./CocoonInstagram.module.scss";
 
@@ -45,18 +46,28 @@ const CocoonInstagram = () => {
       <div className={styles.title}>@COCOONLUXURYPROPERTIES</div>
       <div className={styles.sub}>
         <span>Specializes in short term luxury vacation rental homes</span>
-        <a href="https://www.instagram.com/cocoonluxuryproperties/">
-          <div className={styles.followInsta}>
-            FOLLOW INSTAGRAM
-            <Image src="/rightArrow.png" />
-          </div>
-        </a>
+        {!isMobile() && (
+          <a href={INSTAGRAM_URL}>
+            <div className={styles.followInsta}>
+              FOLLOW INSTAGRAM
+              <Image src="/rightArrow.png" />
+            </div>
+          </a>
+        )}
       </div>
       <div className={styles.listImage}>
         {INSTA_LIST.map((property, index) => (
           <InstaCard key={index} property={property} />
         ))}
       </div>
+      {isMobile() && (
+        <a href={INSTAGRAM_URL}>
+          <div className={styles.followInsta}>
+            FOLLOW INSTAGRAM
+            <Image src="/rightArrow.png" />
+          </div>
+        </a>
+      )}
     </div>
   );
 };

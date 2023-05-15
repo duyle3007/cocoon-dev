@@ -42,3 +42,21 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .cocoonInstagram {
+    @apply px-8 max-w-full mt-16 mb-[80px];
+    .title {
+      display: inline-block;
+      word-wrap: break-word;
+      font-size: 32px;
+      line-height: 40px;
+    }
+    .followInsta {
+      @apply mt-8 gap-1;
+    }
+    .listImage {
+      @apply flex flex-col h-auto;
+    }
+  }
+}

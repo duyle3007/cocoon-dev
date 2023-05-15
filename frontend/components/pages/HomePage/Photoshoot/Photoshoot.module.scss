@@ -36,3 +36,40 @@
     height: 250px;
   }
 }
+
+@media (max-width: 768px) {
+  .holidayContainer {
+    @apply px-8 w-full mt-[62px];
+    .header {
+      @apply px-0;
+      .leftHeader {
+        div {
+          font-size: 14px;
+          line-height: 20px;
+          padding-right: 40%;
+          &:first-child {
+            font-size: 32px;
+            line-height: 40px;
+          }
+        }
+      }
+      .rightHeader {
+        @apply hidden;
+      }
+    }
+    .listHotel {
+      @apply flex flex-col h-auto;
+      .hotel {
+        @apply h-[192px];
+        &:first-child {
+          @apply h-[409px];
+        }
+      }
+    }
+    .checkAll {
+      @apply mt-[44px] gap-2 flex;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+}

@@ -34,7 +34,7 @@ const Slideshow = forwardRef(
             <img src={image} key={index} />
           ))}
         </Carousel>
-        {data.length > 1 && (
+        {/* {data.length > 1 && (
           <>
             <div
               className={cardMode ? styles.leftArrowCard : styles.leftArrow}
@@ -49,7 +49,7 @@ const Slideshow = forwardRef(
               <RightOutlined />
             </div>
           </>
-        )}
+        )} */}
       </div>
     );
   }

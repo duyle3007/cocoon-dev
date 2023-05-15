@@ -48,3 +48,18 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .searchMobile {
+    @apply flex justify-center absolute top-[80%] left-0 right-0 mx-auto items-center px-8;
+    button {
+      @apply bg-white h-[50px] w-full;
+      font-family: "Whitney";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.05em;
+      color: #90744f;
+    }
+  }
+}

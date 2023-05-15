@@ -49,3 +49,9 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .serviceContainer {
+    @apply px-8;
+  }
+}

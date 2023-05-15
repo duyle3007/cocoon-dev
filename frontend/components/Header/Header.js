@@ -1,9 +1,12 @@
 import { Dropdown, Input } from "antd";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
+import Image from "../Image/Image";
+import { isMobile } from "@/utils/utils";
+import Drawer from "./Drawer/Drawer";
 
 import styles from "./Header.module.scss";
-import Link from "next/link";
-import Image from "../Image/Image";
 
 const DESTINATION_LIST = [
   {
@@ -105,6 +108,7 @@ const Header = () => {
             className={styles.logo}
           />
         </Link>
+        {isMobile() && <Drawer />}
         <div className={styles.headerMenu}>
           <Link
             href="/"

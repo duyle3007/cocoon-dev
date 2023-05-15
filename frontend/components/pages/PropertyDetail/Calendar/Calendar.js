@@ -24,7 +24,6 @@ const Calendar = () => {
       const disabledDays = document.querySelectorAll(
         ".react-calendar__tile[disabled]"
       );
-      console.log("disabledDays", disabledDays, initDisableClassname);
       if (disabledDays.length && !initDisableClassname) {
         disabledDays[0].classList.add(styles.firstDateDisabled);
         disabledDays[disabledDays.length - 1].classList.add(

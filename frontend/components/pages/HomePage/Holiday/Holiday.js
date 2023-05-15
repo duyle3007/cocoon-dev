@@ -3,6 +3,8 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 import HotelCard from "../../../HotelCard/HotelCard";
 
 import styles from "./Holiday.module.scss";
+import { isMobile } from "@/utils/utils";
+import Link from "next/link";
 
 const DATA = [
   {
@@ -49,20 +51,35 @@ const Holiday = () => {
           <div>Holiday</div>
           <div>All activities are allowed.</div>
         </div>
-        <div className={styles.rightHeader}>
-          CHECK ALL
-          <span>
-            <ArrowRightOutlined />
-          </span>
-        </div>
+        <Link href="/search">
+          <div className={styles.rightHeader}>
+            CHECK ALL
+            <span>
+              <ArrowRightOutlined />
+            </span>
+          </div>
+        </Link>
       </div>
 
       <div className={styles.listHotel}>
-        {DATA.length > 0 &&
-          DATA.map((hotel, index) => (
-            <HotelCard key={index} item={hotel} className={styles.hotel} />
-          ))}
+        {DATA.length > 0 && isMobile()
+          ? DATA.slice(0, 3).map((hotel, index) => (
+              <HotelCard key={index} item={hotel} className={styles.hotel} />
+            ))
+          : DATA.map((hotel, index) => (
+              <HotelCard key={index} item={hotel} className={styles.hotel} />
+            ))}
       </div>
+      {isMobile() && (
+        <Link href="/search">
+          <div className={styles.checkAll}>
+            CHECK ALL
+            <span>
+              <ArrowRightOutlined />
+            </span>
+          </div>
+        </Link>
+      )}
     </div>
   );
 };

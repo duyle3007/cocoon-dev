@@ -6,8 +6,8 @@ const Footer = () => {
   return (
     <div className={styles.footer}>
       <div className={styles.signupContainer}>
-        <div>GET INSPIRED</div>
-        <div>
+        <div className={styles.title}>GET INSPIRED</div>
+        <div className={styles.sub}>
           To receive updates about exclusive experiences, events, new
           destinations and more, please register your interest.
         </div>
@@ -70,34 +70,40 @@ const Footer = () => {
 
           <div className={styles.right}>
             <h5>Follow us on</h5>
-            <img
-              src="/homepage/facebookLogo.svg"
-              onClick={() =>
-                window.open("https://www.facebook.com/cocoonluxuryproperties/")
-              }
-            />
-            <img
-              src="/homepage/youtubeLogo.svg"
-              onClick={() =>
-                window.open(
-                  "https://www.youtube.com/channel/UCxprkxhJ9FodghRyyXUfPdw"
-                )
-              }
-            />
-            <img
-              src="/homepage/linkedInLogo.svg"
-              onClick={() =>
-                window.open(
-                  "https://au.linkedin.com/company/cocoon-luxury-properties"
-                )
-              }
-            />
-            <img
-              src="/homepage/twitterLogo.svg"
-              onClick={() =>
-                window.open("https://www.instagram.com/cocoonluxuryproperties/")
-              }
-            />
+            <div className={styles.socialMedia}>
+              <img
+                src="/homepage/facebookLogo.svg"
+                onClick={() =>
+                  window.open(
+                    "https://www.facebook.com/cocoonluxuryproperties/"
+                  )
+                }
+              />
+              <img
+                src="/homepage/youtubeLogo.svg"
+                onClick={() =>
+                  window.open(
+                    "https://www.youtube.com/channel/UCxprkxhJ9FodghRyyXUfPdw"
+                  )
+                }
+              />
+              <img
+                src="/homepage/linkedInLogo.svg"
+                onClick={() =>
+                  window.open(
+                    "https://au.linkedin.com/company/cocoon-luxury-properties"
+                  )
+                }
+              />
+              <img
+                src="/homepage/twitterLogo.svg"
+                onClick={() =>
+                  window.open(
+                    "https://www.instagram.com/cocoonluxuryproperties/"
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
       </div>

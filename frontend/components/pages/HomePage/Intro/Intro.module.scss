@@ -30,3 +30,25 @@
     height: 400px;
   }
 }
+
+@media (max-width: 768px) {
+  .intro {
+    @apply mt-[80px] pt-[80px] pb-16;
+    .introContainer {
+      @apply flex-col px-8 flex-col-reverse gap-10;
+      .leftContent {
+        .title {
+          font-size: 32px;
+          line-height: 40px;
+        }
+        .description {
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+    }
+    img {
+      @apply w-full h-[195px];
+    }
+  }
+}

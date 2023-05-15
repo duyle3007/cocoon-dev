@@ -87,3 +87,18 @@
     padding-block: 10px !important;
   }
 }
+
+@media (max-width: 768px) {
+  .headerContainer {
+    .logo {
+      @apply h-6;
+    }
+    .headerContent {
+      @apply w-full mx-8 mt-8 pb-8;
+      .contactInfo,
+      .headerMenu {
+        @apply hidden;
+      }
+    }
+  }
+}

@@ -1,9 +1,14 @@
 import { Button } from "antd";
+import { isMobile } from "@/utils/utils";
+
 import styles from "./Headline.module.scss";
 
 const Headline = () => {
   return (
     <div className={styles.headline}>
+      {isMobile() && (
+        <div className={styles.title}>COCOON LUXURY PROPERTIES</div>
+      )}
       <div className={styles.leftHeadline}>
         <div>
           At Cocoon Luxury Properties we specialise in renting luxury homes in
@@ -16,7 +21,9 @@ const Headline = () => {
       </div>
 
       <div className={styles.rightHeadline}>
-        <div className={styles.title}>COCOON LUXURY PROPERTIES</div>
+        {!isMobile() && (
+          <div className={styles.title}>COCOON LUXURY PROPERTIES</div>
+        )}
         <Button>ABOUT US</Button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 import HotelCard from "../../../HotelCard/HotelCard";
 
 import styles from "./Photoshoot.module.scss";
+import Link from "next/link";
 
 const DATA = [
   {
@@ -49,12 +50,14 @@ const Photoshoot = () => {
           <div>PHOTOSHOOTS</div>
           <div>Only Available for Photoshoots, Filming and TV Production.</div>
         </div>
-        <div className={styles.rightHeader}>
-          CHECK ALL
-          <span>
-            <ArrowRightOutlined />
-          </span>
-        </div>
+        <Link href="/search#photoshoots">
+          <div className={styles.rightHeader}>
+            CHECK ALL
+            <span>
+              <ArrowRightOutlined />
+            </span>
+          </div>
+        </Link>
       </div>
 
       <div className={styles.listHotel}>
@@ -63,6 +66,15 @@ const Photoshoot = () => {
             <HotelCard item={hotel} key={index} className={styles.hotel} />
           ))}
       </div>
+
+      <Link href="/search#photoshoots">
+        <div className={styles.checkAll}>
+          CHECK ALL
+          <span>
+            <ArrowRightOutlined />
+          </span>
+        </div>
+      </Link>
     </div>
   );
 };

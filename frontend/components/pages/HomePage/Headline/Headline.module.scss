@@ -16,12 +16,36 @@
       margin-bottom: 35px;
     }
     button {
-      @apply px-[92px] py-[18px] h-auto text-white text-xs rounded-none;
+      @apply px-[92px] h-[50px] text-white text-xs rounded-none;
       background-color: #90744f;
       font-family: Whitney;
       &:hover {
         @apply text-white;
         border-color: #90744f;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .headline {
+    @apply flex-col pt-20 px-8 gap-8;
+    .title {
+      font-family: "Goudy Old Style";
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: 0.05em;
+      color: #404040;
+    }
+    .leftHeadline {
+      @apply w-full;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .rightHeadline {
+      button {
+        @apply px-[52px];
       }
     }
   }

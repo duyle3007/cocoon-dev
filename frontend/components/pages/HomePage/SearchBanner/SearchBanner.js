@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "@/components/Image/Image";
 import GuestDropdown from "./GuestDropdown/GuestDropdown";
+import { isMobile } from "@/utils/utils";
 
 import styles from "./SearchBanner.module.scss";
 
@@ -52,6 +53,13 @@ const SearchBanner = () => {
     setGuestNumber(selectedGuest);
   };
 
+  if (isMobile()) {
+    return (
+      <Link href="/search" className={styles.searchMobile}>
+        <Button className={styles.searchBtn}>SEARCH</Button>
+      </Link>
+    );
+  }
   return (
     <div className={styles.searchBanner}>
       <div className={styles.searchItem}>
