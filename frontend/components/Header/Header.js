@@ -8,7 +8,7 @@ import Drawer from "./Drawer/Drawer";
 
 import styles from "./Header.module.scss";
 
-const DESTINATION_LIST = [
+export const DESTINATION_LIST = [
   {
     key: "1",
     label: <Link href="/search?destination=all">All destinations</Link>,
@@ -75,7 +75,7 @@ const DESTINATION_LIST = [
   },
 ];
 
-const AUSTRALIA_LIST = [
+export const AUSTRALIA_LIST = [
   {
     key: "1",
     label: <Link href="/search?villaType=private">Private Villas</Link>,
