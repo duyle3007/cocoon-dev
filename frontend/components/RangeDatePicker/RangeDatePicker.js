@@ -20,7 +20,7 @@ const RangeDatePicker = ({ onSelect }) => {
     if (momentStartDate && momentEndDate && onSelect) {
       onSelect([momentStartDate, momentEndDate]);
     }
-  }, [momentStartDate, momentEndDate, onSelect]);
+  }, [momentStartDate, momentEndDate]);
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);

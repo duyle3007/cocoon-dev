@@ -27,6 +27,9 @@
       color: #404040;
     }
   }
+  .doubleCalendar {
+    @apply flex
+  }
   .chooseDate {
     @apply flex flex-col gap-5 py-6 px-8 bg-white w-full;
   }
@@ -92,6 +95,7 @@
   }
   :global(.react-calendar) {
     @apply p-4;
+    border: none
   }
   :global(.react-calendar__navigation__label__divider) {
     display: none;
@@ -118,8 +122,9 @@
   :global(.react-calendar__month-view__days__day:disabled:first-child) {
     background: red;
   }
+  
   :global(.react-calendar__navigation__label) {
-    @apply flex px-[48px] justify-between items-center;
+    @apply flex px-0 justify-center items-center ;
     font-family: "Whitney";
     font-weight: 500;
     font-size: 14px;
@@ -127,6 +132,7 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #404040;
+    pointer-events: none;
   }
   :global(.react-calendar__month-view__weekdays__weekday) {
     font-family: "Whitney Book";
@@ -180,5 +186,13 @@
   :global(.react-calendar__tile--rangeEnd > abbr),
   :global(.react-calendar__tile--rangeStart > abbr) {
     @apply z-[1];
+  }
+}
+
+@media (max-width: 767px) {
+  .calendar {
+    .doubleCalendar {
+      @apply flex-col
+    }
   }
 }
