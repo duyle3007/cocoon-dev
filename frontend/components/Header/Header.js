@@ -20,41 +20,123 @@ export const DESTINATION_LIST = [
     children: [
       {
         key: "2-1",
-        label: "North Queensland (65)",
+        label: "North Queensland",
         children: [
           {
             key: "2-1-1",
-            label: "Manly (12)",
+            label: "Manly ",
           },
           {
             key: "2-1-2",
-            label: "Vaucluse (13)",
+            label: "Vaucluse ",
           },
           {
             key: "2-1-3",
-            label: "Point Piper (4)",
+            label: "Point Piper ",
           },
         ],
       },
       {
         key: "2-2",
-        label: "Central Sydney",
-      },
-      {
-        key: "2-3",
-        label: "Eastern Suburbs",
-      },
-      {
-        key: "2-4",
-        label: "Eastern Suburbs Beach",
-      },
-      {
-        key: "2-5",
         label: "Bryon Bay",
       },
       {
+        key: "2-3",
+        label: "Victoria",
+      },
+      {
+        key: "2-4",
+        label: "Sydney with beaches",
+      },
+      {
+        key: "2-5",
+        label: "Sydney",
+        children: [
+          {
+            key: "2-5-1",
+            label: "Manly ",
+          },
+          {
+            key: "2-5-2",
+            label: "Vaucluse ",
+          },
+          {
+            key: "2-5-3",
+            label: "Point Piper ",
+          },
+          {
+            key: "2-5-4",
+            label: "Mosman ",
+          },
+          {
+            key: "2-5-5",
+            label: "Bronte ",
+          },
+          {
+            key: "2-5-6",
+            label: "Balmoral Beach ",
+          },
+          {
+            key: "2-5-7",
+            label: "Bellevue Hill ",
+          },
+          {
+            key: "2-5-8",
+            label: "Bondi Beach ",
+          },
+          {
+            key: "2-5-9",
+            label: "Coogee ",
+          },
+          {
+            key: "2-5-10",
+            label: "Darling Point ",
+          },
+          {
+            key: "2-5-11",
+            label: "Darlinghurst ",
+          },
+          {
+            key: "2-5-12",
+            label: "Double Bay ",
+          },
+          {
+            key: "2-5-13",
+            label: "Rose Bay ",
+          },
+          {
+            key: "2-5-14",
+            label: "Tamarama ",
+          },
+          {
+            key: "2-5-15",
+            label: "Potts Point ",
+          },
+          {
+            key: "2-5-16",
+            label: "Gordon Bay ",
+          },
+          {
+            key: "2-5-17",
+            label: "Woollahra ",
+          },
+          {
+            key: "2-5-18",
+            label: "Watsons Bay ",
+          },
+          {
+            key: "2-5-19",
+            label: "Balgowlah Heights ",
+          },
+          {
+            key: "2-5-20",
+            label: "Kensington ",
+          },
+        ],
+      },
+      {
         key: "2-6",
-        label: "Hunter Valley",
+        label: "Port Stephens",
       },
       {
         key: "2-7",
@@ -64,6 +146,14 @@ export const DESTINATION_LIST = [
         key: "2-8",
         label: "Noosa",
       },
+      {
+        key: "2-9",
+        label: "Melbource",
+      },
+      {
+        key: "2-10",
+        label: "Southern NSW Coast & Highlands",
+      },
     ],
   },
   {
@@ -72,7 +162,7 @@ export const DESTINATION_LIST = [
     children: [
       {
         key: "3-1",
-        label: "North Queensland (65)",
+        label: "North Queensland ",
         children: [
           {
             key: "3-1-1",
@@ -120,11 +210,17 @@ export const DESTINATION_LIST = [
   },
   {
     key: "4",
-    label: <Link href="/search?destination=france">France</Link>,
+    label: "BALI",
+    children: [
+      {
+        key: "4-1",
+        label: "North Queensland (65)",
+      },
+    ],
   },
   {
     key: "5",
-    label: <Link href="/search?destination=egypt">Egypt</Link>,
+    label: <Link href="/search?destination=thailand">THAILAND</Link>,
   },
   {
     key: "6",
@@ -132,7 +228,11 @@ export const DESTINATION_LIST = [
   },
   {
     key: "7",
-    label: <Link href="/search?destination=egypt">Egypt</Link>,
+    label: <Link href="/search?destination=italy">ITALY</Link>,
+  },
+  {
+    key: "8",
+    label: <Link href="/search?destination=greece">GREECE</Link>,
   },
 ];
 

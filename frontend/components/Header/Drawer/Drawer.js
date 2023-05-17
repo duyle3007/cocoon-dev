@@ -1,4 +1,9 @@
-import { MenuOutlined, CloseOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  CloseOutlined,
+  RightOutlined,
+  LeftOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { Collapse, Drawer as DrawerAnt, Input } from "antd";
 import { useRouter } from "next/router";
@@ -15,7 +20,39 @@ const Drawer = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [renderCollapseChildren, setRenderCollapseChildren] = useState(null);
 
-  const goBack = () => {};
+  const goBack = (destination) => {
+    const levelChildren = destination.key.split("-");
+    if (levelChildren.length === 1) {
+      setRenderCollapseChildren(null);
+    } else {
+      const parentDestination = DESTINATION_LIST[levelChildren[0] - 1];
+      const destinationChildrenHtml = (
+        <div className="flex gap-3 items-start mt-12">
+          <LeftOutlined
+            onClick={() => goBack(parentDestination)}
+            className="text-[24px] text-white"
+          />
+
+          <div className={styles.collapseList}>
+            <div className="flex gap-3">
+              <h4 onClick={(e) => e.preventDefault()}>
+                {parentDestination.label}
+              </h4>
+            </div>
+
+            {parentDestination.children.map((child, index) => (
+              <div className="flex justify-between w-full" key={index}>
+                <p onClick={() => goTo(child.url, child)}>{child.label}</p>
+                <RightOutlined className={styles.rightArrow} />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+
+      setRenderCollapseChildren(destinationChildrenHtml);
+    }
+  };
 
   const goTo = (url, destination) => {
     if (url) {
@@ -24,15 +61,23 @@ const Drawer = () => {
       setRenderCollapseChildren(null);
     } else if (destination.children?.length > 0) {
       const destinationChildrenHtml = (
-        <div className={styles.collapseList}>
-          <div className="flex gap-3">
-            <LeftOutlined onClick={() => goBack(destination)} />
-            <h4 onClick={(e) => e.preventDefault()}>{destination.label}</h4>
-          </div>
+        <div className="flex gap-3 items-start mt-12">
+          <LeftOutlined
+            onClick={() => goBack(destination)}
+            className="text-[24px] text-white"
+          />
+          <div className={styles.collapseList}>
+            <div className="flex gap-3">
+              <h4 onClick={(e) => e.preventDefault()}>{destination.label}</h4>
+            </div>
 
-          {destination.children.map((child) => (
-            <p onClick={() => goTo(child.url, child)}>{child.label}</p>
-          ))}
+            {destination.children.map((child, index) => (
+              <div key={index} className="flex justify-between w-full">
+                <p onClick={() => goTo(child.url, child)}>{child.label}</p>
+                <RightOutlined className={styles.rightArrow} />
+              </div>
+            ))}
+          </div>
         </div>
       );
       setRenderCollapseChildren(destinationChildrenHtml);
@@ -70,8 +115,8 @@ const Drawer = () => {
                     <p>LUXURY LODGES</p>
                   </Panel>
                   <Panel header="DESTINATION" key="2">
-                    {DESTINATION_LIST.map((destination) => (
-                      <div className="flex justify-between w-full">
+                    {DESTINATION_LIST.map((destination, index) => (
+                      <div key={index} className="flex justify-between w-full">
                         <div
                           className="w-full"
                           onClick={() => goTo(destination.url, destination)}
