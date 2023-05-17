@@ -12,6 +12,7 @@ export const DESTINATION_LIST = [
   {
     key: "1",
     label: <Link href="/search?destination=all">All destinations</Link>,
+    url: "/search?destination=all",
   },
   {
     key: "2",
@@ -67,10 +68,70 @@ export const DESTINATION_LIST = [
   },
   {
     key: "3",
-    label: <Link href="/search?destination=france">France</Link>,
+    label: "NEW ZEALAND",
+    children: [
+      {
+        key: "3-1",
+        label: "North Queensland (65)",
+        children: [
+          {
+            key: "3-1-1",
+            label: "Manly (12)",
+          },
+          {
+            key: "3-1-2",
+            label: "Vaucluse (13)",
+          },
+          {
+            key: "3-1-3",
+            label: "Point Piper (4)",
+          },
+        ],
+      },
+      {
+        key: "3-2",
+        label: "Central Sydney",
+      },
+      {
+        key: "3-3",
+        label: "Eastern Suburbs",
+      },
+      {
+        key: "3-4",
+        label: "Eastern Suburbs Beach",
+      },
+      {
+        key: "3-5",
+        label: "Bryon Bay",
+      },
+      {
+        key: "3-6",
+        label: "Hunter Valley",
+      },
+      {
+        key: "3-7",
+        label: "Gold Coast",
+      },
+      {
+        key: "3-8",
+        label: "Noosa",
+      },
+    ],
   },
   {
     key: "4",
+    label: <Link href="/search?destination=france">France</Link>,
+  },
+  {
+    key: "5",
+    label: <Link href="/search?destination=egypt">Egypt</Link>,
+  },
+  {
+    key: "6",
+    label: <Link href="/search?destination=france">France</Link>,
+  },
+  {
+    key: "7",
     label: <Link href="/search?destination=egypt">Egypt</Link>,
   },
 ];
