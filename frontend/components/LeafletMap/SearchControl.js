@@ -12,6 +12,7 @@ import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector
 
 import styles from "./SearchControl.module.scss";
 import { useRouter } from "next/router";
+import { isMobile } from "@/utils/utils";
 
 const { Option } = Select;
 
@@ -96,6 +97,7 @@ const SearchControl = ({
       >
         {!mode && (
           <div className={styles.topSearch}>
+            {isMobile() && <LeftOutlined onClick={() => router.back()} />}
             <div className={styles.tabBar}>
               <div
                 className={`${styles.tab} ${
@@ -113,7 +115,7 @@ const SearchControl = ({
               >
                 PHOTOSHOOTS/EVENTS
               </div>
-              <LeftOutlined onClick={onMinimize} />
+              {!isMobile() && <LeftOutlined onClick={onMinimize} />}
             </div>
           </div>
         )}

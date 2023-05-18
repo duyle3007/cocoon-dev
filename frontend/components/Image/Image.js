@@ -2,9 +2,12 @@ import * as NextImage from "next/image";
 
 import styles from "./Image.module.scss";
 
-const Image = ({ src, className }) => {
+const Image = ({ src, className, style }) => {
   return (
-    <div className={`${styles.imageContainer} ${className && className}`}>
+    <div
+      className={`${styles.imageContainer} ${className && className}`}
+      style={style}
+    >
       <NextImage
         src={src}
         className={`${styles.nextImage} `}

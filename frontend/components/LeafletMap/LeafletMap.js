@@ -281,6 +281,7 @@ const LeafletMap = ({ mode }) => {
           </div>
         ) : (
           <MapControl
+            listLocation={listLocation}
             searchType={searchType}
             onChangeSearchType={setSearchType}
           />

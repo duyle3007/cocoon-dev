@@ -15,3 +15,9 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .searchByFilter {
+    @apply px-5;
+  }
+}

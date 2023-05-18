@@ -202,3 +202,23 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .searchControl {
+    .topSearch {
+      @apply px-8 items-start;
+      svg {
+        @apply mr-6;
+      }
+      .tabBar {
+        @apply gap-6;
+        .tab {
+          @apply pb-4;
+        }
+      }
+    }
+    .searchWrapper {
+      @apply hidden;
+    }
+  }
+}
