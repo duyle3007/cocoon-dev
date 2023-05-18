@@ -50,7 +50,7 @@ const Event = () => {
           <div>EVENTS</div>
           <div>Only available for Corporate Events.</div>
         </div>
-        <Link href="/search">
+        <Link href="/photoshoots">
           <div className={styles.rightHeader}>
             CHECK ALL
             <span>

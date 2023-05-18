@@ -19,12 +19,25 @@
     @apply relative flex flex-1 h-auto;
   }
   .searchTitle {
-    @apply absolute top-10 left-0 flex px-[70px];
+    @apply absolute top-10 left-0 flex px-[70px] gap-[236px] items-center;
     font-family: "Goudy Old Style";
     font-weight: 400;
     font-size: 40px;
     line-height: 48px;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
+    .note {
+      @apply flex flex-col gap-1;
+      font-size: 14px;
+      line-height: 20px;
+      font-family: "Whitney Book";
+      font-weight: 500;
+      letter-spacing: 0.006em;
+    }
+    .noteItem {
+      @apply flex gap-2 items-start;
+      svg {
+        @apply w-3 h-3 mt-1 text-[#90744F];
+      }
+    }
   }
 }

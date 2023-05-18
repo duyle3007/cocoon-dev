@@ -1,6 +1,9 @@
 import { useState } from "react";
-import styles from "./Service.module.scss";
+
 import ServiceSelection from "./ServiceSelection";
+import { isMobile } from "@/utils/utils";
+
+import styles from "./Service.module.scss";
 
 export const SERVICE_LIST = {
   CATERING: { image: "/homepage/cateringService.png", name: "catering" },
@@ -17,14 +20,27 @@ const Service = () => {
   return (
     <div className={styles.serviceContainer}>
       <div className={styles.extra}>
+        {isMobile() && (
+          <div className="w-full">
+            <h4>EXTRAS</h4>
+            <div className={styles.subTitle}>
+              We work with you on your requirements and ensure everything is
+              exactly as you need it for a perfect event.
+            </div>
+          </div>
+        )}
         <img src={selectedService?.image} />
 
         <div className={styles.serviceSelection}>
-          <h4>EXTRAS</h4>
-          <div className={styles.subTitle}>
-            We work with you on your requirements and ensure everything is
-            exactly as you need it for a perfect event.
-          </div>
+          {!isMobile() && (
+            <>
+              <h4>EXTRAS</h4>
+              <div className={styles.subTitle}>
+                We work with you on your requirements and ensure everything is
+                exactly as you need it for a perfect event.
+              </div>
+            </>
+          )}
           <ServiceSelection
             selectedService={selectedService}
             onChange={onSelectService}

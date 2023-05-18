@@ -50,7 +50,7 @@ const Photoshoot = () => {
           <div>PHOTOSHOOTS</div>
           <div>Only Available for Photoshoots, Filming and TV Production.</div>
         </div>
-        <Link href="/search#photoshoots">
+        <Link href="/photoshoots">
           <div className={styles.rightHeader}>
             CHECK ALL
             <span>

@@ -98,3 +98,69 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .aboutUsPage {
+    h4 {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .upperIntro {
+      @apply px-8 mt-8 gap-14;
+      :global(.ant-divider) {
+        @apply my-4;
+      }
+    }
+    .content {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .properties {
+      @apply flex-col gap-6;
+      .right {
+        @apply w-full;
+      }
+      .left {
+        @apply w-full;
+      }
+      &:first-child {
+        @apply flex-col-reverse;
+      }
+    }
+    .firstBanner {
+      @apply h-[365px] w-full;
+    }
+    .secondBanner {
+      @apply h-[205px] w-full;
+    }
+    .thirdBanner {
+      @apply h-[177px] w-full;
+    }
+    .location {
+      @apply flex-col-reverse gap-6;
+      .left {
+        @apply w-full;
+      }
+      .right {
+        @apply w-full;
+      }
+    }
+    .benefit {
+      @apply px-0 items-start;
+      .sub {
+        @apply p-0 mt-4 mb-6 text-start;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.006em;
+      }
+      .benefitDetail {
+        .item {
+          @apply gap-4;
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

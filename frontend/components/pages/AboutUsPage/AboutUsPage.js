@@ -91,12 +91,14 @@ const AboutUsPage = () => {
           <div className={styles.benefitDetail}>
             <div className={styles.item}>
               <Image src="/aboutUsPage/benefitIcon.svg" />
-              Our properties are immaculately clean
+              <span>Our properties are immaculately clean</span>
             </div>
             <div className={styles.item}>
               <Image src="/aboutUsPage/benefitIcon.svg" />
-              We can provide catering and extra cleaning and transport if
-              required, just ask.
+              <span>
+                We can provide catering and extra cleaning and transport if
+                required, just ask.
+              </span>
             </div>
             <div className={styles.item}>
               <Image src="/aboutUsPage/benefitIcon.svg" />
@@ -107,7 +109,10 @@ const AboutUsPage = () => {
             </div>
             <div className={styles.item}>
               <Image src="/aboutUsPage/benefitIcon.svg" />
-              Our properties create a unique, memorable and intimate experience.
+              <span>
+                Our properties create a unique, memorable and intimate
+                experience.
+              </span>
             </div>
           </div>
         </div>

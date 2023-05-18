@@ -9,7 +9,10 @@ const SearchByFilter = ({ listLocation, mode }) => {
   const [sortValue, setSortValue] = useState("RELEVANCE");
 
   return (
-    <div className={styles.searchByFilter}>
+    <div
+      className={styles.searchByFilter}
+      style={mode === "photoshoot" ? { paddingTop: "196px" } : {}}
+    >
       <div className="flex w-full justify-between items-center mb-[25px] h-fit">
         <div className="text-xs gap-1">{listLocation.length} PROPERTIES</div>
 
