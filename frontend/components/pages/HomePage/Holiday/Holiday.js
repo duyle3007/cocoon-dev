@@ -51,7 +51,7 @@ const Holiday = () => {
           <div>Holiday</div>
           <div>All activities are allowed.</div>
         </div>
-        <Link href="/search">
+        <Link href="/holiday">
           <div className={styles.rightHeader}>
             CHECK ALL
             <span>
@@ -71,7 +71,7 @@ const Holiday = () => {
             ))}
       </div>
       {isMobile() && (
-        <Link href="/search">
+        <Link href="/holiday">
           <div className={styles.checkAll}>
             CHECK ALL
             <span>

@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useState, useRef } from "react";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
@@ -191,7 +192,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/map/marker-shadow.png",
 });
 
-const LeafletMap = () => {
+const LeafletMap = ({ mode }) => {
   const mapRef = useRef();
   const leafletRef = useRef();
   const [listLocation, setListLocation] = useState(addressPoints);
@@ -230,10 +231,11 @@ const LeafletMap = () => {
         handleReinitClick={() => {
           leafletRef.current?.invalidateSize();
         }}
+        mode={mode}
       />
       <div className={styles.right}>
         {searchType === "filter" ? (
-          <SearchByFilter listLocation={listLocation} />
+          <SearchByFilter listLocation={listLocation} mode={mode} />
         ) : (
           <MapContainer
             center={
@@ -253,11 +255,36 @@ const LeafletMap = () => {
             <MarkerCluster ref={mapRef} markers={listLocation} />
           </MapContainer>
         )}
-
-        <MapControl
-          searchType={searchType}
-          onChangeSearchType={setSearchType}
-        />
+        {mode ? (
+          <div className={styles.searchTitle}>
+            {mode === "holiday"
+              ? "HOLIDAYS PROPERTIES"
+              : mode === "photoshoot"
+              ? "PHOTOSHOOTS AND EVENTS"
+              : "HOLIDAYS VILLAS IN SYNDNEY"}
+            {mode === "photoshoot" && (
+              <div className={styles.note}>
+                <div className={styles.noteItem}>
+                  <CheckOutlined /> Only Available for Photoshoots, Filming and
+                  TV Production.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined /> Strictly No Parties are allowed.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined />
+                  No Engagement Parties, No Birthday Parties, No Hens or Bucks
+                  Parties.
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <MapControl
+            searchType={searchType}
+            onChangeSearchType={setSearchType}
+          />
+        )}
       </div>
     </div>
   );

@@ -296,9 +296,9 @@ const Header = () => {
             </div>
           </Dropdown>
           <Link
-            href="/search#photoshoots"
+            href="/photoshoots"
             className={
-              router.asPath === "/search#photoshoots"
+              router.asPath === "/photoshoots"
                 ? styles.activeBlack
                 : styles.nonActive
             }
@@ -324,7 +324,7 @@ const Header = () => {
               router.push(`/search?searchValue=${e.target.value}`)
             }
           />
-          <Link href="/enquiry">
+          <Link href="/holiday-sydney">
             <span
               className={`${styles.bookBtn} ${
                 !isHomepage && styles.bookBtnBlack

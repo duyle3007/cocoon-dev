@@ -5,7 +5,7 @@ import FilterCard from "./FilterCard/FilterCard";
 
 import styles from "./SearchByFilter.module.scss";
 
-const SearchByFilter = ({ listLocation }) => {
+const SearchByFilter = ({ listLocation, mode }) => {
   const [sortValue, setSortValue] = useState("RELEVANCE");
 
   return (

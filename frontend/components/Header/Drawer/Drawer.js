@@ -27,7 +27,7 @@ const Drawer = () => {
     } else {
       const parentDestination = DESTINATION_LIST[levelChildren[0] - 1];
       const destinationChildrenHtml = (
-        <div className="flex gap-3 items-start mt-12">
+        <div className="flex gap-3 items-start mt-12 px-8">
           <LeftOutlined
             onClick={() => goBack(parentDestination)}
             className="text-[24px] text-white"
@@ -61,7 +61,7 @@ const Drawer = () => {
       setRenderCollapseChildren(null);
     } else if (destination.children?.length > 0) {
       const destinationChildrenHtml = (
-        <div className="flex gap-3 items-start mt-12">
+        <div className="flex gap-3 items-start mt-12 px-8">
           <LeftOutlined
             onClick={() => goBack(destination)}
             className="text-[24px] text-white"
@@ -95,9 +95,14 @@ const Drawer = () => {
       >
         <div className={styles.drawerWrapper}>
           <div className="max-h-[90%] flex flex-col overflow-auto">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center px-8">
               <Image src="/logo.svg" className={styles.logo} />
-              <CloseOutlined onClick={() => setOpenDrawer(false)} />
+              <CloseOutlined
+                onClick={() => {
+                  setOpenDrawer(false);
+                  setRenderCollapseChildren(null);
+                }}
+              />
             </div>
             <Input
               placeholder="Villa name or Location..."

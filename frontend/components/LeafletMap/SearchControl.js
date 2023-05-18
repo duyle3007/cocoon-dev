@@ -30,6 +30,7 @@ const SearchControl = ({
   onClick,
   handleReinitClick,
   searchType,
+  mode,
 }) => {
   const router = useRouter();
 
@@ -93,27 +94,30 @@ const SearchControl = ({
           isMinimized ? styles.minimized : ""
         }`}
       >
-        <div className={styles.topSearch}>
-          <div className={styles.tabBar}>
-            <div
-              className={`${styles.tab} ${
-                tabActive === "holiday" && styles.active
-              }`}
-              onClick={() => setTabActive("holiday")}
-            >
-              HOLIDAYS
+        {!mode && (
+          <div className={styles.topSearch}>
+            <div className={styles.tabBar}>
+              <div
+                className={`${styles.tab} ${
+                  tabActive === "holiday" && styles.active
+                }`}
+                onClick={() => setTabActive("holiday")}
+              >
+                HOLIDAYS
+              </div>
+              <div
+                className={`${styles.tab} ${
+                  tabActive === "photoshoots" && styles.active
+                }`}
+                onClick={() => setTabActive("photoshoots")}
+              >
+                PHOTOSHOOTS/EVENTS
+              </div>
+              <LeftOutlined onClick={onMinimize} />
             </div>
-            <div
-              className={`${styles.tab} ${
-                tabActive === "photoshoots" && styles.active
-              }`}
-              onClick={() => setTabActive("photoshoots")}
-            >
-              PHOTOSHOOTS/EVENTS
-            </div>
-            <LeftOutlined onClick={onMinimize} />
           </div>
-        </div>
+        )}
+
         {searchType === "filter" ? (
           <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>

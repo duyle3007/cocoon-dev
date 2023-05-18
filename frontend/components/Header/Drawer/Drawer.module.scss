@@ -16,7 +16,7 @@
     }
   }
   .searchVilla {
-    @apply pt-8 pb-4;
+    @apply pt-8 pb-4 mx-8 w-auto;
     font-family: "Whitney Book";
     font-weight: 500;
     font-size: 16px;
@@ -33,7 +33,7 @@
   }
 
   .drawerList {
-    @apply flex flex-col gap-6 mt-12;
+    @apply flex flex-col gap-6 mt-12 px-8;
     font-family: "Goudy Old Style";
     font-weight: 400;
     font-size: 24px;
@@ -60,7 +60,7 @@
     @apply w-4 h-4 text-white;
   }
   .footer {
-    @apply flex justify-between items-center;
+    @apply flex justify-between items-center px-8;
     .socialMedia {
       @apply flex items-center gap-5;
       filter: invert(100%) sepia(7%) saturate(0%) hue-rotate(13deg)
@@ -88,6 +88,9 @@
     color: #ffffff;
     border-radius: 0 !important;
     width: fit-content;
+  }
+  :global(.ant-drawer-body) {
+    @apply p-0 py-8;
   }
   :global(.ant-collapse-item-active > .ant-collapse-header) {
     color: #bc9562 !important;
