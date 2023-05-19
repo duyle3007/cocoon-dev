@@ -1,6 +1,9 @@
 .searchByFilter {
   @apply bg-[#F2EEE8] pt-[118px] px-[70px] pb-10 flex-1 flex flex-col;
   font-family: "Whitney";
+  .headResult {
+    @apply flex w-full justify-between items-center mb-[25px] h-fit;
+  }
   .filterResult {
     @apply flex flex-col gap-4 overflow-auto;
   }
@@ -18,6 +21,12 @@
 
 @media (max-width: 768px) {
   .searchByFilter {
-    @apply px-5;
+    @apply px-5 pt-5 overflow-auto;
+    .headResult {
+      @apply hidden;
+    }
+    .filterResult {
+      overflow: initial;
+    }
   }
 }

@@ -283,7 +283,7 @@ const Header = () => {
           >
             <div className={styles.dropdown}>
               AUSTRALIA
-              <img src="/downArrow.svg" />
+              <Image src="/downArrow.svg" />
             </div>
           </Dropdown>
           <Dropdown
@@ -292,7 +292,7 @@ const Header = () => {
           >
             <div className={styles.dropdown}>
               DESTINATION
-              <img src="/downArrow.svg" />
+              <Image src="/downArrow.svg" />
             </div>
           </Dropdown>
           <Link

@@ -13,7 +13,7 @@ const SearchByFilter = ({ listLocation, mode }) => {
       className={styles.searchByFilter}
       style={mode === "photoshoot" ? { paddingTop: "196px" } : {}}
     >
-      <div className="flex w-full justify-between items-center mb-[25px] h-fit">
+      <div className={styles.headResult}>
         <div className="text-xs gap-1">{listLocation.length} PROPERTIES</div>
 
         <div className="text-xs gap-1 flex items-center opacity-80 cursor-pointer text-[#404040]">

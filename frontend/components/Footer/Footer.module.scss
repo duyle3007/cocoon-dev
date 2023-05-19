@@ -120,6 +120,10 @@
     }
   }
 
+  .logo {
+    @apply h-8 w-[150px];
+  }
+
   .copyrightContainer {
     border-top: 1px solid #e8e8e8;
     .copyright {
@@ -168,6 +172,9 @@
       button {
         @apply w-full;
       }
+    }
+    .logo {
+      @apply h-6 w-[112px];
     }
     .cocoonInfo {
       @apply flex-col pt-8 px-8 gap-6 pb-8;

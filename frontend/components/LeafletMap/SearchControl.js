@@ -6,17 +6,18 @@ import {
   MinusOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
+import { isMobile } from "@/utils/utils";
+import MapCard from "./MapCard/MapCard";
 
 import styles from "./SearchControl.module.scss";
-import { useRouter } from "next/router";
-import { isMobile } from "@/utils/utils";
 
 const { Option } = Select;
 
-const LOCATION_LIST = [
+export const LOCATION_LIST = [
   { label: "All location", value: "all" },
   { label: "Beach holidays", value: "beach" },
   { label: "Beachfront", value: "beachfront" },
@@ -32,10 +33,11 @@ const SearchControl = ({
   handleReinitClick,
   searchType,
   mode,
+  tabActive,
+  setTabActive,
 }) => {
   const router = useRouter();
 
-  const [tabActive, setTabActive] = useState("holiday");
   const [isMinimized, setIsMinimized] = useState(false);
 
   // search value
@@ -275,25 +277,7 @@ const SearchControl = ({
             <div className={styles.searchResultList}>
               {listLocation.map((location, index) => {
                 return (
-                  <div
-                    className={styles.locationCard}
-                    key={index}
-                    onClick={() => onClick(location.lat, location.lng)}
-                  >
-                    <img src="/map/marker.svg" />
-                    <div className={styles.locationContent}>
-                      <div>{location.name}</div>
-                      <div className={styles.priceWrapper}>
-                        <div className={styles.price}>AU${location.price}</div>
-                        {location?.oldPrice && (
-                          <div className={styles.discountPrice}>
-                            AU${location.oldPrice}
-                          </div>
-                        )}
-                        <span> /NIGHT</span>
-                      </div>
-                    </div>
-                  </div>
+                  <MapCard key={index} location={location} onClick={onClick} />
                 );
               })}
             </div>

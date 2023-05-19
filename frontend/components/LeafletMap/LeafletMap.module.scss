@@ -44,6 +44,12 @@
 
 @media (max-width: 768px) {
   .mapContainer {
-    @apply flex-col;
+    @apply flex-col relative;
+    .right {
+      @apply flex-col-reverse h-full;
+    }
+    .mapResultMobile {
+      @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto;
+    }
   }
 }

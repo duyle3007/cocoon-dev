@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import styles from "./Footer.module.scss";
 import Link from "next/link";
+import Image from "../Image/Image";
 
 const Footer = () => {
   return (
@@ -16,7 +17,7 @@ const Footer = () => {
 
       <div className={styles.cocoonInfo}>
         <div className={styles.left}>
-          <img src="/blackLogo.svg" className={styles.logo} />
+          <Image src="/blackLogo.svg" className={styles.logo} />
           Cocoon Luxury Properties provides luxury homes for holiday and
           vacations, corporate events and photoshoots.
         </div>
@@ -33,19 +34,19 @@ const Footer = () => {
           <div className={styles.contact}>
             <h4>CONTACT US</h4>
             <div className={styles.info}>
-              <img src="/locationIcon.svg" />
+              <Image src="/locationIcon.svg" />
               90, Pitt St, Sydney, NSW 2000
             </div>
             <div className={styles.info}>
-              <img src="/phoneIcon.svg" />
+              <Image src="/phoneIcon.svg" />
               0407 008 176
             </div>
             <div className={styles.info}>
-              <img src="/emailIcon.svg" />
+              <Image src="/emailIcon.svg" />
               julian@cocoonluxuryproperties.com
             </div>
             <div className={styles.info}>
-              <img src="/emailIcon.svg" />
+              <Image src="/emailIcon.svg" />
               manish@cocoonluxuryproperties.com
             </div>
           </div>
@@ -71,7 +72,7 @@ const Footer = () => {
           <div className={styles.right}>
             <h5>Follow us on</h5>
             <div className={styles.socialMedia}>
-              <img
+              <Image
                 src="/homepage/facebookLogo.svg"
                 onClick={() =>
                   window.open(
@@ -79,7 +80,7 @@ const Footer = () => {
                   )
                 }
               />
-              <img
+              <Image
                 src="/homepage/youtubeLogo.svg"
                 onClick={() =>
                   window.open(
@@ -87,7 +88,7 @@ const Footer = () => {
                   )
                 }
               />
-              <img
+              <Image
                 src="/homepage/linkedInLogo.svg"
                 onClick={() =>
                   window.open(
@@ -95,7 +96,7 @@ const Footer = () => {
                   )
                 }
               />
-              <img
+              <Image
                 src="/homepage/twitterLogo.svg"
                 onClick={() =>
                   window.open(

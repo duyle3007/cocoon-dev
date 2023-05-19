@@ -7,7 +7,7 @@ import styles from "./MapControl.module.scss";
 import { isMobile } from "@/utils/utils";
 import Image from "@/components/Image/Image";
 
-const DESTINATION_LIST = [
+export const COUNTRY_LIST = [
   {
     name: "All destinations",
     value: "all",
@@ -17,16 +17,37 @@ const DESTINATION_LIST = [
     value: "australia",
   },
   {
+    name: "New Zealand",
+    value: "new_zealand",
+  },
+  {
+    name: "Bali",
+    value: "bali",
+  },
+  {
+    name: "Thailand",
+    value: "thai",
+  },
+  {
     name: "France",
     value: "france",
   },
   {
-    name: "Egypt",
-    value: "egypt",
+    name: "Italy",
+    value: "italy",
+  },
+  {
+    name: "Greece",
+    value: "greece",
   },
 ];
 
-const MapControl = ({ searchType, onChangeSearchType, listLocation }) => {
+const MapControl = ({
+  searchType,
+  onChangeSearchType,
+  listLocation,
+  onOpenFilter,
+}) => {
   const router = useRouter();
 
   const [destination, setDestination] = useState(null);
@@ -34,6 +55,8 @@ const MapControl = ({ searchType, onChangeSearchType, listLocation }) => {
   useEffect(() => {
     if (router.query.destination) {
       setDestination(router.query.destination);
+    } else {
+      setDestination(null);
     }
   }, [router]);
 
@@ -41,9 +64,12 @@ const MapControl = ({ searchType, onChangeSearchType, listLocation }) => {
     <div className={styles.mapControl}>
       {isMobile() ? (
         <div className="flex flex-col w-full">
-          <div className={styles.searchMobile}>
+          <div className={styles.searchMobile} onClick={onOpenFilter}>
             <Image src="/searchPage/whiteLocation.svg" className="mr-3" />
-            <span>{destination || "Choose  destination"}</span>
+            <span>
+              {COUNTRY_LIST.find((country) => country.value === destination)
+                ?.name || "Choose  destination"}
+            </span>
             <Image
               src="/searchPage/filterMobile.svg"
               className="right-4"
@@ -84,7 +110,7 @@ const MapControl = ({ searchType, onChangeSearchType, listLocation }) => {
             value={destination}
             prefix={<img src="/homepage/discoverIcon.svg" />}
             placeholder="Choose a destination"
-            options={DESTINATION_LIST}
+            options={COUNTRY_LIST}
             onChange={(value) => setDestination(value)}
           />
           <div className={styles.searchType}>

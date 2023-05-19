@@ -1,10 +1,11 @@
-import { DatePicker } from "antd";
+import { DatePicker, Form } from "antd";
 import { useEffect, useState } from "react";
 
 import styles from "./RangeDatePicker.module.scss";
-import moment from "moment";
 
-const RangeDatePicker = ({ onSelect }) => {
+const RangeDatePicker = ({ value, onSelect }) => {
+  const formRef = Form.useFormInstance();
+
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
 
@@ -19,15 +20,37 @@ const RangeDatePicker = ({ onSelect }) => {
   useEffect(() => {
     if (momentStartDate && momentEndDate && onSelect) {
       onSelect([momentStartDate, momentEndDate]);
+
+      // If this component is controlled by form
+      if (value) {
+        formRef.setFieldsValue({ rangeDate: [momentStartDate, momentEndDate] });
+      }
     }
   }, [momentStartDate, momentEndDate]);
 
+  useEffect(() => {
+    if (value) {
+      setMomentStartDate(value[0]);
+      setMomentEndDate(value[1]);
+    }
+  }, [value]);
+
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
+
+    // If this component is controlled by form
+    if (value) {
+      formRef.setFieldsValue({ rangeDate: [date, value[1]] });
+    }
   };
 
   const onChangeEndDay = (date) => {
     setMomentEndDate(date);
+
+    // If this component is controlled by form
+    if (value) {
+      formRef.setFieldsValue({ rangeDate: [value[0], date] });
+    }
   };
   return (
     <div className={styles.rangeDatePicker}>
@@ -37,6 +60,7 @@ const RangeDatePicker = ({ onSelect }) => {
           format="MMM DD, YYYY"
           disabledDate={disabledStartDate}
           onChange={onChangeStartDay}
+          value={momentStartDate}
         />
       </div>
 
@@ -46,6 +70,7 @@ const RangeDatePicker = ({ onSelect }) => {
           disabledDate={disabledEndDate}
           format="MMM DD, YYYY"
           onChange={onChangeEndDay}
+          value={momentEndDate}
         />
       </div>
     </div>

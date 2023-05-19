@@ -1,0 +1,108 @@
+.searchWrapper {
+  @apply pb-8 overflow-auto;
+  height: calc(100% - 71px);
+  .inputWrapper {
+    @apply px-10 pt-8 pb-10 gap-4 flex flex-col;
+    border-bottom: 1px solid rgba(64, 64, 64, 0.2);
+    .inputTitle {
+      @apply mb-2 text-sm text-[#333333];
+      font-family: "Whitney Book";
+      letter-spacing: 0.006em;
+    }
+  }
+  .input {
+    @apply p-4 rounded-none;
+    :global .ant-input-prefix {
+      @apply mr-[12px];
+    }
+    input {
+      font-family: "Whitney Book";
+    }
+  }
+  .villaTypeSelector {
+    @apply w-full;
+    :global(.ant-select-selector) {
+      @apply h-[50px] rounded-none;
+    }
+    :global(.ant-select-selection-item),
+    :global(.ant-select-selection-placeholder) {
+      @apply flex items-center;
+    }
+  }
+  .priceTitle {
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.07em;
+  }
+  .maxPrice {
+    font-family: "Whitney Book";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.006em;
+  }
+  :global(.ant-tooltip-inner) {
+    @apply bg-transparent text-black py-0;
+    box-shadow: none;
+  }
+  :global(.ant-tooltip-arrow) {
+    display: none;
+  }
+  :global(.ant-slider-track) {
+    background-color: #90744f;
+  }
+  :global(.ant-slider-handle-1:after),
+  :global(.ant-slider-handle-2:after),
+  :global(.ant-slider-handle:focus:after) {
+    background-color: #90744f;
+    border-color: #90744f;
+    box-shadow: none;
+  }
+  // :global(.ant-slider-handle-2:before) {
+  //   content: "-";
+
+  //   margin-top: -5px;
+  //   margin-left: 4px;
+  //   z-index: 1;
+  //   background-color: transparent;
+  // }
+  .featuresTitle {
+    @apply text-sm text-[#333333];
+    letter-spacing: 0.07em;
+    font-family: "Whitney";
+  }
+  .featureSelector {
+    @apply grid grid-flow-row grid-cols-2 gap-4;
+    :global(.ant-checkbox-inner) {
+      @apply w-6 h-6 rounded-none;
+    }
+    :global(.ant-checkbox-wrapper) {
+      @apply ml-0;
+    }
+  }
+  .locationSelector {
+    @apply px-3 py-1 text-base text-[#404040] opacity-50 rounded-2xl cursor-pointer;
+    border: 1px solid #e8e8e8;
+    font-family: "Whitney Book";
+    letter-spacing: 0.006em;
+  }
+  .selectedLocation {
+    @apply text-white bg-[#90744f] opacity-100;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchWrapper {
+    @apply pb-0;
+    .inputWrapper {
+    }
+    :global(.ant-form-item) {
+      @apply mb-0;
+    }
+    .locationSelector {
+      @apply mb-3;
+    }
+  }
+}

@@ -19,7 +19,7 @@ const FilterCard = ({ villa }) => {
           {villa.type && <div className={styles.tag}>{villa.type}</div>}
         </div>
 
-        <div className="flex flex-col h-[88px]">
+        <div className={styles.hotelDetail}>
           <div className={styles.infoWrapper}>
             <div className={styles.info}>
               <img src="/homepage/discoverIcon.svg" />

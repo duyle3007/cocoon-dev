@@ -1,14 +1,14 @@
+import Image from "../Image/Image";
 import styles from "./HotelCard.module.scss";
 
 const HotelCard = ({ item, className }) => {
   return (
     <div className={`${styles.hotelCard} ${className}`}>
-      
       <div className={styles.info}>
         <div className={styles.name}>{item?.name}</div>
         <div className={styles.priceAndLocation}>
           <div className="flex gap-2 items-center">
-            <img src="/homepage/dollarIcon.svg" />
+            <Image src="/homepage/dollarIcon.svg" />
             <div>
               {item?.price}
               <span> / night</span>
@@ -16,7 +16,7 @@ const HotelCard = ({ item, className }) => {
           </div>
 
           <div className="flex gap-2 items-center">
-            <img src="/homepage/mapIcon.svg" />
+            <Image src="/homepage/mapIcon.svg" />
             {item?.location}
           </div>
         </div>

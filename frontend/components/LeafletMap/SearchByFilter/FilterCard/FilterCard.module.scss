@@ -95,30 +95,47 @@
       }
     }
   }
+  .hotelDetail {
+    @apply flex flex-col h-[88px];
+  }
 }
 
 @media (max-width: 768px) {
   .filterCard {
     @apply flex-col;
     .content {
-      @apply p-4;
+      @apply p-4 gap-4;
       .headline {
         font-size: 16px;
         line-height: 19px;
+        .title {
+          font-size: 16px;
+          line-height: 19px;
+          letter-spacing: 0.05em;
+        }
       }
       .infoWrapper {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
       }
       .priceWrapper {
         @apply border-none pt-0;
       }
+      .description {
+      }
       .viewBtn {
-        @apply h-10 justify-center items-center flex px-4;
+        @apply h-10 justify-center items-center flex px-4 mt-0;
         font-size: 12px;
         line-height: 14px;
         letter-spacing: 0.05em;
       }
+    }
+    .slider {
+      @apply w-full;
+    }
+    .hotelDetail {
+      @apply h-auto;
     }
   }
 }

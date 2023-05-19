@@ -5,3 +5,9 @@
     @apply w-full;
   }
 }
+
+@media (max-width: 767px) {
+  .selectPrefix {
+    @apply py-3;
+  }
+}
