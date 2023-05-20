@@ -1,6 +1,7 @@
 .searchByFilter {
-  @apply bg-[#F2EEE8] pt-[118px] px-[70px] pb-10 flex-1 flex flex-col;
+  @apply bg-[#F2EEE8] pt-[118px] px-[70px] pb-10 flex-1 flex flex-col overflow-auto;
   font-family: "Whitney";
+
   .headResult {
     @apply flex w-full justify-between items-center mb-[25px] h-fit;
   }
@@ -19,9 +20,23 @@
   }
 }
 
+.photoshootPage {
+  @apply pt-[48px];
+}
+
 @media (max-width: 768px) {
   .searchByFilter {
     @apply px-5 pt-5 overflow-auto;
+    .resultNumMobile {
+      font-family: "Whitney";
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #404040;
+      margin-bottom: 20px;
+    }
     .headResult {
       @apply hidden;
     }

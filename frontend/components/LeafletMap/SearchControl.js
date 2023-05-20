@@ -123,7 +123,10 @@ const SearchControl = ({
         )}
 
         {searchType === "filter" ? (
-          <div className={styles.searchWrapper}>
+          <div
+            className={styles.searchWrapper}
+            style={mode ? { height: "100%" } : {}}
+          >
             <div className={styles.inputWrapper}>
               <Input
                 type="search"

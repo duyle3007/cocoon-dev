@@ -1,5 +1,11 @@
-import HolidaySydneyPage from "@/components/pages/HolidaySydneyPage/HolidaySydneyPage";
+import dynamic from "next/dynamic";
 
-export default function AboutUs() {
+const HolidaySydneyPage = dynamic(
+  () => import("@/components/pages/HolidaySydneyPage/HolidaySydneyPage"),
+  {
+    ssr: false,
+  }
+);
+export default function HolidaySydneyPageWrapper() {
   return <HolidaySydneyPage mode="sydney" />;
 }

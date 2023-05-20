@@ -16,10 +16,11 @@
   }
 
   .right {
-    @apply relative flex flex-1 h-auto;
+    @apply relative flex flex-col flex-1 h-auto;
   }
+
   .searchTitle {
-    @apply absolute top-10 left-0 flex px-[70px] gap-[236px] items-center;
+    @apply flex px-[70px] gap-[236px] bg-[#F2EEE8] items-center pt-10;
     font-family: "Goudy Old Style";
     font-weight: 400;
     font-size: 40px;
@@ -46,13 +47,14 @@
   .mapContainer {
     @apply flex-col relative;
     .searchTitle {
-      @apply flex-col px-5 items-start gap-2 relative bg-[#F2EEE8] top-0;
+      @apply flex-col px-5 pt-8 items-start gap-2 relative bg-[#F2EEE8] top-0;
       font-weight: 700;
       font-size: 20px;
       line-height: 24px;
     }
+
     .right {
-      @apply flex-col-reverse h-full;
+      @apply h-full;
     }
     .mapResultMobile {
       @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto;

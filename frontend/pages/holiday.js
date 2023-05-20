@@ -1,5 +1,11 @@
-import HolidayPage from "@/components/pages/HolidayPage/HolidayPage";
+import dynamic from "next/dynamic";
 
-export default function AboutUs() {
+const HolidayPage = dynamic(
+  () => import("@/components/pages/HolidayPage/HolidayPage"),
+  {
+    ssr: false,
+  }
+);
+export default function HolidayPageWrapper() {
   return <HolidayPage />;
 }

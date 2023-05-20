@@ -1,5 +1,12 @@
-import PhotoshootPage from "@/components/pages/PhotoshootPage/PhotoshootPage";
+import dynamic from "next/dynamic";
 
-export default function AboutUs() {
+const PhotoshootPage = dynamic(
+  () => import("@/components/pages/PhotoshootPage/PhotoshootPage"),
+  {
+    ssr: false,
+  }
+);
+
+export default function Photoshoots() {
   return <PhotoshootPage />;
 }

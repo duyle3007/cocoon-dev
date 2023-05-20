@@ -67,7 +67,7 @@ const Photoshoot = () => {
           ))}
       </div>
 
-      <Link href="/search#photoshoots">
+      <Link href="/photoshoots">
         <div className={styles.checkAll}>
           CHECK ALL
           <span>

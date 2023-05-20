@@ -21,7 +21,7 @@
     }
   }
   .searchWrapper {
-    @apply pb-8 overflow-auto;
+    @apply overflow-auto;
     height: calc(100% - 71px);
     .inputWrapper {
       @apply px-10 pt-8 pb-10 gap-4 flex flex-col;
@@ -171,7 +171,7 @@
       }
     }
     .searchWrapper {
-      @apply hidden;
+      @apply hidden pb-8;
     }
   }
 }
