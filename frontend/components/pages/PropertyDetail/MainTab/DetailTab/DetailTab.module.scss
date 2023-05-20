@@ -56,3 +56,15 @@
     color: #404040;
   }
 }
+
+@media (max-width: 768px) {
+  .detailTab {
+    @apply px-5 py-8;
+    .bedroomConfigure {
+      @apply grid-cols-1;
+      .bed {
+        @apply p-4;
+      }
+    }
+  }
+}

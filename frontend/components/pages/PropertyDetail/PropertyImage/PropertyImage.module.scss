@@ -3,10 +3,31 @@
   .slider {
     @apply h-[391px];
   }
+  .smallImageWrapper {
+    @apply grid grid-flow-row grid-cols-5 gap-4;
+  }
   .imageSmall {
     @apply h-[112px] w-full cursor-pointer;
   }
 }
 .placeholder {
   @apply h-[519px] w-[70%];
+}
+
+@media (max-width: 768px) {
+  .placeholder {
+    @apply w-full hidden;
+  }
+  .propertyImage {
+    @apply w-full relative;
+    .smallImageWrapper {
+      @apply grid-cols-3;
+    }
+    .slider {
+      @apply h-[235px];
+    }
+  }
+  .roomIcon {
+    @apply w-4 h-4;
+  }
 }

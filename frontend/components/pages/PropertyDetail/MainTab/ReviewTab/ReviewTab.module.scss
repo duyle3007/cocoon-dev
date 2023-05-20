@@ -22,6 +22,12 @@
     line-height: 20px;
     letter-spacing: 0.07em;
   }
+  .reviewTitle {
+    @apply flex justify-between items-start;
+  }
+  .avatarReview {
+    @apply h-12 w-12 rounded-full;
+  }
   .description {
     @apply mt-4 mb-3;
     font-family: "Whitney Book";
@@ -90,6 +96,35 @@
       brightness(95%) contrast(86%);
   }
   :global(.ant-btn) {
-    @apply h-[50px];
+    @apply h-[50px] uppercase;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewTab {
+    @apply px-5 py-6 gap-4;
+    .writeBtn {
+      @apply w-full;
+    }
+    .reviewCard {
+      @apply p-6;
+    }
+    .reviewTitle {
+      @apply flex-col;
+    }
+    .avatarReview {
+      @apply h-12 w-12;
+    }
+    .date {
+      @apply mt-2 ml-[68px];
+    }
+  }
+  .writeModal {
+    :global(.ant-modal-content) {
+      @apply w-full;
+    }
+    :global(.ant-btn) {
+      @apply text-sm capitalize;
+    }
   }
 }

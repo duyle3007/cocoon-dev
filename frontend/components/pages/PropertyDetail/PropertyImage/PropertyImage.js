@@ -3,6 +3,7 @@ import { Image } from "antd";
 import Slideshow from "../../HomePage/Slideshow/Slideshow";
 
 import styles from "./PropertyImage.module.scss";
+import { isMobile } from "@/utils/utils";
 
 const PropertyImage = ({ listImage }) => {
   const slideshowRef = useRef();
@@ -16,16 +17,30 @@ const PropertyImage = ({ listImage }) => {
           cardMode
           dots={true}
         />
-        <div className="grid grid-flow-row grid-cols-5 gap-4">
-          {listImage.slice(0, 5).map((image, index) => (
-            <Image
-              key={index}
-              src={image}
-              className={styles.imageSmall}
-              preview={false}
-              onClick={() => slideshowRef.current.goTo(index)}
-            />
-          ))}
+        <div className={styles.smallImageWrapper}>
+          {isMobile()
+            ? listImage
+                .slice(0, 3)
+                .map((image, index) => (
+                  <Image
+                    key={index}
+                    src={image}
+                    className={styles.imageSmall}
+                    preview={false}
+                    onClick={() => slideshowRef.current.goTo(index)}
+                  />
+                ))
+            : listImage
+                .slice(0, 5)
+                .map((image, index) => (
+                  <Image
+                    key={index}
+                    src={image}
+                    className={styles.imageSmall}
+                    preview={false}
+                    onClick={() => slideshowRef.current.goTo(index)}
+                  />
+                ))}
         </div>
       </div>
       <div className={styles.placeholder} />

@@ -23,3 +23,25 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .mainTab {
+    @apply mt-10;
+    :global(.ant-tabs-nav) {
+      @apply px-5;
+    }
+    .tabBar {
+      :global(.ant-tabs-tab > .ant-tabs-tab-btn) {
+        font-size: 16px;
+        line-height: 18px;
+        text-transform: capitalize;
+      }
+      :global(.ant-tabs-tab) {
+        @apply ml-4;
+        &:first-child {
+          @apply ml-0;
+        }
+      }
+    }
+  }
+}

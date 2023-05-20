@@ -131,7 +131,7 @@ const PropertyDetail = () => {
           },
         ]}
       />
-      <div className="flex gap-[82px]">
+      <div className={styles.propertyMainView}>
         <PropertyImage listImage={dumb_data.img} />
         <PropertyIntro info={dumb_data} />
       </div>

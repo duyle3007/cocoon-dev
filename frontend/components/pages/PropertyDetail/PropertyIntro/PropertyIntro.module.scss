@@ -9,6 +9,12 @@
     font-size: 30px;
     line-height: 40px;
   }
+  .nameAndPrice {
+    @apply flex justify-between mt-2;
+  }
+  .propertyLocation {
+    @apply text-base uppercase opacity-70 tracking-wider;
+  }
   .description {
     @apply mt-[38px];
     font-family: "Whitney Book";
@@ -28,6 +34,41 @@
       line-height: 24px;
       letter-spacing: 0.01em;
       color: #404040;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .propertyIntro {
+    @apply px-5;
+    .propertyLocation {
+      @apply text-xs;
+    }
+    .nameAndPrice {
+      @apply flex-col;
+    }
+    .roomInfo {
+      @apply grid grid-cols-2 mt-5;
+      .roomItem {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .name {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .price {
+      @apply flex items-end gap-1 mt-3 items-center;
+      font-size: 12px;
+      line-height: 14px;
+      h6 {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+    :global(.anticon-heart > svg) {
+      @apply h-6 w-6;
     }
   }
 }

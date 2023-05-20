@@ -1,9 +1,15 @@
+import { useRouter } from "next/router";
 import Image from "../Image/Image";
 import styles from "./HotelCard.module.scss";
 
 const HotelCard = ({ item, className }) => {
+  const router = useRouter();
+
   return (
-    <div className={`${styles.hotelCard} ${className}`}>
+    <div
+      className={`${styles.hotelCard} ${className}`}
+      onClick={() => router.push(`/properties/${item?.url}`)}
+    >
       <div className={styles.info}>
         <div className={styles.name}>{item?.name}</div>
         <div className={styles.priceAndLocation}>

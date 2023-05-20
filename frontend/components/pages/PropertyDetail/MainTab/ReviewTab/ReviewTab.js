@@ -9,16 +9,16 @@ const { TextArea } = Input;
 const ReviewCard = ({ review }) => {
   return (
     <div className={styles.reviewCard}>
-      <div className="flex justify-between items-start">
+      <div className={styles.reviewTitle}>
         <div className="flex gap-5 items-center">
-          <Image src={review.avatar} className="h-12 w-12 rounded-full" />
+          <Image src={review.avatar} className={styles.avatarReview} />
           <div className="flex flex-col gap-2">
             <div className="uppercase">{review.title}</div>
             <Rate value={review.rate} disabled />
           </div>
         </div>
 
-        <div>{review.date}</div>
+        <div className={styles.date}>{review.date}</div>
       </div>
 
       <div className={styles.description}>{review.description}</div>
@@ -110,9 +110,9 @@ const ReviewTab = ({ info }) => {
           </Form.Item>
 
           <div className="grid grid-cols-2 gap-6">
-            <Button onClick={() => setIsWriteModalOpen(false)}>CANCEL</Button>
+            <Button onClick={() => setIsWriteModalOpen(false)}>Cancel</Button>
             <Button className={styles.submitBtn} htmlType="submit">
-              SUBMIT YOUR REVIEW
+              Submit your review
             </Button>
           </div>
         </Form>

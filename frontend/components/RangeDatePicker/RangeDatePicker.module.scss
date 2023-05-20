@@ -8,3 +8,9 @@
     font-family: "Whitney Book";
   }
 }
+
+@media (max-width: 768px) {
+  .rangeDatePicker {
+    @apply flex-col;
+  }
+}

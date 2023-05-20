@@ -4,7 +4,7 @@
   @apply mx-auto mt-[168px];
   width: $mWidth;
   .header {
-    @apply px-[105.5px] flex justify-between mb-8;
+    @apply px-[105.5px] flex justify-between mb-8 items-end;
     .leftHeader {
       div:first-child {
         font-family: "Goudy Old Style";

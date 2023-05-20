@@ -303,7 +303,7 @@ const Header = () => {
                 : styles.nonActive
             }
           >
-            <span>PHOTOSHOOTS/ EVENTS</span>
+            <span>PHOTOSHOOTS / EVENTS</span>
           </Link>
         </div>
 

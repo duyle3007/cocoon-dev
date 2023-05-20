@@ -6,4 +6,14 @@
   line-height: 24px;
   letter-spacing: 0.01em;
   color: #404040;
+  .videoEmbed {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .videoTab {
+    @apply px-5 py-8 grid-cols-1;
+  }
 }

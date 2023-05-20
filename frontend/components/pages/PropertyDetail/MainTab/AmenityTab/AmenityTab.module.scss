@@ -7,3 +7,9 @@
   letter-spacing: 0.01em;
   color: #404040;
 }
+
+@media (max-width: 768px) {
+  .menityTab {
+    @apply px-5 py-8 grid-cols-2 text-sm;
+  }
+}

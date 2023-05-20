@@ -1,3 +1,5 @@
+import ReactPlayer from "react-player";
+
 import styles from "./VideoTab.module.scss";
 
 const VideoTab = ({ info }) => {
@@ -5,15 +7,12 @@ const VideoTab = ({ info }) => {
     <div className={styles.videoTab}>
       {info.videos?.length &&
         info.videos.map((video, index) => (
-          <video
+          <ReactPlayer
             key={index}
+            url={video}
+            controls={true}
             className={styles.videoEmbed}
-            controls
-            poster={"/placeholder_banner.png"}
-          >
-            <source src={video} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          />
         ))}
     </div>
   );
