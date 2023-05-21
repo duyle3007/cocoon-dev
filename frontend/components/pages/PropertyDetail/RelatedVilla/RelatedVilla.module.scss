@@ -1,24 +1,45 @@
-
 .relatedVilla {
-    @apply mt-[160px] flex flex-col gap-8;
+  @apply mt-[160px] flex flex-col gap-8;
+  .title {
+    @apply flex flex-col gap-2 self-center text-center text-[#404040];
+    h2 {
+      font-family: "Goudy Old Style";
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 48px;
+      letter-spacing: 0.05em;
+    }
+    h5 {
+      font-family: "Whitney Book";
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.01em;
+    }
+  }
+  .villaList {
+    @apply grid grid-cols-3 grid-flow-row w-full h-[250px] gap-6;
+    grid-auto-rows: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .relatedVilla {
+    @apply mt-[60px] px-8;
     .title {
-        @apply flex flex-col gap-2 self-center text-center text-[#404040];
-        h2 {
-            font-family: 'Goudy Old Style';
-font-weight: 400;
-font-size: 40px;
-line-height: 48px;
-letter-spacing: 0.05em;
-        }
-        h5 {
-            font-family: 'Whitney Book';
-font-weight: 500;
-font-size: 18px;
-line-height: 24px;
-letter-spacing: 0.01em;
-        }
+      @apply text-start self-start;
+      h2 {
+        font-size: 20px;
+        line-height: 24px;
+      }
+      h5 {
+        @apply text-sm;
+      }
     }
+
     .villaList {
-        @apply grid grid-cols-3 grid-flow-row w-full h-[250px] gap-6;
+      @apply grid-cols-1 h-auto;
+      grid-auto-rows: 192px;
     }
+  }
 }

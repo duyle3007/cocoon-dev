@@ -4,13 +4,23 @@ import { Select } from "antd";
 import FilterCard from "./FilterCard/FilterCard";
 
 import styles from "./SearchByFilter.module.scss";
+import { isMobile } from "@/utils/utils";
 
-const SearchByFilter = ({ listLocation }) => {
+const SearchByFilter = ({ listLocation, mode }) => {
   const [sortValue, setSortValue] = useState("RELEVANCE");
 
   return (
-    <div className={styles.searchByFilter}>
-      <div className="flex w-full justify-between items-center mb-[25px] h-fit">
+    <div
+      className={`${styles.searchByFilter} ${
+        mode === "photoshoot" && styles.photoshootPage
+      }`}
+    >
+      {isMobile() && mode && (
+        <div className={styles.resultNumMobile}>
+          {listLocation.length} PROPERTIES
+        </div>
+      )}
+      <div className={styles.headResult}>
         <div className="text-xs gap-1">{listLocation.length} PROPERTIES</div>
 
         <div className="text-xs gap-1 flex items-center opacity-80 cursor-pointer text-[#404040]">

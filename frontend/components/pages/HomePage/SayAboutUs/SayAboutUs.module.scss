@@ -25,19 +25,48 @@
     .picture {
       @apply w-[240px] h-[240px] rounded-full;
     }
+  }
+  .description {
+    @apply text-sm;
+    max-width: 444px;
+    opacity: 0.6;
+    font-family: Whitney Book;
+    letter-spacing: 0.006em;
+    text-align: center;
+    color: #bd9a7b;
+  }
+  .name {
+    @apply text-xs;
+    font-family: Whitney;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (max-width: 768px) {
+  .sayAboutUs {
+    @apply mt-[130px] px-8;
+    .title {
+      font-size: 32px;
+      line-height: 40px;
+      margin-bottom: 56px;
+    }
+    .carousel {
+      .leftArrow,
+      .rightArrow {
+        @apply w-8 h-8;
+      }
+
+      .content {
+        .picture {
+          @apply h-[124px] w-[124px];
+        }
+      }
+    }
     .description {
-      @apply text-sm;
-      max-width: 444px;
-      opacity: 0.6;
-      font-family: Whitney Book;
-      letter-spacing: 0.006em;
-      text-align: center;
-      color: #bd9a7b;
+      @apply mt-6;
     }
     .name {
-      @apply text-xs;
-      font-family: Whitney;
-      letter-spacing: 0.05em;
+      @apply mt-6 text-center;
     }
   }
 }

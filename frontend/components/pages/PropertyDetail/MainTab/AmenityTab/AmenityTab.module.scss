@@ -1,0 +1,15 @@
+.menityTab {
+  @apply bg-[#F2EEE8] grid grid-cols-4 py-[64px] px-[106px] gap-2;
+  font-family: "Whitney Book";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  color: #404040;
+}
+
+@media (max-width: 768px) {
+  .menityTab {
+    @apply px-5 py-8 grid-cols-2 text-sm;
+  }
+}

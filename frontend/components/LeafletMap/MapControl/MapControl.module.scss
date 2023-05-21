@@ -19,3 +19,40 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .mapControl {
+    @apply px-5 bg-white h-[122px] top-0 py-4 items-start relative;
+    .searchMobile {
+      @apply flex items-center h-[46px] w-full p-4 relative;
+      border: 1px solid rgba(64, 64, 64, 0.2);
+      font-family: "Whitney Book";
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.006em;
+      color: #404040;
+    }
+    .underSearchMobile {
+      @apply flex justify-between items-center mt-4;
+    }
+    .searchType {
+      @apply gap-0;
+      img {
+        @apply hidden;
+      }
+      .properties {
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.05em;
+      }
+      .info {
+        @apply h-7 px-3 text-[#90744F];
+        border: 1px solid #e8e8e8;
+      }
+      .active {
+        @apply bg-[#90744F] text-white;
+      }
+    }
+  }
+}

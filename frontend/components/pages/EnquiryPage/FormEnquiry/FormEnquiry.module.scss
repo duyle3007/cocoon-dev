@@ -1,0 +1,38 @@
+.formEnquiry {
+  .rowItem {
+    @apply grid grid-cols-2 gap-6 items-end;
+  }
+  .numPeople {
+    @apply p-0 gap-2;
+  }
+  .sendBtn {
+    @apply bg-[#90744f] h-[46px] flex items-center justify-center cursor-pointer mt-2;
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+  }
+  :global(.ant-picker),
+  :global(.ant-select-selector),
+  .formInput {
+    @apply p-4 w-full flex items-center;
+    height: 50px !important;
+    font-family: "Whitney Book";
+  }
+  :global(.ant-form-item-label) {
+    font-family: Whitney;
+  }
+  :global(.ant-form-item) {
+    @apply mb-0;
+  }
+  :global(.ant-form) {
+    @apply flex flex-col gap-4;
+  }
+  :global(.ant-checkbox-inner) {
+    @apply h-6 w-6;
+  }
+  :global(.ant-checkbox-wrapper) {
+    @apply flex items-end w-fit;
+  }
+}

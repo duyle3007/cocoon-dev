@@ -12,8 +12,22 @@
     letter-spacing: 0.006em;
     color: #404040;
   }
+  .propertyMainView {
+    @apply flex gap-[82px];
+  }
   .breadcumbActive {
     @apply uppercase;
     color: $primaryColor;
+  }
+}
+
+@media (max-width: 768px) {
+  .propertyDetail {
+    .breadcumb {
+      @apply hidden;
+    }
+    .propertyMainView {
+      @apply flex-col gap-6;
+    }
   }
 }

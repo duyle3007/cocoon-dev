@@ -1,0 +1,42 @@
+.modalWrapper {
+  :global(.ant-modal) {
+    @apply h-full max-w-full top-0 pb-0;
+    width: 100% !important;
+  }
+  :global(.ant-modal-footer) {
+    @apply text-center flex justify-between gap-4 px-8;
+  }
+  :global(.ant-modal-content) {
+    @apply p-0 pb-8;
+  }
+  :global(.ant-btn-default) {
+    @apply w-full h-[50px];
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+  }
+  :global(.ant-btn-primary) {
+    @apply h-[50px] bg-[#90744F] flex justify-center items-center w-full;
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+  .modalHeader {
+    @apply flex justify-center relative mx-8 pt-8;
+    font-family: "Whitney";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.07em;
+    :global(.anticon-close) {
+      @apply absolute right-0 bottom-1 text-base;
+    }
+  }
+  .applyBtn {
+  }
+}

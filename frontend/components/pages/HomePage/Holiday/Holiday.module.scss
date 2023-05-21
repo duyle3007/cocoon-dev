@@ -4,7 +4,7 @@
   @apply mx-auto mt-[168px];
   width: $mWidth;
   .header {
-    @apply px-[105.5px] flex justify-between mb-8;
+    @apply px-[105.5px] flex justify-between mb-8 items-end;
     .leftHeader {
       div:first-child {
         font-family: "Goudy Old Style";
@@ -36,8 +36,48 @@
       "item1 item4 item5";
     gap: 24px;
     height: 527px;
-    .hotel:first-child {
-      grid-area: item1;
+    .hotel {
+      height: 250px;
+      &:first-child {
+        grid-area: item1;
+        height: 527px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .holidayContainer {
+    @apply px-8 w-full mt-[52px];
+    .header {
+      @apply px-0 mb-7;
+      .leftHeader {
+        div {
+          font-size: 14px;
+          line-height: 20px;
+          &:first-child {
+            font-size: 32px;
+            line-height: 40px;
+          }
+        }
+      }
+      .rightHeader {
+        @apply hidden;
+      }
+    }
+    .listHotel {
+      @apply flex flex-col h-auto;
+      .hotel {
+        @apply h-[192px];
+        &:first-child {
+          @apply h-[409px];
+        }
+      }
+    }
+    .checkAll {
+      @apply mt-[44px] gap-2 flex;
+      font-size: 12px;
+      line-height: 14px;
     }
   }
 }

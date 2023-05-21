@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./SayAboutUs.module.scss";
+import { isMobile } from "@/utils/utils";
 
 const CUSTOMERS = [
   {
@@ -19,13 +20,25 @@ const SayAboutUs = () => {
         <img src="/leftArrow.png" className={styles.leftArrow} />
         <div className={styles.content}>
           <img src={selectedCustomer.picture} className={styles.picture} />
+          {!isMobile() && (
+            <>
+              <div className={styles.description}>
+                {selectedCustomer.description}
+              </div>
+              <div className={styles.name}>{selectedCustomer.name}</div>
+            </>
+          )}
+        </div>
+        <img src="/rightArrow.png" className={styles.rightArrow} />
+      </div>
+      {isMobile() && (
+        <>
           <div className={styles.description}>
             {selectedCustomer.description}
           </div>
           <div className={styles.name}>{selectedCustomer.name}</div>
-        </div>
-        <img src="/rightArrow.png" className={styles.rightArrow} />
-      </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
+
 import SearchBanner from "@/components/pages/HomePage/SearchBanner/SearchBanner";
-import styles from "./HomePage.module.scss";
 import Headline from "@/components/pages/HomePage/Headline/Headline";
 import Slideshow from "@/components/pages/HomePage/Slideshow/Slideshow";
 import Holiday from "@/components/pages/HomePage/Holiday/Holiday";
@@ -10,13 +11,20 @@ import SayAboutUs from "./SayAboutUs/SayAboutUs";
 import Intro from "./Intro/Intro";
 import CocoonInstagram from "./CocoonInstagram/CocoonInstagram";
 
-const data = [
-  "https://e0.pxfuel.com/wallpapers/142/699/desktop-wallpaper-maldives-resort-in-high-resolution-for-get-island-resort.jpg",
-  ,
-  "https://i.pinimg.com/originals/cd/40/bc/cd40bcf0a42a320ff97cc3314a24dd7d.jpg",
-];
+import styles from "./HomePage.module.scss";
 
 const HomePage = () => {
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
+
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
+
   return (
     <div className={styles.homepage}>
       <div className={styles.videoWrapper}>
@@ -46,7 +54,10 @@ const HomePage = () => {
       <SearchBanner />
 
       <Headline />
-      <Slideshow data={data} className={styles.slideShow} />
+      <Slideshow
+        data={["/homepage/slider1.png"]}
+        className={styles.slideShow}
+      />
 
       <Holiday />
       <Photoshoot />

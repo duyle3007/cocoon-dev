@@ -1,4 +1,6 @@
 import { Breadcrumb } from "antd";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
@@ -42,6 +44,50 @@ const dumb_data = {
       "The house is situated in the world-famous beachside suburb of Palm Beach. Located above exclusive Palm Beach, a 3-minute drive from the beachfront and a seven-minute walk.",
     getArround: "A car is considered essential.",
   },
+  amenities: [
+    "TV / Cable TV",
+    "Free Parking",
+    "Children",
+    "Dryer",
+    "Kitchen",
+    "Essentials",
+    "Heating",
+    "Indoor Fireplace",
+    "Washer",
+  ],
+  videos: [
+    "https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download",
+    "https://drive.google.com/uc?id=1w5xZgy1RW6rGWSIT5Y64A8WU5oUdcVIc&export=download",
+  ],
+  reviews: [
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+    {
+      name: "BARRY WHITE - DECODED, LONDON",
+      title: "Wonderful place",
+      date: "Mar 20, 2023",
+      rate: 5,
+      avatar: "/homepage/aboutus_1.png",
+      description:
+        "Genuinely surprised at the speed and ease I had with Marbellapads when buying my new home in Marbella. [...] we really did buy the home of our dreams and its only because of the incredible work put in by the Marbellapads team.",
+    },
+  ],
   bookedDate: ["4/5/2023", "9/5/2023"],
   relatedVilla: [
     {
@@ -67,33 +113,50 @@ const dumb_data = {
     },
   ],
 };
-const PropertyDetail = () => {
+const PropertyDetail = ({ propertyDetail }) => {
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
+
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
   return (
     <div className={styles.propertyDetail}>
       <Breadcrumb
         className={styles.breadcumb}
         items={[
           {
-            title: <a href="/">Home</a>,
+            title: <Link href="/">Home</Link>,
           },
           {
-            title: <a href="/search">Holiday</a>,
+            title: <Link href="/search">Holiday</Link>,
           },
           {
             title: (
-              <div className={styles.breadcumbActive}>{dumb_data.name}</div>
+              <div
+                className={styles.breadcumbActive}
+                dangerouslySetInnerHTML={{
+                  __html: propertyDetail?.title?.rendered,
+                }}
+              ></div>
             ),
           },
         ]}
       />
-      <div className="flex gap-[82px]">
-        <PropertyImage listImage={dumb_data.img} />
-        <PropertyIntro info={dumb_data} />
+      <div className={styles.propertyMainView}>
+        <PropertyImage listImage={propertyDetail?.images} />
+        <PropertyIntro info={propertyDetail} />
       </div>
 
-      <MainTab info={dumb_data} />
+      <MainTab info={propertyDetail} />
       <Calendar info={dumb_data} />
-      <RelatedVilla info={dumb_data} />
+      {propertyDetail.acf.related_villas.length > 0 && (
+        <RelatedVilla info={propertyDetail} />
+      )}
     </div>
   );
 };

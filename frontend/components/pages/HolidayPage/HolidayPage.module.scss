@@ -1,0 +1,63 @@
+.mapContainer {
+  display: flex;
+  height: calc(100vh - 85px);
+  .searchContainer {
+    width: 30%;
+    overflow: auto;
+    :global .leaflet-marker-icon {
+      width: fit-content !important;
+    }
+  }
+
+  :global .leaflet-container {
+    flex: 1;
+    z-index: 0;
+    height: auto;
+  }
+
+  .right {
+    @apply relative flex flex-col flex-1 h-auto;
+  }
+
+  .searchTitle {
+    @apply flex px-[70px] gap-[236px] absolute bg-[#F2EEE8] items-center pt-10 uppercase;
+    font-family: "Goudy Old Style";
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: 0.05em;
+    .note {
+      @apply flex flex-col gap-1;
+      font-size: 14px;
+      line-height: 20px;
+      font-family: "Whitney Book";
+      font-weight: 500;
+      letter-spacing: 0.006em;
+    }
+    .noteItem {
+      @apply flex gap-2 items-start;
+      svg {
+        @apply w-3 h-3 mt-1 text-[#90744F];
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .mapContainer {
+    @apply flex-col relative;
+    .searchTitle {
+      @apply flex-col px-5 pt-5 items-start gap-2 relative bg-[#F2EEE8] top-0;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    .right {
+      @apply h-full;
+    }
+    .mapResultMobile {
+      @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto;
+    }
+  }
+}

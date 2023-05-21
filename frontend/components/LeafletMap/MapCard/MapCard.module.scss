@@ -1,0 +1,54 @@
+.locationCard {
+  @apply flex p-4 gap-[12px] items-start bg-white;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  cursor: pointer;
+  .locationImage {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  .locationContent {
+    @apply flex flex-col gap-2;
+    .priceWrapper {
+      @apply flex gap-1 items-center;
+      .price {
+        font-family: "Goudy Old Style";
+        font-size: 16px;
+        line-height: 22px;
+        display: flex;
+        letter-spacing: 0.05em;
+        color: #90744f;
+      }
+      .discountPrice {
+        font-family: "Goudy Old Style";
+        font-size: 14px;
+        line-height: 17px;
+        display: flex;
+        letter-spacing: 0.05em;
+        text-decoration: line-through;
+      }
+      span {
+        font-family: "Whitney";
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.05em;
+        color: #404040;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .locationCard {
+    @apply pr-[78px];
+  }
+}

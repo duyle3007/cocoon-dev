@@ -52,6 +52,7 @@
     object-fit: cover;
   }
   .markerPopup {
+    cursor: pointer;
     width: max-content;
     .discountWrapper {
       @apply absolute top-0 left-0 text-white text-xs gap-2 flex items-center px-4 py-2;

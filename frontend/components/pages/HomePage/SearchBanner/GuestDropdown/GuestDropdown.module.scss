@@ -1,0 +1,22 @@
+.guestDropdown {
+  @apply flex flex-col gap-4 p-4 bg-white w-[200px];
+  font-family: "Whitney Book";
+  color: #333333;
+  .plusMinus {
+    @apply flex items-center gap-2;
+  }
+  .minusIcon,
+  .plusIcon {
+    @apply w-6 h-6 rounded-full bg-[#90744f] flex justify-center items-center cursor-pointer;
+    svg {
+      font-size: 12px;
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(172deg)
+        brightness(103%) contrast(103%);
+    }
+  }
+  .minusIcon {
+    @apply bg-white opacity-50;
+    border: 1px solid #e8e8e8;
+    color: #e8e8e8;
+  }
+}

@@ -1,0 +1,130 @@
+.reviewTab {
+  @apply bg-[#F2EEE8] flex flex-col py-[64px] px-[106px] gap-10;
+  font-family: "Whitney";
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  color: #404040;
+  .writeBtn {
+    @apply h-[50px] bg-[#90744F] flex justify-center items-center px-[174px] w-fit self-center text-white text-xs;
+    transition: 0.3s all;
+    &:hover {
+      @apply border-[#90744F] text-[#90744F] bg-white;
+    }
+  }
+  .reviewList {
+    @apply flex flex-col gap-4;
+  }
+  .reviewCard {
+    @apply bg-white py-8 px-14;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.07em;
+  }
+  .reviewTitle {
+    @apply flex justify-between items-start;
+  }
+  .avatarReview {
+    @apply h-12 w-12 rounded-full;
+  }
+  .description {
+    @apply mt-4 mb-3;
+    font-family: "Whitney Book";
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.006em;
+    opacity: 0.6;
+  }
+  :global(.anticon-star) {
+    filter: invert(43%) sepia(59%) saturate(290%) hue-rotate(355deg)
+      brightness(95%) contrast(86%);
+  }
+}
+
+.writeModal {
+  :global(.ant-form),
+  :global(.ant-form-item-label),
+  :global(.ant-checkbox-wrapper),
+  :global(.ant-btn) {
+    font-family: "Whitney Book";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.006em;
+    color: #52525b;
+  }
+  :global(.ant-modal-content) {
+    @apply w-[612px];
+  }
+  :global(.ant-checkbox-wrapper) {
+    @apply flex items-center;
+  }
+  :global(.ant-form-item) {
+    @apply mb-0;
+  }
+  h4 {
+    font-family: "Goudy Old Style";
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #90744f;
+    margin-bottom: 24px;
+  }
+  .formInput {
+    @apply p-4 w-full flex items-center;
+    height: 50px !important;
+    font-family: "Whitney Book";
+    .inputPrefix {
+      @apply mr-3;
+    }
+  }
+  .submitBtn {
+    @apply bg-[#90744f] text-white;
+    &:hover {
+      @apply bg-white border-[#90744f] text-[#90744f];
+    }
+  }
+  :global(.ant-checkbox-inner) {
+    @apply h-6 w-6;
+  }
+  :global(.anticon-star) {
+    filter: invert(43%) sepia(59%) saturate(290%) hue-rotate(355deg)
+      brightness(95%) contrast(86%);
+  }
+  :global(.ant-btn) {
+    @apply h-[50px] uppercase;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewTab {
+    @apply px-5 py-6 gap-4;
+    .writeBtn {
+      @apply w-full;
+    }
+    .reviewCard {
+      @apply p-6;
+    }
+    .reviewTitle {
+      @apply flex-col;
+    }
+    .avatarReview {
+      @apply h-12 w-12;
+    }
+    .date {
+      @apply mt-2 ml-[68px];
+    }
+  }
+  .writeModal {
+    :global(.ant-modal-content) {
+      @apply w-full;
+    }
+    :global(.ant-btn) {
+      @apply text-sm capitalize;
+    }
+  }
+}

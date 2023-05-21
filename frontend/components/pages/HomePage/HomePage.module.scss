@@ -45,3 +45,31 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .homepage {
+    @apply flex flex-col;
+    .banner {
+      @apply w-auto top-[55%];
+      .leftBanner {
+        @apply text-center;
+        .headerTitle {
+          font-size: 32px;
+          line-height: 38px;
+        }
+        .headerSub {
+          font-size: 16px;
+        }
+      }
+    }
+    .videoWrapper {
+      @apply h-[812px];
+      video {
+        @apply h-full object-cover;
+      }
+    }
+    .slideShow {
+      @apply max-w-full mt-16 h-[400px] mx-0;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.toolBarMobile {
+  @apply hidden;
+}
+
+@media (max-width: 768px) {
+  .toolBarMobile {
+    @apply bg-[#F2EEE8] flex px-5 pt-5 justify-between;
+  }
+}

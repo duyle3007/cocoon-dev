@@ -27,6 +27,9 @@
       color: #404040;
     }
   }
+  .doubleCalendar {
+    @apply flex;
+  }
   .chooseDate {
     @apply flex flex-col gap-5 py-6 px-8 bg-white w-full;
   }
@@ -54,8 +57,45 @@
     letter-spacing: 0.05em;
     color: #ffffff;
   }
+  .firstDateDisabled {
+    @apply relative flex justify-center;
+    background: transparent !important;
+    & > abbr {
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 210px 200px;
+      border-color: transparent transparent #e8e8e8 transparent;
+    }
+  }
+  .lastDateDisabled {
+    @apply relative flex justify-center;
+    background: transparent !important;
+    & > abbr {
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 200px 188px 0 0;
+      border-color: #e8e8e8 transparent transparent transparent;
+    }
+  }
   :global(.react-calendar) {
     @apply p-4;
+    border: none;
   }
   :global(.react-calendar__navigation__label__divider) {
     display: none;
@@ -82,8 +122,9 @@
   :global(.react-calendar__month-view__days__day:disabled:first-child) {
     background: red;
   }
+
   :global(.react-calendar__navigation__label) {
-    @apply flex px-[48px] justify-between items-center;
+    @apply flex px-0 justify-center items-center;
     font-family: "Whitney";
     font-weight: 500;
     font-size: 14px;
@@ -91,6 +132,7 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #404040;
+    pointer-events: none;
   }
   :global(.react-calendar__month-view__weekdays__weekday) {
     font-family: "Whitney Book";
@@ -127,7 +169,7 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 0 200px 200px;
+    border-width: 0 0 210px 200px;
     border-color: transparent transparent #90744f transparent;
   }
   :global(.react-calendar__tile--rangeEnd:after) {
@@ -138,11 +180,39 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 200px 200px 0 0;
+    border-width: 200px 188px 0 0;
     border-color: #90744f transparent transparent transparent;
   }
   :global(.react-calendar__tile--rangeEnd > abbr),
   :global(.react-calendar__tile--rangeStart > abbr) {
     @apply z-[1];
+  }
+}
+
+@media (max-width: 767px) {
+  .calendar {
+    @apply w-auto px-5 mt-[60px] gap-6;
+    h1 {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .mainView {
+      @apply px-4;
+    }
+    .doubleCalendar {
+      @apply flex-col w-fit;
+    }
+    .calendarNote {
+      @apply grid grid-cols-2;
+      .note {
+        @apply text-xs;
+      }
+    }
+    .enquiryButton {
+      @apply w-full;
+    }
+    :global(.react-calendar) {
+      @apply w-full;
+    }
   }
 }

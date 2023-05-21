@@ -6,14 +6,14 @@
     @apply mx-auto flex justify-between pt-8 pb-12 items-center;
     max-width: $mWidth;
     border-bottom: 1px solid #e8e8e8;
-    div:first-child {
+    .title {
       font-family: "Goudy Old Style";
       font-size: 32px;
       line-height: 40px;
       letter-spacing: 0.05em;
       width: 20%;
     }
-    div:nth-child(2) {
+    .sub {
       font-family: Whitney Book;
       font-size: 14px;
       line-height: 20px;
@@ -22,14 +22,12 @@
       opacity: 0.8;
     }
     button {
-      @apply text-white;
+      @apply text-white h-[50px] flex items-center justify-center rounded-none;
       background-color: #90744f;
-      padding-block: 18px;
       font-family: "Whitney";
       font-size: 12px;
       width: 20%;
       transition: all 0.3s;
-      @apply rounded-none text-white h-auto;
       &:hover {
         background-color: white;
         color: #90744f;
@@ -122,6 +120,10 @@
     }
   }
 
+  .logo {
+    @apply h-8 w-[150px];
+  }
+
   .copyrightContainer {
     border-top: 1px solid #e8e8e8;
     .copyright {
@@ -145,11 +147,75 @@
         letter-spacing: 0.006em;
         margin-right: 17px;
       }
-      img {
-        @apply w-6 h-6 mr-5 cursor-pointer;
-        &:last-child {
-          @apply mr-0;
+    }
+  }
+
+  .socialMedia {
+    @apply flex gap-5;
+    img {
+      @apply w-6 h-6 cursor-pointer;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    .signupContainer {
+      @apply flex-col items-baseline justify-normal px-8 gap-4 pb-8;
+      .title,
+      .sub {
+        @apply w-full max-w-full;
+      }
+      .title {
+        @apply text-xl;
+      }
+      button {
+        @apply w-full;
+      }
+    }
+    .logo {
+      @apply h-6 w-[112px];
+    }
+    .cocoonInfo {
+      @apply flex-col pt-8 px-8 gap-6 pb-8;
+      .left {
+        @apply w-full gap-4;
+        img {
+          @apply h-6 w-fit;
         }
+      }
+      .middle {
+        @apply max-w-full flex-col gap-6;
+        .cocoon {
+          h4 {
+            @apply mb-4;
+          }
+        }
+        .contact {
+          h4 {
+            @apply mb-4;
+          }
+        }
+      }
+      .seoDaddy {
+        @apply w-fit;
+      }
+    }
+    .copyrightContainer {
+      .copyright {
+        @apply flex-col px-8 py-4 gap-6;
+        .left {
+          @apply w-[80%];
+        }
+        .right {
+          @apply justify-between;
+        }
+      }
+    }
+    .socialMedia {
+      @apply gap-5;
+      img {
+        @apply w-4 h-4;
       }
     }
   }

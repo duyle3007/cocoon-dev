@@ -43,3 +43,9 @@ h6 {
   font-family: "Goudy Old Style";
   margin-bottom: 0;
 }
+
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}

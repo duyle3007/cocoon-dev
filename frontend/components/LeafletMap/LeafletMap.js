@@ -1,6 +1,9 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useState, useRef } from "react";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
+import { Form } from "antd";
+import { useRouter } from "next/router";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -9,6 +12,9 @@ import MarkerCluster from "./MarketCluster";
 import SearchControl from "./SearchControl";
 import SearchByFilter from "./SearchByFilter/SearchByFilter";
 import MapControl from "./MapControl/MapControl";
+import { isMobile } from "@/utils/utils";
+import MapCard from "./MapCard/MapCard";
+import FilterModal from "./FilterModal/FilterModal";
 
 import styles from "./LeafletMap.module.scss";
 
@@ -191,13 +197,18 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/map/marker-shadow.png",
 });
 
-const LeafletMap = () => {
+const LeafletMap = ({ mode }) => {
+  const router = useRouter();
+
   const mapRef = useRef();
   const leafletRef = useRef();
+  const modalRef = useRef();
+  const [formRef] = Form.useForm();
   const [listLocation, setListLocation] = useState(addressPoints);
   const [searchType, setSearchType] = useState("filter");
+  const [tabActive, setTabActive] = useState("holiday");
 
-  const onSearch = ({ target: { value } }) => {
+  const onSearch = (value) => {
     if (value) {
       const filterLocationList = addressPoints.filter((location) =>
         location.name.toLowerCase().includes(value.toLowerCase())
@@ -205,8 +216,8 @@ const LeafletMap = () => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0].lat,
-          filterLocationList[0].lng,
+          filterLocationList[0]?.lat,
+          filterLocationList[0]?.lng,
         ]);
       }
       return;
@@ -215,30 +226,60 @@ const LeafletMap = () => {
   };
 
   const navigateTo = (lat, lng) => {
-    mapRef.current.flyTo([lat, lng], 18);
+    if (lat && lng) {
+      mapRef.current.flyTo([lat, lng], 18);
+    }
+  };
+
+  const onFinishForm = (formValues) => {
+    console.log("Form values", formValues);
+    if (formValues.destination) {
+      router.query.destination = formValues.destination;
+      router.push(router);
+    }
+    modalRef.current.closeFilterModal();
   };
 
   return (
     <div className={styles.mapContainer}>
-      <SearchControl
-        onSearch={onSearch}
-        listLocation={listLocation}
-        searchType={searchType}
-        onClick={navigateTo}
-        handleReinitClick={() => {
-          leafletRef.current?.invalidateSize();
+      <Form
+        form={formRef}
+        initialValues={{
+          selectedLocation: [],
+          rangeDate: [],
+          rangePrice: [800, 2000],
+          maxGuest: 0,
+          selectedBedroom: "Any",
+          selectedBed: "Any",
+          selectedBadroom: "Any",
+          feature: [],
         }}
-      />
+        onFinish={onFinishForm}
+      >
+        <SearchControl
+          tabActive={tabActive}
+          setTabActive={setTabActive}
+          onSearch={onSearch}
+          listLocation={listLocation}
+          searchType={searchType}
+          onClick={navigateTo}
+          handleReinitClick={() => {
+            leafletRef.current?.invalidateSize();
+          }}
+          mode={mode}
+        />
+
+        <FilterModal ref={modalRef} tabActive={tabActive} />
+      </Form>
       <div className={styles.right}>
         {searchType === "filter" ? (
-          <SearchByFilter listLocation={listLocation} />
+          <SearchByFilter listLocation={listLocation} mode={mode} />
         ) : (
           <MapContainer
             center={
-              listLocation.length > 0 && [
-                listLocation[0].lat,
-                listLocation[0].lng,
-              ]
+              listLocation.length > 0
+                ? [listLocation[0].lat, listLocation[0].lng]
+                : [-37.8839, 175.3745188667]
             }
             ref={leafletRef}
             zoom={13}
@@ -252,12 +293,48 @@ const LeafletMap = () => {
             <MarkerCluster ref={mapRef} markers={listLocation} />
           </MapContainer>
         )}
-
-        <MapControl
-          searchType={searchType}
-          onChangeSearchType={setSearchType}
-        />
+        {mode ? (
+          <div className={styles.searchTitle}>
+            {mode === "holiday"
+              ? "HOLIDAYS PROPERTIES"
+              : mode === "photoshoot"
+              ? "PHOTOSHOOTS AND EVENTS"
+              : "HOLIDAYS VILLAS IN SYNDNEY"}
+            {mode === "photoshoot" && (
+              <div className={styles.note}>
+                <div className={styles.noteItem}>
+                  <CheckOutlined /> Only Available for Photoshoots, Filming and
+                  TV Production.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined /> Strictly No Parties are allowed.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined />
+                  No Engagement Parties, No Birthday Parties, No Hens or Bucks
+                  Parties.
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <MapControl
+            listLocation={listLocation}
+            searchType={searchType}
+            onChangeSearchType={setSearchType}
+            onOpenFilter={() => modalRef.current.openFilterModal()}
+          />
+        )}
       </div>
+      {isMobile() && searchType === "map" && (
+        <div className={styles.mapResultMobile}>
+          {listLocation.map((location, index) => {
+            return (
+              <MapCard key={index} location={location} onClick={navigateTo} />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

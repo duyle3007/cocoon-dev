@@ -1,20 +1,29 @@
+import HotelCard from "@/components/HotelCard/HotelCard";
+import styles from "./RelatedVilla.module.scss";
+import { useContext } from "react";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
+const RelatedVilla = ({ info }) => {
+  const { propertyList } = useContext(PropertyListContext);
 
-import HotelCard from '@/components/HotelCard/HotelCard'
-import styles from './RelatedVilla.module.scss'
+  return (
+    <div className={styles.relatedVilla}>
+      <div className={styles.title}>
+        <h2>RELATED VILLAS</h2>
+        <h5>Similar villas you may like</h5>
+      </div>
+      <div className={styles.villaList}>
+        {info.acf.related_villas?.length > 0 &&
+          info.acf.related_villas.map((villa, index) => (
+            <HotelCard
+              key={index}
+              item={propertyList.find((property) => property.id === villa)}
+              className={styles.hotel}
+            />
+          ))}
+      </div>
+    </div>
+  );
+};
 
-const RelatedVilla = ({info}) => {
-    return (
-            <div className={styles.relatedVilla}>
-                <div className={styles.title}>
-                    <h2>RELATED VILLAS</h2>
-                    <h5>Similar villas you may like</h5>
-                </div>
-                <div className={styles.villaList}>
-                    {info.relatedVilla.length > 0 && info.relatedVilla.map((villa, index) => <HotelCard key={index} item={villa} className={styles.hotel} />)}
-                </div>
-            </div>
-    )
-}
-
-    export default RelatedVilla
+export default RelatedVilla;
