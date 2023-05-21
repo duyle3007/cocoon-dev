@@ -9,7 +9,7 @@ const AmenityTab = ({ info }) => {
         info.amenities.map((amenity, index) => (
           <div className="flex items-center gap-2" key={index}>
             <CheckOutlined />
-            {amenity}
+            {amenity.name}
           </div>
         ))}
     </div>

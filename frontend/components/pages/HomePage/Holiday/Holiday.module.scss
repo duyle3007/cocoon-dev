@@ -36,8 +36,12 @@
       "item1 item4 item5";
     gap: 24px;
     height: 527px;
-    .hotel:first-child {
-      grid-area: item1;
+    .hotel {
+      height: 250px;
+      &:first-child {
+        grid-area: item1;
+        height: 527px;
+      }
     }
   }
 }

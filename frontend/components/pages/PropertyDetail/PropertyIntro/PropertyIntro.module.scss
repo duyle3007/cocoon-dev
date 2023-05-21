@@ -12,8 +12,15 @@
   .nameAndPrice {
     @apply flex justify-between mt-2;
   }
+  .price {
+    @apply flex items-end;
+  }
   .propertyLocation {
     @apply text-base uppercase opacity-70 tracking-wider;
+  }
+  .tagLine {
+    font-family: "Whitney";
+    margin-bottom: 8px;
   }
   .description {
     @apply mt-[38px];
@@ -59,7 +66,7 @@
       line-height: 24px;
     }
     .price {
-      @apply flex items-end gap-1 mt-3 items-center;
+      @apply flex gap-1 mt-3 items-center;
       font-size: 12px;
       line-height: 14px;
       h6 {

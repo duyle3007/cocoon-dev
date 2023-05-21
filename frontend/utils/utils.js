@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function isMobile() {
-  // Use the window.innerWidth property to check the viewport width
-  // and determine if the device has a responsive design
-  const [isMobile, setIsMobile] = useState(false);
+  let isMobile = false;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsMobile(window.outerWidth < 768);
-    }
-  });
+  if (typeof window !== "undefined" && window.outerWidth < 768) {
+    isMobile = true;
+  }
 
   return isMobile;
 }

@@ -1,6 +1,7 @@
 import { Dropdown, Input } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import Image from "../Image/Image";
 import { isMobile } from "@/utils/utils";
@@ -249,9 +250,18 @@ export const AUSTRALIA_LIST = [
 
 const Header = () => {
   const router = useRouter();
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
 
   const isHomepage = router.asPath === "/";
 
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
   return (
     <div
       className={`${styles.headerContainer} ${

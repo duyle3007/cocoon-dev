@@ -12,7 +12,7 @@ const PropertyImage = ({ listImage }) => {
       <div className={styles.propertyImage}>
         <Slideshow
           ref={slideshowRef}
-          data={listImage}
+          data={listImage.map((image) => image.src)}
           className={styles.slider}
           cardMode
           dots={true}
@@ -24,7 +24,7 @@ const PropertyImage = ({ listImage }) => {
                 .map((image, index) => (
                   <Image
                     key={index}
-                    src={image}
+                    src={image.src}
                     className={styles.imageSmall}
                     preview={false}
                     onClick={() => slideshowRef.current.goTo(index)}
@@ -35,7 +35,7 @@ const PropertyImage = ({ listImage }) => {
                 .map((image, index) => (
                   <Image
                     key={index}
-                    src={image}
+                    src={image.src}
                     className={styles.imageSmall}
                     preview={false}
                     onClick={() => slideshowRef.current.goTo(index)}

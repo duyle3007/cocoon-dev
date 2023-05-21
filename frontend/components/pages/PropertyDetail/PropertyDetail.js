@@ -1,4 +1,6 @@
 import { Breadcrumb } from "antd";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
@@ -7,7 +9,6 @@ import Calendar from "./Calendar/Calendar";
 import RelatedVilla from "./RelatedVilla/RelatedVilla";
 
 import styles from "./PropertyDetail.module.scss";
-import Link from "next/link";
 
 const dumb_data = {
   name: "Villa Palm Beach",
@@ -112,7 +113,17 @@ const dumb_data = {
     },
   ],
 };
-const PropertyDetail = () => {
+const PropertyDetail = ({ propertyDetail }) => {
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
+
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
   return (
     <div className={styles.propertyDetail}>
       <Breadcrumb
@@ -126,19 +137,26 @@ const PropertyDetail = () => {
           },
           {
             title: (
-              <div className={styles.breadcumbActive}>{dumb_data.name}</div>
+              <div
+                className={styles.breadcumbActive}
+                dangerouslySetInnerHTML={{
+                  __html: propertyDetail?.title?.rendered,
+                }}
+              ></div>
             ),
           },
         ]}
       />
       <div className={styles.propertyMainView}>
-        <PropertyImage listImage={dumb_data.img} />
-        <PropertyIntro info={dumb_data} />
+        <PropertyImage listImage={propertyDetail?.images} />
+        <PropertyIntro info={propertyDetail} />
       </div>
 
-      <MainTab info={dumb_data} />
+      <MainTab info={propertyDetail} />
       <Calendar info={dumb_data} />
-      <RelatedVilla info={dumb_data} />
+      {propertyDetail.acf.related_villas.length > 0 && (
+        <RelatedVilla info={propertyDetail} />
+      )}
     </div>
   );
 };

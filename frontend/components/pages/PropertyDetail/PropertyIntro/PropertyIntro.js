@@ -7,14 +7,17 @@ const PropertyIntro = ({ info }) => {
   return (
     <div className={styles.propertyIntro}>
       <div className="flex justify-between">
-        <div className={styles.propertyLocation}>{info.location}</div>
+        <div className={styles.propertyLocation}>{info.acf.location1}</div>
         <HeartOutlined />
       </div>
       <div className={styles.nameAndPrice}>
-        <div className={styles.name}>{info.name}</div>
+        <div
+          className={styles.name}
+          dangerouslySetInnerHTML={{ __html: info?.title?.rendered }}
+        />
         <div className={styles.price}>
           <h6 className="text-[#90744F] leading-8 flex items-center text-[28px] font-bold tracking-wider">
-            AU${info.price}
+            AU${info.acf.starting_price}
           </h6>
           / NIGHT
         </div>
@@ -22,23 +25,26 @@ const PropertyIntro = ({ info }) => {
       <div className={styles.roomInfo}>
         <div className={styles.roomItem}>
           <Image src="/map/bedIcon.svg" className={styles.roomIcon} />
-          <span>{info.numBedrooms} bedrooms</span>
+          <span>{info.acf.no_of_bedrooms} bedrooms</span>
         </div>
         <div className={styles.roomItem}>
           <Image src="/map/bathIcon.svg" className={styles.roomIcon} />
-          <span>{info.numBadrooms} badthroom</span>
+          <span>{info.acf.no_of_bathrooms} badthroom</span>
         </div>
         <div className={styles.roomItem}>
           <Image src="/map/peopleIcon.svg" className={styles.roomIcon} />
-          <span>{info.numSleep} sleeps</span>
+          <span>{info.acf.guests} sleeps</span>
         </div>
         <div className={styles.roomItem}>
           <Image src="/moonIcon.svg" className={styles.roomIcon} />
-          <span>Min {info.minNight} nights</span>
+          <span>Min {info.acf.min_of_nights} nights</span>
         </div>
       </div>
 
-      <div className={styles.description}>{info.description}</div>
+      <div className={styles.description}>
+        <div className={styles.tagLine}>{info.acf.tag_line}</div>
+        {info.acf.description}
+      </div>
     </div>
   );
 };
