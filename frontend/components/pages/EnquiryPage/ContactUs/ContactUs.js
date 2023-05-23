@@ -3,6 +3,7 @@ import { Button, Form, Input, Popconfirm } from "antd";
 import Image from "@/components/Image/Image";
 
 import styles from "./ContactUs.module.scss";
+import { isMobile } from "@/utils/utils";
 
 const { TextArea } = Input;
 
@@ -32,7 +33,7 @@ const ContactUs = () => {
     <div className={styles.contactUs}>
       <div className={styles.wrapper}>
         <Popconfirm
-          placement="bottomRight"
+          placement={isMobile() ? "bottom" : "bottomRight"}
           getPopupContainer={(trigger) => {
             return trigger;
           }}

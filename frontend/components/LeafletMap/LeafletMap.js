@@ -8,9 +8,10 @@ import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
+import SortModal from "./SortModal/SortModal";
 import MarkerCluster from "./MarketCluster";
 import SearchControl from "./SearchControl";
-import SearchByFilter from "./SearchByFilter/SearchByFilter";
+import SearchByFilter, { SORT_VALUES } from "./SearchByFilter/SearchByFilter";
 import MapControl from "./MapControl/MapControl";
 import { isMobile } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
@@ -203,6 +204,7 @@ const LeafletMap = ({ mode }) => {
   const mapRef = useRef();
   const leafletRef = useRef();
   const modalRef = useRef();
+  const sortModalRef = useRef();
   const [formRef] = Form.useForm();
   const [listLocation, setListLocation] = useState(addressPoints);
   const [searchType, setSearchType] = useState("filter");
@@ -253,6 +255,7 @@ const LeafletMap = ({ mode }) => {
           selectedBed: "Any",
           selectedBadroom: "Any",
           feature: [],
+          sort: SORT_VALUES[0].value,
         }}
         onFinish={onFinishForm}
       >
@@ -270,6 +273,7 @@ const LeafletMap = ({ mode }) => {
         />
 
         <FilterModal ref={modalRef} tabActive={tabActive} />
+        <SortModal ref={sortModalRef} />
       </Form>
       <div className={styles.right}>
         {searchType === "filter" ? (
@@ -323,6 +327,7 @@ const LeafletMap = ({ mode }) => {
             searchType={searchType}
             onChangeSearchType={setSearchType}
             onOpenFilter={() => modalRef.current.openFilterModal()}
+            onOpenSort={() => sortModalRef.current.openSortModal()}
           />
         )}
       </div>

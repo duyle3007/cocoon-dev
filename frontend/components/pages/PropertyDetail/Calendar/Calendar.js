@@ -12,13 +12,17 @@ import styles from "./Calendar.module.scss";
 
 let initDisableClassname = false;
 
-const Calendar = () => {
-  const [monthFirstCalendar, setMonthFirstCalendar] = useState(moment().toDate())
-  const [monthSecondCalendar, setMonthSecondCalendar] = useState(moment().add(1, 'M').toDate())
+const Calendar = ({ info }) => {
+  const [monthFirstCalendar, setMonthFirstCalendar] = useState(
+    moment().toDate()
+  );
+  const [monthSecondCalendar, setMonthSecondCalendar] = useState(
+    moment().add(1, "M").toDate()
+  );
   const [totalPrice, setTotalPrice] = useState("0.00");
   const disableRangeStart = new Date("2023-05-10");
   const disableRangeEnd = new Date("2023-05-16");
-  const [selectedDates, setSelectedDates] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -49,28 +53,23 @@ const Calendar = () => {
     }
   };
 
-  const tileClassName = ({ date, view }) => {
-    if (view === "month" && selectedDates) {
-      if (isDateInRange(date, disableRangeStart, disableRangeEnd)) {
-        return styles.disable;
-      }
-    }
-  };
-
   const onSelectRangeData = (selectedRangeDate) => {
     setSelectedDates(selectedRangeDate);
   };
 
   const onPrevCalendar = () => {
-    setMonthFirstCalendar(moment(monthFirstCalendar).subtract(1, 'M').toDate())
-    setMonthSecondCalendar(moment(monthSecondCalendar).subtract(1, 'M').toDate())
-}
+    setMonthFirstCalendar(moment(monthFirstCalendar).subtract(1, "M").toDate());
+    setMonthSecondCalendar(
+      moment(monthSecondCalendar).subtract(1, "M").toDate()
+    );
+  };
 
-const onNextCalendar = () => {
-    setMonthFirstCalendar(moment(monthFirstCalendar).add(1, 'M').toDate())
-    setMonthSecondCalendar(moment(monthSecondCalendar).add(1, 'M').toDate())
-}
+  const onNextCalendar = () => {
+    setMonthFirstCalendar(moment(monthFirstCalendar).add(1, "M").toDate());
+    setMonthSecondCalendar(moment(monthSecondCalendar).add(1, "M").toDate());
+  };
 
+  console.log("selectedDates", selectedDates);
   return (
     <div className={styles.calendar}>
       <h1>Calendar</h1>
@@ -89,30 +88,50 @@ const onNextCalendar = () => {
             <div className={styles.note}>SELECTED DATES</div>
           </div>
         </div>
-         <div className={styles.doubleCalendar}>
-         <ReactCalendar
-         activeStartDate={monthFirstCalendar}
-       value={selectedDates}
-       tileDisabled={tileDisabled}
-       prevLabel={<LeftOutlined className={styles.leftArrowCalendar} onClick={ onPrevCalendar}/>}
-       prev2Label={null}
-       next2Label={null}
-       nextLabel={<RightOutlined className={styles.leftArrowCalendar} onClick={onNextCalendar}/>}
-       locale="en"
-       showNeighboringMonth={false}
-     />
-     <ReactCalendar
-     activeStartDate={monthSecondCalendar}
-       tileDisabled={tileDisabled}
-       value={selectedDates}
-       prevLabel={<LeftOutlined className={styles.leftArrowCalendar} onClick={onPrevCalendar}/>}
-       prev2Label={null}
-       next2Label={null}
-       nextLabel={<RightOutlined className={styles.leftArrowCalendar} onClick={onNextCalendar}/>}
-       locale="en"
-       showNeighboringMonth={false}
-     />
-     </div>
+        <div className={styles.doubleCalendar}>
+          <ReactCalendar
+            activeStartDate={monthFirstCalendar}
+            value={selectedDates}
+            tileDisabled={tileDisabled}
+            prevLabel={
+              <LeftOutlined
+                className={styles.leftArrowCalendar}
+                onClick={onPrevCalendar}
+              />
+            }
+            prev2Label={null}
+            next2Label={null}
+            nextLabel={
+              <RightOutlined
+                className={styles.leftArrowCalendar}
+                onClick={onNextCalendar}
+              />
+            }
+            locale="en"
+            showNeighboringMonth={false}
+          />
+          <ReactCalendar
+            activeStartDate={monthSecondCalendar}
+            tileDisabled={tileDisabled}
+            value={selectedDates}
+            prevLabel={
+              <LeftOutlined
+                className={styles.leftArrowCalendar}
+                onClick={onPrevCalendar}
+              />
+            }
+            prev2Label={null}
+            next2Label={null}
+            nextLabel={
+              <RightOutlined
+                className={styles.leftArrowCalendar}
+                onClick={onNextCalendar}
+              />
+            }
+            locale="en"
+            showNeighboringMonth={false}
+          />
+        </div>
         <div className={styles.chooseDate}>
           <RangeDatePicker onSelect={onSelectRangeData} />
           <div className={styles.priceTotal}>
@@ -125,7 +144,14 @@ const onNextCalendar = () => {
               <span>{totalPrice} AUD</span>
             </div>
           </div>
-          <Link href="/enquiry" className="flex flex-col">
+          <Link
+            href={`/enquiry?propertyId=${
+              info.id
+            }&startDate=${selectedDates[0].format(
+              "DD-MM-YYYY"
+            )}&endDate=${moment(selectedDates[1]).format("DD-MM-YYYY")}`}
+            className="flex flex-col"
+          >
             <Button className={styles.enquiryButton}>GO TO ENQUIRY FORM</Button>
           </Link>
         </div>

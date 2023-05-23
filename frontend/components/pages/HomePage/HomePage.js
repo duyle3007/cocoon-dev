@@ -5,7 +5,6 @@ import Headline from "@/components/pages/HomePage/Headline/Headline";
 import Slideshow from "@/components/pages/HomePage/Slideshow/Slideshow";
 import Holiday from "@/components/pages/HomePage/Holiday/Holiday";
 import Photoshoot from "./Photoshoot/Photoshoot";
-import Event from "./Event/Event";
 import Service from "./Service/Service";
 import SayAboutUs from "./SayAboutUs/SayAboutUs";
 import Intro from "./Intro/Intro";
@@ -61,7 +60,6 @@ const HomePage = () => {
 
       <Holiday />
       <Photoshoot />
-      <Event />
       <Service />
       <SayAboutUs />
       <Intro />

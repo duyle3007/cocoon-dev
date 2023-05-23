@@ -153,7 +153,7 @@ const PropertyDetail = ({ propertyDetail }) => {
       </div>
 
       <MainTab info={propertyDetail} />
-      <Calendar info={dumb_data} />
+      <Calendar info={propertyDetail} />
       {propertyDetail.acf.related_villas.length > 0 && (
         <RelatedVilla info={propertyDetail} />
       )}

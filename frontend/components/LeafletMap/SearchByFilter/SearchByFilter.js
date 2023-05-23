@@ -6,6 +6,15 @@ import FilterCard from "./FilterCard/FilterCard";
 import styles from "./SearchByFilter.module.scss";
 import { isMobile } from "@/utils/utils";
 
+export const SORT_VALUES = [
+  { value: "relevance", label: "Relevance" },
+  { value: "price:asc", label: "Price: Low to high" },
+  { value: "price:des", label: "Price: High to low" },
+  { value: "date:des", label: "Date: New to old" },
+  { value: "date:asc", label: "Date: Old to new" },
+  { value: "popular", label: "Popular" },
+];
+
 const SearchByFilter = ({ listLocation, mode }) => {
   const [sortValue, setSortValue] = useState("RELEVANCE");
 
@@ -29,14 +38,7 @@ const SearchByFilter = ({ listLocation, mode }) => {
             className={styles.sortSelect}
             defaultValue="relevance"
             bordered={false}
-            options={[
-              { value: "relevance", label: "Relevance" },
-              { value: "price:asc", label: "Price: Low to high" },
-              { value: "price:des", label: "Price: High to low" },
-              { value: "date:des", label: "Date: New to old" },
-              { value: "date:asc", label: "Date: Old to new" },
-              { value: "popular", label: "Popular" },
-            ]}
+            options={SORT_VALUES}
             suffixIcon={<img src="/searchPage/sort.svg" />}
           />
         </div>

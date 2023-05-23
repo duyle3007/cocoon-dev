@@ -11,10 +11,13 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import { isMobile } from "@/utils/utils";
 import SearchControl from "@/components/LeafletMap/SearchControl";
 import FilterModal from "@/components/LeafletMap/FilterModal/FilterModal";
-import SearchByFilter from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
+import SearchByFilter, {
+  SORT_VALUES,
+} from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
 import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
+import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 
 import styles from "./PhotoshootPage.module.scss";
 
@@ -205,6 +208,8 @@ const PhotoshootPage = () => {
   const mapRef = useRef();
   const leafletRef = useRef();
   const modalRef = useRef();
+  const sortModalRef = useRef();
+
   const [formRef] = Form.useForm();
   const [listLocation, setListLocation] = useState(addressPoints);
   const [searchType, setSearchType] = useState("filter");
@@ -255,6 +260,7 @@ const PhotoshootPage = () => {
           selectedBed: "Any",
           selectedBadroom: "Any",
           feature: [],
+          sort: SORT_VALUES[0].value,
         }}
         onFinish={onFinishForm}
       >
@@ -272,10 +278,12 @@ const PhotoshootPage = () => {
         />
 
         <FilterModal ref={modalRef} tabActive={tabActive} />
+        <SortModal ref={sortModalRef} />
       </Form>
       <div className={styles.right}>
         <ToolBarMobile
           onClickFilter={() => modalRef.current.openFilterModal()}
+          onClickSort={() => sortModalRef.current.openSortModal()}
         />
         <div className={styles.searchTitle}>
           PHOTOSHOOTS AND EVENTS

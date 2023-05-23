@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useState, useRef } from "react";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
 import { Form } from "antd";
 import { useRouter } from "next/router";
@@ -11,10 +10,13 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import { isMobile } from "@/utils/utils";
 import SearchControl from "@/components/LeafletMap/SearchControl";
 import FilterModal from "@/components/LeafletMap/FilterModal/FilterModal";
-import SearchByFilter from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
+import SearchByFilter, {
+  SORT_VALUES,
+} from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
 import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
+import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 
 import styles from "./HolidayPage.module.scss";
 
@@ -205,6 +207,8 @@ const HolidayPage = () => {
   const mapRef = useRef();
   const leafletRef = useRef();
   const modalRef = useRef();
+  const sortModalRef = useRef();
+
   const [formRef] = Form.useForm();
   const [listLocation, setListLocation] = useState(addressPoints);
   const [searchType, setSearchType] = useState("filter");
@@ -255,6 +259,7 @@ const HolidayPage = () => {
           selectedBed: "Any",
           selectedBadroom: "Any",
           feature: [],
+          sort: SORT_VALUES[0].value,
         }}
         onFinish={onFinishForm}
       >
@@ -272,10 +277,12 @@ const HolidayPage = () => {
         />
 
         <FilterModal ref={modalRef} tabActive={tabActive} />
+        <SortModal ref={sortModalRef} />
       </Form>
       <div className={styles.right}>
         <ToolBarMobile
           onClickFilter={() => modalRef.current.openFilterModal()}
+          onClickSort={() => sortModalRef.current.openSortModal()}
         />
         <div className={styles.searchTitle}>Holidays properties</div>
         {searchType === "filter" ? (

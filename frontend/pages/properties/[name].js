@@ -36,5 +36,8 @@ export async function getServerSideProps({ resolvedUrl }) {
     };
   } catch (err) {
     console.log("Fetch list data", err);
+    return {
+      notFound: true,
+    };
   }
 }

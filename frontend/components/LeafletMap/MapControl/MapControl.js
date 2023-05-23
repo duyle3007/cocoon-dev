@@ -47,6 +47,7 @@ const MapControl = ({
   onChangeSearchType,
   listLocation,
   onOpenFilter,
+  onOpenSort,
 }) => {
   const router = useRouter();
 
@@ -81,6 +82,11 @@ const MapControl = ({
               {listLocation.length} PROPERTIES
             </div>
             <div className={styles.searchType}>
+              <Image
+                src="/searchPage/sort.svg"
+                className={styles.sortIcon}
+                onClick={onOpenSort}
+              />
               <div
                 className={`${styles.info} ${
                   searchType === "filter" && styles.active
