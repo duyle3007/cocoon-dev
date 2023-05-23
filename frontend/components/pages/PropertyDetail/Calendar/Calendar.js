@@ -147,9 +147,9 @@ const Calendar = ({ info }) => {
           <Link
             href={`/enquiry?propertyId=${
               info.id
-            }&startDate=${selectedDates[0].format(
+            }&startDate=${selectedDates[0]?.format(
               "DD-MM-YYYY"
-            )}&endDate=${moment(selectedDates[1]).format("DD-MM-YYYY")}`}
+            )}&endDate=${moment(selectedDates[1])?.format("DD-MM-YYYY")}`}
             className="flex flex-col"
           >
             <Button className={styles.enquiryButton}>GO TO ENQUIRY FORM</Button>
