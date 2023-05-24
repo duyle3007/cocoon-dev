@@ -101,8 +101,14 @@
     :global(.ant-form-item) {
       @apply mb-0;
     }
+    :global(.ant-checkbox-wrapper) {
+      @apply items-center;
+    }
     .locationSelector {
       @apply mb-3;
+    }
+    :global(.ant-tooltip-placement-top) {
+      top: 20px !important;
     }
   }
 }
