@@ -44,7 +44,7 @@
 
 @media (max-width: 768px) {
   .mapContainer {
-    @apply flex-col relative;
+    @apply flex-col relative h-fit;
     .searchTitle {
       @apply flex-col px-5 items-start gap-2 relative bg-[#F2EEE8] top-0;
       font-weight: 700;
@@ -52,7 +52,7 @@
       line-height: 24px;
     }
     .right {
-      @apply flex-col-reverse h-full;
+      @apply flex-col-reverse;
     }
     .mapResultMobile {
       @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto;
