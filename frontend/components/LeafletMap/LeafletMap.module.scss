@@ -1,6 +1,6 @@
 .mapContainer {
   display: flex;
-  height: calc(100vh - 85px);
+  min-height: calc(100vh - 85px);
   .searchContainer {
     width: 30%;
     overflow: auto;
@@ -44,7 +44,7 @@
 
 @media (max-width: 768px) {
   .mapContainer {
-    @apply flex-col relative h-fit;
+    @apply flex-col relative;
     .searchTitle {
       @apply flex-col px-5 items-start gap-2 relative bg-[#F2EEE8] top-0;
       font-weight: 700;
@@ -55,7 +55,7 @@
       @apply flex-col-reverse;
     }
     .mapResultMobile {
-      @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto;
+      @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto z-[99];
     }
   }
 }
