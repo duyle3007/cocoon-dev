@@ -1,6 +1,6 @@
 .mapContainer {
   display: flex;
-  height: calc(100vh - 85px);
+  min-height: calc(100vh - 85px);
   .searchContainer {
     width: 30%;
     overflow: auto;
