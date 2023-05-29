@@ -12,6 +12,7 @@ import Image from "@/components/Image/Image";
 import { DESTINATION_LIST } from "../Header";
 
 import styles from "./Drawer.module.scss";
+import Link from "next/link";
 
 const { Panel } = Collapse;
 
@@ -19,6 +20,7 @@ const Drawer = () => {
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [renderCollapseChildren, setRenderCollapseChildren] = useState(null);
+  const [searchInput, setSearchInput] = useState(null);
 
   const goBack = (destination) => {
     const levelChildren = destination.key.split("-");
@@ -83,6 +85,7 @@ const Drawer = () => {
       setRenderCollapseChildren(destinationChildrenHtml);
     }
   };
+
   return (
     <div>
       <MenuOutlined onClick={() => setOpenDrawer(true)} />
@@ -108,6 +111,12 @@ const Drawer = () => {
               placeholder="Villa name or Location..."
               bordered={false}
               className={styles.searchVilla}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onPressEnter={(e) => {
+                setSearchInput(null);
+                goTo(`/search?searchValue=${e.target.value}`);
+              }}
             />
             {renderCollapseChildren ? (
               renderCollapseChildren
@@ -116,8 +125,12 @@ const Drawer = () => {
                 <div onClick={() => goTo("/")}>HOME</div>
                 <Collapse ghost accordion expandIcon={() => null}>
                   <Panel header="AUSTRALIA" key="1">
-                    <p>PRIVATE VILLAS</p>
-                    <p>LUXURY LODGES</p>
+                    <p onClick={() => goTo("/search?villaType=private")}>
+                      PRIVATE VILLAS
+                    </p>
+                    <p onClick={() => goTo("/search?villaType=luxury")}>
+                      LUXURY LODGES
+                    </p>
                   </Panel>
                   <Panel header="DESTINATION" key="2">
                     {DESTINATION_LIST.map((destination, index) => (

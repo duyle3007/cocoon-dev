@@ -258,7 +258,7 @@ const LeafletMap = ({ mode }) => {
   const onSearch = (value) => {
     if (value) {
       const filterLocationList = listLocation.filter((location) =>
-        location.name.toLowerCase().includes(value.toLowerCase())
+        location.title.rendered.toLowerCase().includes(value.toLowerCase())
       );
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {

@@ -1,12 +1,12 @@
 import { Checkbox, Form, Input, Select, Slider } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
-import { LOCATION_LIST } from "../SearchControl";
 import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { isMobile } from "@/utils/utils";
 import { COUNTRY_LIST } from "../MapControl/MapControl";
+import { LOCATION_LIST } from "../SearchControl";
 
 import styles from "./SearchForm.module.scss";
 

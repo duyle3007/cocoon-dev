@@ -124,6 +124,9 @@
     height: inherit;
     transition: 0.3 all;
   }
+  :global(.ant-tooltip-placement-top) {
+    top: 20px !important;
+  }
 }
 
 .rightArrow {

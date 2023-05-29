@@ -26,28 +26,34 @@ export const DESTINATION_LIST = [
           {
             key: "2-1-1",
             label: "Manly ",
+            url: "/search?destination=manly",
           },
           {
             key: "2-1-2",
             label: "Vaucluse ",
+            url: "/search?destination=vaucluse",
           },
           {
             key: "2-1-3",
             label: "Point Piper ",
+            url: "/search?destination=point-piper",
           },
         ],
       },
       {
         key: "2-2",
         label: "Bryon Bay",
+        url: "/search?destination=bryon-bay",
       },
       {
         key: "2-3",
         label: "Victoria",
+        url: "/search?destination=victoria",
       },
       {
         key: "2-4",
         label: "Sydney with beaches",
+        url: "/search?destination=sydney-beaches",
       },
       {
         key: "2-5",
@@ -56,104 +62,129 @@ export const DESTINATION_LIST = [
           {
             key: "2-5-1",
             label: "Manly ",
+            url: "/search?destination=manly",
           },
           {
             key: "2-5-2",
             label: "Vaucluse ",
+            url: "/search?destination=vaucluse",
           },
           {
             key: "2-5-3",
             label: "Point Piper ",
+            url: "/search?destination=point-piper",
           },
           {
             key: "2-5-4",
             label: "Mosman ",
+            url: "/search?destination=mosman",
           },
           {
             key: "2-5-5",
             label: "Bronte ",
+            url: "/search?destination=bronte",
           },
           {
             key: "2-5-6",
             label: "Balmoral Beach ",
+            url: "/search?destination=balmoral-beach",
           },
           {
             key: "2-5-7",
             label: "Bellevue Hill ",
+            url: "/search?destination=bellevue-hill",
           },
           {
             key: "2-5-8",
             label: "Bondi Beach ",
+            url: "/search?destination=bondi-beach",
           },
           {
             key: "2-5-9",
             label: "Coogee ",
+            url: "/search?destination=coogee",
           },
           {
             key: "2-5-10",
             label: "Darling Point ",
+            url: "/search?destination=darling-point",
           },
           {
             key: "2-5-11",
             label: "Darlinghurst ",
+            url: "/search?destination=darlinghurst",
           },
           {
             key: "2-5-12",
             label: "Double Bay ",
+            url: "/search?destination=double-bay",
           },
           {
             key: "2-5-13",
             label: "Rose Bay ",
+            url: "/search?destination=rose-bay",
           },
           {
             key: "2-5-14",
             label: "Tamarama ",
+            url: "/search?destination=tamarama",
           },
           {
             key: "2-5-15",
             label: "Potts Point ",
+            url: "/search?destination=potts-point",
           },
           {
             key: "2-5-16",
             label: "Gordon Bay ",
+            url: "/search?destination=gordon-bay",
           },
           {
             key: "2-5-17",
             label: "Woollahra ",
+            url: "/search?destination=woollahra",
           },
           {
             key: "2-5-18",
             label: "Watsons Bay ",
+            url: "/search?destination=watsons-bay",
           },
           {
             key: "2-5-19",
             label: "Balgowlah Heights ",
+            url: "/search?destination=balgowlah-heights",
           },
           {
             key: "2-5-20",
             label: "Kensington ",
+            url: "/search?destination=kensington",
           },
         ],
       },
       {
         key: "2-6",
         label: "Port Stephens",
+        url: "/search?destination=port-stephens",
       },
       {
         key: "2-7",
         label: "Gold Coast",
+        url: "/search?destination=gold-coast",
       },
       {
         key: "2-8",
         label: "Noosa",
+        url: "/search?destination=noosa",
       },
       {
         key: "2-9",
         label: "Melbource",
+        url: "/search?destination=melbource",
       },
       {
         key: "2-10",
         label: "Southern NSW Coast & Highlands",
+        url: "/search?destination=southern-nsw",
       },
     ],
   },
