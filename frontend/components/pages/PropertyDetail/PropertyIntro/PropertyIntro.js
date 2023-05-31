@@ -43,7 +43,7 @@ const PropertyIntro = ({ info }) => {
 
       <div className={styles.description}>
         <div className={styles.tagLine}>{info.acf.tag_line}</div>
-        {info.acf.description}
+        <div dangerouslySetInnerHTML={{ __html: info.acf.description }} />
       </div>
     </div>
   );
