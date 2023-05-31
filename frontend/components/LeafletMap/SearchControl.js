@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
 import { isMobile } from "@/utils/utils";
+import MapCard from "./MapCard/MapCard";
 
 import styles from "./SearchControl.module.scss";
 
@@ -32,11 +33,12 @@ const SearchControl = ({
   handleReinitClick,
   searchType,
   mode,
+  setTabActive,
+  tabActive,
 }) => {
   const router = useRouter();
   const formRef = Form.useFormInstance();
 
-  const [tabActive, setTabActive] = useState("holiday");
   const [isMinimized, setIsMinimized] = useState(false);
 
   // search value
@@ -281,17 +283,17 @@ const SearchControl = ({
         ) : (
           <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
-              <Input
-                type="search"
-                value={searchValue}
-                placeholder="Villa name or location"
-                prefix={<img src="/homepage/searchIcon.svg" />}
-                className={styles.input}
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                  onSearch(e.target.value);
-                }}
-              />
+              <Form.Item name="searchValue">
+                <Input
+                  type="search"
+                  placeholder="Villa name or location"
+                  prefix={<img src="/homepage/searchIcon.svg" />}
+                  className={styles.input}
+                  onChange={(e) => {
+                    onSearch(e.target.value);
+                  }}
+                />
+              </Form.Item>
             </div>
             <div className={styles.numResult}>
               {listLocation.length} PROPERTIES
@@ -299,25 +301,11 @@ const SearchControl = ({
             <div className={styles.searchResultList}>
               {listLocation.map((location, index) => {
                 return (
-                  <div
-                    className={styles.locationCard}
+                  <MapCard
                     key={index}
+                    location={location}
                     onClick={() => onClick(location.lat, location.lng)}
-                  >
-                    <img src="/map/marker.svg" />
-                    <div className={styles.locationContent}>
-                      <div>{location.name}</div>
-                      <div className={styles.priceWrapper}>
-                        <div className={styles.price}>AU${location.price}</div>
-                        {location?.oldPrice && (
-                          <div className={styles.discountPrice}>
-                            AU${location.oldPrice}
-                          </div>
-                        )}
-                        <span> /NIGHT</span>
-                      </div>
-                    </div>
-                  </div>
+                  />
                 );
               })}
             </div>
