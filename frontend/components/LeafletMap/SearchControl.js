@@ -262,8 +262,8 @@ const SearchControl = ({
               </Form.Item>
             </div>
 
-            <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-              <Form.Item name="selectedLocation">
+            <Form.Item name="selectedLocation">
+              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
                 {LOCATION_LIST.map((location) => (
                   <div
                     key={location.value}
@@ -277,8 +277,8 @@ const SearchControl = ({
                     {location.label}
                   </div>
                 ))}
-              </Form.Item>
-            </div>
+              </div>
+            </Form.Item>
           </div>
         ) : (
           <div className={styles.searchWrapper}>

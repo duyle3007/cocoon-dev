@@ -3,6 +3,7 @@ import {
   CloseOutlined,
   RightOutlined,
   LeftOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import { Collapse, Drawer as DrawerAnt, Input } from "antd";
@@ -12,7 +13,6 @@ import Image from "@/components/Image/Image";
 import { DESTINATION_LIST } from "../Header";
 
 import styles from "./Drawer.module.scss";
-import Link from "next/link";
 
 const { Panel } = Collapse;
 
@@ -117,6 +117,14 @@ const Drawer = () => {
                 setSearchInput(null);
                 goTo(`/search?searchValue=${e.target.value}`);
               }}
+              suffix={
+                <SearchOutlined
+                  onClick={(e) => {
+                    setSearchInput(null);
+                    goTo(`/search?searchValue=${e.target.value}`);
+                  }}
+                />
+              }
             />
             {renderCollapseChildren ? (
               renderCollapseChildren
