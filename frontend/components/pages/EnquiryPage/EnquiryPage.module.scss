@@ -74,3 +74,43 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .enquiryPage {
+    .backBtn {
+      @apply px-8;
+      span {
+        @apply hidden;
+      }
+    }
+    h1 {
+      font-size: 20px;
+      line-height: 24px;
+      margin-bottom: 24px;
+    }
+    .hotelCard {
+      @apply h-[192px];
+    }
+    .upperForm {
+      @apply mb-[80px];
+    }
+    .form {
+      @apply px-8 pt-0 pb-20;
+    }
+    .enquiryBannerWrapper {
+      @apply px-8 grid-cols-1 gap-6;
+    }
+    .enquiryBanner {
+      @apply h-[177px] w-full;
+    }
+    .enquiryIntro {
+      h4 {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+    :global(.ant-divider) {
+      @apply my-4;
+    }
+  }
+}

@@ -9,16 +9,16 @@
   }
   .whiteContent {
     color: #404040;
-    img {
-      filter: invert(24%) sepia(7%) saturate(4%) hue-rotate(355deg)
-        brightness(100%) contrast(96%) !important;
-    }
   }
   .logo {
     @apply h-8 object-cover cursor-pointer;
   }
   .headerMenu {
     @apply flex flex-row items-center gap-8 text-sm;
+    img {
+      filter: invert(24%) sepia(7%) saturate(4%) hue-rotate(355deg)
+        brightness(100%) contrast(96%) !important;
+    }
     span,
     div {
       @apply cursor-pointer;
@@ -39,6 +39,10 @@
   }
   .contactInfo {
     @apply flex flex-row gap-8 items-center;
+    img {
+      filter: invert(24%) sepia(7%) saturate(4%) hue-rotate(355deg)
+        brightness(100%) contrast(96%) !important;
+    }
     .searchInput {
       @apply max-w-[120px];
       :global(.ant-input) {

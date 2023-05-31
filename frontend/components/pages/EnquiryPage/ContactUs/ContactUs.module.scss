@@ -95,3 +95,24 @@
       brightness(91%) contrast(90%);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .contactUs {
+    @apply h-auto;
+    .wrapper {
+      @apply px-5;
+    }
+    .helpBtn {
+      @apply absolute flex justify-between bottom-10 left-0 right-0 mx-auto w-fit;
+    }
+    .form {
+      @apply px-6 w-full;
+    }
+    .rowItem {
+      @apply grid-cols-1 gap-2;
+    }
+  }
+  .needHelpContent {
+    // @apply bottom-10;
+  }
+}

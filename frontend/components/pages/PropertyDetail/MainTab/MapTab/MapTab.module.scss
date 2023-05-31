@@ -1,0 +1,9 @@
+.mapTab {
+  height: 500px;
+}
+
+@media (max-width: 768px) {
+  .mapTab {
+    height: 300px;
+  }
+}

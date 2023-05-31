@@ -25,19 +25,19 @@
     }
 
     .infoWrapper {
-      @apply flex gap-4 items-center mt-2;
+      @apply flex gap-4 items-center mt-2 max-w-[80%];
       font-family: "Whitney Book";
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 20px;
       .info {
-        @apply flex gap-2 items-center;
+        @apply flex gap-2 items-center min-w-[100px];
         img {
           @apply w-4 h-4;
         }
         span {
-          @apply max-w-[110px] overflow-hidden text-ellipsis whitespace-nowrap;
+          @apply max-w-full overflow-hidden text-ellipsis whitespace-nowrap;
         }
       }
     }
@@ -51,6 +51,12 @@
       letter-spacing: 0.006em;
       color: #404040;
       opacity: 0.8;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
     }
 
     .divider {

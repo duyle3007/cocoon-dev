@@ -36,8 +36,14 @@
     .underSearchMobile {
       @apply flex justify-between items-center mt-4;
     }
+    .sortIcon {
+      @apply w-5 h-5 text-black mr-2;
+      img {
+        display: flex !important;
+      }
+    }
     .searchType {
-      @apply gap-0;
+      @apply gap-0 items-center;
       img {
         @apply hidden;
       }

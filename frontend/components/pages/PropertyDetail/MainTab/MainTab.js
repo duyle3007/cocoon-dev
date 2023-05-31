@@ -1,11 +1,16 @@
 import { Tabs } from "antd";
+import dynamic from "next/dynamic";
 
 import DetailTab from "./DetailTab/DetailTab";
 import AmenityTab from "./AmenityTab/AmenityTab";
 import VideoTab from "./VideoTab/VideoTab";
+import ReviewTab from "./ReviewTab/ReviewTab";
+
+const MapTab = dynamic(() => import("./MapTab/MapTab"), {
+  ssr: false,
+});
 
 import styles from "./MainTab.module.scss";
-import ReviewTab from "./ReviewTab/ReviewTab";
 
 const TabItems = (info) => {
   if (!info.videos || info.videos.length === 0) {
@@ -23,7 +28,7 @@ const TabItems = (info) => {
       {
         key: "4",
         label: `Map`,
-        children: `Content of Tab Pane 3`,
+        children: <MapTab info={info} />,
       },
       {
         key: "5",
@@ -51,7 +56,7 @@ const TabItems = (info) => {
     {
       key: "4",
       label: `Map`,
-      children: `Content of Tab Pane 3`,
+      children: <MapTab info={info} />,
     },
     {
       key: "5",

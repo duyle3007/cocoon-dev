@@ -1,4 +1,4 @@
-import { Checkbox, Input, Select, Slider } from "antd";
+import { Checkbox, Form, Input, Select, Slider } from "antd";
 import { useEffect, useState } from "react";
 import {
   LeftOutlined,
@@ -33,22 +33,21 @@ const SearchControl = ({
   handleReinitClick,
   searchType,
   mode,
-  tabActive,
   setTabActive,
+  tabActive,
 }) => {
   const router = useRouter();
+  const formRef = Form.useFormInstance();
 
   const [isMinimized, setIsMinimized] = useState(false);
 
   // search value
-  const [searchValue, setSearchValue] = useState(null);
-  const [villaType, setVillaType] = useState(null);
-  const [selectedBedroom, setSelectedBedroom] = useState("Any");
-  const [selectedBed, setSelectedBed] = useState("Any");
-  const [selectedBadroom, setSelectedBadroom] = useState("Any");
-
-  const [maxGuest, setMaxGuest] = useState(0);
-  const [filterLocationList, setFilterLocationList] = useState([]);
+  const rangeDate = Form.useWatch("rangeDate", formRef);
+  const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
+  const maxGuest = Form.useWatch("maxGuest", formRef);
+  const selectedLocation = Form.useWatch("selectedLocation", formRef);
+  const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
+  const selectedBed = Form.useWatch("selectedBed", formRef);
 
   useEffect(() => {
     const hash = router.asPath.split("#")[1];
@@ -56,10 +55,10 @@ const SearchControl = ({
       setTabActive(hash);
     }
     if (router.query.villaType) {
-      setVillaType(router.query.villaType);
+      formRef.setFieldsValue({ villaType: router.query.villaType });
     }
     if (router.query.searchValue) {
-      setSearchValue(router.query.searchValue);
+      formRef.setFieldsValue({ searchValue: router.query.searchValue });
       onSearch(router.query.searchValue);
     }
   }, [router]);
@@ -78,15 +77,17 @@ const SearchControl = ({
     }, 200);
   };
 
-  const updateLocationFilter = (selectedLocation) => {
-    const temp = [...filterLocationList];
-    if (filterLocationList.some((location) => location === selectedLocation)) {
-      setFilterLocationList(
-        temp.filter((location) => location !== selectedLocation)
-      );
+  const updateLocationFilter = (selectedValues) => {
+    const temp = [...selectedLocation];
+    if (selectedLocation.some((location) => location === selectedValues)) {
+      formRef.setFieldsValue({
+        selectedLocation: temp.filter(
+          (location) => location !== selectedValues
+        ),
+      });
     } else {
-      temp.push(selectedLocation);
-      setFilterLocationList(temp);
+      temp.push(selectedValues);
+      formRef.setFieldsValue({ selectedLocation: temp });
     }
   };
 
@@ -123,58 +124,69 @@ const SearchControl = ({
         )}
 
         {searchType === "filter" ? (
-          <div
-            className={styles.searchWrapper}
-            style={mode ? { height: "100%" } : {}}
-          >
+          <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
-              <Input
-                type="search"
-                value={searchValue}
-                placeholder="Villa name or location"
-                prefix={<img src="/homepage/searchIcon.svg" />}
-                className={styles.input}
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                  onSearch(e.target.value);
-                }}
-              />
-              <Select
-                placeholder="Choose villa type"
-                value={villaType}
-                className={styles.villaTypeSelector}
-                onChange={(value) => setVillaType(value)}
-              >
-                <Option value="private">Private Villas</Option>
-                <Option value="apartment">Apartments</Option>
-                <Option value="luxury">Luxury Lodges</Option>
-              </Select>
-              <RangeDatePicker />
+              <Form.Item name="searchValue">
+                <Input
+                  type="search"
+                  placeholder="Villa name or location"
+                  prefix={<img src="/homepage/searchIcon.svg" />}
+                  className={styles.input}
+                  onChange={(e) => {
+                    onSearch(e.target.value);
+                  }}
+                />
+              </Form.Item>
+              <Form.Item name="villaType">
+                <Select
+                  placeholder="Choose villa type"
+                  className={styles.villaTypeSelector}
+                >
+                  <Option value="private">Private Villas</Option>
+                  <Option value="apartment">Apartments</Option>
+                  <Option value="luxury">Luxury Lodges</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="rangeDate">
+                <RangeDatePicker value={rangeDate} />
+              </Form.Item>
               {tabActive === "holiday" && (
                 <div>
                   <div className={styles.inputTitle}>Bedrooms</div>
-                  <SegmenedSelector
-                    listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
-                    selectedOption={selectedBedroom}
-                    onClick={(value) => setSelectedBedroom(value)}
-                  />
+                  <Form.Item name="selectedBedroom">
+                    <SegmenedSelector
+                      listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                      selectedOption={selectedBedroom}
+                      onClick={(value) =>
+                        formRef.setFieldsValue({ selectedBedroom: value })
+                      }
+                    />
+                  </Form.Item>
                 </div>
               )}
               <div>
                 <div className={styles.inputTitle}>Beds</div>
-                <SegmenedSelector
-                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
-                  selectedOption={selectedBed}
-                  onClick={(value) => setSelectedBed(value)}
-                />
+                <Form.Item name="selectedBed">
+                  <SegmenedSelector
+                    listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                    selectedOption={selectedBed}
+                    onClick={(value) =>
+                      formRef.setFieldsValue({ selectedBed: value })
+                    }
+                  />
+                </Form.Item>
               </div>
               <div>
                 <div className={styles.inputTitle}>Bathrooms</div>
-                <SegmenedSelector
-                  listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
-                  selectedOption={selectedBadroom}
-                  onClick={(value) => setSelectedBadroom(value)}
-                />
+                <Form.Item name="selectedBadroom">
+                  <SegmenedSelector
+                    listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
+                    selectedOption={selectedBadroom}
+                    onClick={(value) =>
+                      formRef.setFieldsValue({ selectedBadroom: value })
+                    }
+                  />
+                </Form.Item>
               </div>
             </div>
             {tabActive === "holiday" && (
@@ -186,24 +198,24 @@ const SearchControl = ({
                     </div>
                     <div className={styles.maxPrice}>$500 to +$5,000</div>
                   </div>
-
-                  <Slider
-                    className={styles.sliderPrice}
-                    step={100}
-                    range={{ draggableTrack: true }}
-                    defaultValue={[800, 2000]}
-                    tooltip={{
-                      open: true,
-                      placement: "bottom",
-                      formatter: (value) => <div>${value}</div>,
-                      getPopupContainer: (trigger) => {
-                        return trigger;
-                      },
-                    }}
-                    max={5000}
-                    min={500}
-                    // onChange={onChange}
-                  />
+                  <Form.Item name="rangePrice">
+                    <Slider
+                      className={styles.sliderPrice}
+                      step={100}
+                      range={{ draggableTrack: true }}
+                      defaultValue={[800, 2000]}
+                      tooltip={{
+                        open: true,
+                        placement: "bottom",
+                        formatter: (value) => <div>${value}</div>,
+                        getPopupContainer: (trigger) => {
+                          return trigger;
+                        },
+                      }}
+                      max={5000}
+                      min={500}
+                    />
+                  </Form.Item>
                 </div>
                 <div className="flex justify-between">
                   <div
@@ -212,67 +224,76 @@ const SearchControl = ({
                   >
                     Choose max guest
                   </div>
-                  <div className="flex gap-4 items-center">
-                    <div
-                      className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
-                      onClick={() => {
-                        maxGuest > 0 && setMaxGuest(maxGuest - 1);
-                      }}
-                    >
-                      <MinusOutlined />
+                  <Form.Item name="maxGuest">
+                    <div className="flex gap-4 items-center">
+                      <div
+                        className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
+                        onClick={() => {
+                          maxGuest > 0 &&
+                            formRef.setFieldsValue({ maxGuest: maxGuest - 1 });
+                        }}
+                      >
+                        <MinusOutlined />
+                      </div>
+                      {maxGuest}
+                      <div
+                        className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
+                        onClick={() =>
+                          formRef.setFieldsValue({ maxGuest: maxGuest + 1 })
+                        }
+                      >
+                        <PlusOutlined />
+                      </div>
                     </div>
-                    {maxGuest}
-                    <div
-                      className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                      onClick={() => setMaxGuest(maxGuest + 1)}
-                    >
-                      <PlusOutlined />
-                    </div>
-                  </div>
+                  </Form.Item>
                 </div>
               </div>
             )}
             <div className={styles.inputWrapper}>
               <div className={styles.featuresTitle}>FEATURES</div>
-              <Checkbox.Group className={styles.featureSelector}>
-                <Checkbox value="ac">Air Conditioning</Checkbox>
-                <Checkbox value="pool">Pool</Checkbox>
-                <Checkbox value="gym">Gym</Checkbox>
-                <Checkbox value="tub">Hot Tub</Checkbox>
-                <Checkbox value="bbq">BBQ Grill</Checkbox>
-              </Checkbox.Group>
+              <Form.Item name="feature">
+                <Checkbox.Group className={styles.featureSelector}>
+                  <Checkbox value="ac">Air Conditioning</Checkbox>
+                  <Checkbox value="pool">Pool</Checkbox>
+                  <Checkbox value="gym">Gym</Checkbox>
+                  <Checkbox value="tub">Hot Tub</Checkbox>
+                  <Checkbox value="bbq">BBQ Grill</Checkbox>
+                </Checkbox.Group>
+              </Form.Item>
             </div>
 
-            <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-              {LOCATION_LIST.map((location) => (
-                <div
-                  key={location.value}
-                  className={`${styles.locationSelector} ${
-                    filterLocationList.some(
-                      (item) => item === location.value
-                    ) && styles.selectedLocation
-                  }`}
-                  onClick={() => updateLocationFilter(location.value)}
-                >
-                  {location.label}
-                </div>
-              ))}
-            </div>
+            <Form.Item name="selectedLocation">
+              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+                {LOCATION_LIST.map((location) => (
+                  <div
+                    key={location.value}
+                    className={`${styles.locationSelector} ${
+                      selectedLocation?.some(
+                        (item) => item === location.value
+                      ) && styles.selectedLocation
+                    }`}
+                    onClick={() => updateLocationFilter(location.value)}
+                  >
+                    {location.label}
+                  </div>
+                ))}
+              </div>
+            </Form.Item>
           </div>
         ) : (
           <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
-              <Input
-                type="search"
-                value={searchValue}
-                placeholder="Villa name or location"
-                prefix={<img src="/homepage/searchIcon.svg" />}
-                className={styles.input}
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                  onSearch(e.target.value);
-                }}
-              />
+              <Form.Item name="searchValue">
+                <Input
+                  type="search"
+                  placeholder="Villa name or location"
+                  prefix={<img src="/homepage/searchIcon.svg" />}
+                  className={styles.input}
+                  onChange={(e) => {
+                    onSearch(e.target.value);
+                  }}
+                />
+              </Form.Item>
             </div>
             <div className={styles.numResult}>
               {listLocation.length} PROPERTIES
@@ -280,7 +301,11 @@ const SearchControl = ({
             <div className={styles.searchResultList}>
               {listLocation.map((location, index) => {
                 return (
-                  <MapCard key={index} location={location} onClick={onClick} />
+                  <MapCard
+                    key={index}
+                    location={location}
+                    onClick={() => onClick(location.lat, location.lng)}
+                  />
                 );
               })}
             </div>

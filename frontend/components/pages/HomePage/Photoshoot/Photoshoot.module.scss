@@ -46,10 +46,11 @@
         div {
           font-size: 14px;
           line-height: 20px;
-          padding-right: 40%;
+          padding-right: 10%;
           &:first-child {
             font-size: 32px;
             line-height: 40px;
+            padding-right: 0;
           }
         }
       }

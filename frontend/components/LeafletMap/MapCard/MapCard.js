@@ -8,11 +8,17 @@ const MapCard = ({ location, onClick }) => {
     >
       <img src="/map/marker.svg" />
       <div className={styles.locationContent}>
-        <div>{location.name}</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: location?.title?.rendered,
+          }}
+        />
         <div className={styles.priceWrapper}>
-          <div className={styles.price}>AU${location.price}</div>
-          {location?.oldPrice && (
-            <div className={styles.discountPrice}>AU${location.oldPrice}</div>
+          <div className={styles.price}>AU${location.acf.starting_price}</div>
+          {location?.acf.oldPrice && (
+            <div className={styles.discountPrice}>
+              AU${location.acf.oldPrice}
+            </div>
           )}
           <span> /NIGHT</span>
         </div>

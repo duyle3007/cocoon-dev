@@ -9,7 +9,7 @@ import styles from "./Photoshoot.module.scss";
 
 const Photoshoot = () => {
   const { propertyList } = useContext(PropertyListContext);
-  const holidayList = propertyList.filter(
+  const photshootList = propertyList.filter(
     (property) => property.categories[0].name === "Events"
   );
 
@@ -17,7 +17,7 @@ const Photoshoot = () => {
     <div className={styles.holidayContainer}>
       <div className={styles.header}>
         <div className={styles.leftHeader}>
-          <div>PHOTOSHOOTS</div>
+          <div>PHOTOSHOOTS / EVENTS</div>
           <div>Only Available for Photoshoots, Filming and TV Production.</div>
         </div>
         <Link href="/photoshoots">
@@ -31,8 +31,8 @@ const Photoshoot = () => {
       </div>
 
       <div className={styles.listHotel}>
-        {holidayList.length > 0 &&
-          holidayList
+        {photshootList.length > 0 &&
+          photshootList
             .slice(0, 3)
             .map((hotel, index) => (
               <HotelCard item={hotel} key={index} className={styles.hotel} />

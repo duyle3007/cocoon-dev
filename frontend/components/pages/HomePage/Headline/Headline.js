@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import { isMobile } from "@/utils/utils";
+import Link from "next/link";
 
 import styles from "./Headline.module.scss";
 
@@ -24,7 +25,9 @@ const Headline = () => {
         {!isMobile() && (
           <div className={styles.title}>COCOON LUXURY PROPERTIES</div>
         )}
-        <Button>ABOUT US</Button>
+        <Link href="/about-us">
+          <Button>ABOUT US</Button>
+        </Link>
       </div>
     </div>
   );

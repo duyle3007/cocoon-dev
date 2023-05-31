@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import GuestDropdown from "../../HomePage/SearchBanner/GuestDropdown/GuestDropdown";
 
 import styles from "./FormEnquiry.module.scss";
+import { isMobile } from "@/utils/utils";
 
 const { TextArea } = Input;
 
@@ -13,6 +14,13 @@ const FormEnquiry = () => {
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
 
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
+
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
   const disabledEndDate = (current) => {
     return momentStartDate ? current && current < momentStartDate : false;
   };
@@ -20,12 +28,6 @@ const FormEnquiry = () => {
   const disabledStartDate = (current) => {
     return momentEndDate ? current && current > momentEndDate : false;
   };
-
-  useEffect(() => {
-    if (momentStartDate && momentEndDate) {
-      onSelect([momentStartDate, momentEndDate]);
-    }
-  }, [momentStartDate, momentEndDate]);
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
@@ -35,7 +37,9 @@ const FormEnquiry = () => {
     setMomentEndDate(date);
   };
 
-  const onUpdateGuest = () => {};
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
 
   return (
     <div className={styles.formEnquiry}>
@@ -48,22 +52,45 @@ const FormEnquiry = () => {
               onChange={onChangeStartDay}
             />
           </Form.Item>
-          <Form.Item name="numPeople">
-            <GuestDropdown
-              onUpdateGuest={onUpdateGuest}
-              className={styles.numPeople}
-            />
-          </Form.Item>
+          {isMobile() ? (
+            <Form.Item label="CHECK OUT" name="checkOut">
+              <DatePicker
+                disabledDate={disabledEndDate}
+                format="MMM DD, YYYY"
+                onChange={onChangeEndDay}
+              />
+            </Form.Item>
+          ) : (
+            <Form.Item name="numPeople">
+              <GuestDropdown
+                onUpdateGuest={(value) =>
+                  form.setFieldsValue({ numPeople: value })
+                }
+                className={styles.numPeople}
+              />
+            </Form.Item>
+          )}
         </div>
 
         <div className={styles.rowItem}>
-          <Form.Item label="CHECK OUT" name="checkOut">
-            <DatePicker
-              disabledDate={disabledEndDate}
-              format="MMM DD, YYYY"
-              onChange={onChangeEndDay}
-            />
-          </Form.Item>
+          {!isMobile() ? (
+            <Form.Item label="CHECK OUT" name="checkOut">
+              <DatePicker
+                disabledDate={disabledEndDate}
+                format="MMM DD, YYYY"
+                onChange={onChangeEndDay}
+              />
+            </Form.Item>
+          ) : (
+            <Form.Item name="numPeople">
+              <GuestDropdown
+                onUpdateGuest={(value) =>
+                  form.setFieldsValue({ numPeople: value })
+                }
+                className={styles.numPeople}
+              />
+            </Form.Item>
+          )}
           <Form.Item label="NIGHT BUDGET" name="budget">
             <Select
               placeholder="Select"

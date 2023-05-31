@@ -7,26 +7,29 @@ import { useRouter } from "next/router";
 import styles from "./MarkerCluster.module.scss";
 
 // eslint-disable-next-line react/display-name
-const MarkerCluster = forwardRef(({ markers }, ref) => {
+const MarkerCluster = forwardRef(({ listLocation }, ref) => {
   const map = useMap();
   const router = useRouter();
 
   useEffect(() => {
     if (!map) return;
     const markerClusterGroup = L.markerClusterGroup();
-    const leafletMarkers = markers.map(
+    const leafletMarkers = listLocation.map(
       ({
-        lat,
-        lng,
-        name,
-        url,
-        location,
-        numBedroom,
-        numBathroom,
-        numPeople,
-        price,
-        discount,
-        description,
+        lat = Math.random() * 360 - 180,
+        lng = Math.random() * 360 - 180,
+        title: { rendered: name },
+        slug,
+        acf: {
+          description,
+          starting_price,
+          no_of_bedrooms,
+          no_of_bathrooms,
+          min_of_nights,
+          location1,
+          discount,
+        },
+        images,
       }) => {
         const customMarker = new L.DivIcon({
           className: "custom-marker-wrapper",
@@ -34,7 +37,7 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           iconAnchor: [15, 15],
           html: `<div class=${styles.customMarkerContent}>
           <img src="/map/marker.svg"/>
-          AU$3500
+          AU$${starting_price}
           </div>`,
         });
         const marker = L.marker([lat, lng], { icon: customMarker });
@@ -58,7 +61,7 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           const popupContent = document.querySelector(".leaflet-popup-content");
 
           popupContent.addEventListener("click", function () {
-            router.push(`/properties/paris-by-night`);
+            router.push(`/properties/${slug}`);
           });
         });
 
@@ -73,42 +76,38 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
           </div>`
               : ""
           }
-          <img src=${url[0]} class=${styles.locationImage} />
+          <img src=${images[0].src} class=${styles.locationImage} />
           <div class=${styles.locationContent}>
             <h5 class=${styles.name}>${name}</h5>
             <div class=${styles.infoWrapper}>
               <div class=${styles.info}>
                 <img src="/homepage/discoverIcon.svg" />
-                <span>${location}</span>
+                <span>${location1}</span>
               </div>
               <div class=${styles.info}>
                 <img src="/map/bedIcon.svg" />
-                ${numBedroom || 0} bedrooms
+                ${no_of_bedrooms || 0} bedrooms
               </div>
             </div>
             <div class=${styles.infoWrapper}>
               <div class=${styles.info}>
                 <img src="/map/bathIcon.svg" />
-                ${numBathroom || 0} bathrooms
+                ${no_of_bathrooms || 0} bathrooms
               </div>
               <div class=${styles.info}>
                 <img src="/map/peopleIcon.svg" />
-                ${numPeople || 0} peoples
+                ${min_of_nights || 0} peoples
               </div>
             </div>
            
-            ${
-              description
-                ? `<div class=${styles.info}>
-                ${description}
-              </div>`
-                : ""
-            }
-
             <div class=${styles.divider}></div>
 
             <div class=${styles.priceWrapper}>
-              ${price ? `<div class=${styles.price}>AU$${price}</div>` : "..."}
+              ${
+                starting_price
+                  ? `<div class=${styles.price}>AU$${starting_price}</div>`
+                  : "..."
+              }
               <span> /NIGHT</span>
             </div>
             </div>
@@ -132,7 +131,7 @@ const MarkerCluster = forwardRef(({ markers }, ref) => {
     return () => {
       map.removeLayer(markerClusterGroup);
     };
-  }, [map, markers]);
+  }, [map, listLocation]);
 
   useImperativeHandle(ref, () => ({
     flyTo: goTo,
