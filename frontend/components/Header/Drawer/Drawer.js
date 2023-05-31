@@ -114,14 +114,14 @@ const Drawer = () => {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onPressEnter={(e) => {
-                setSearchInput(null);
                 goTo(`/search?searchValue=${e.target.value}`);
+                setSearchInput(null);
               }}
               suffix={
                 <SearchOutlined
                   onClick={(e) => {
+                    goTo(`/search?searchValue=${searchInput}`);
                     setSearchInput(null);
-                    goTo(`/search?searchValue=${e.target.value}`);
                   }}
                 />
               }
