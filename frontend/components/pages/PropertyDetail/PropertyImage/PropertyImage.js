@@ -5,7 +5,7 @@ import Slideshow from "../../HomePage/Slideshow/Slideshow";
 import styles from "./PropertyImage.module.scss";
 import { isMobile } from "@/utils/utils";
 
-const PropertyImage = ({ listImage }) => {
+const PropertyImage = ({ listImage = [] }) => {
   const slideshowRef = useRef();
   return (
     <>

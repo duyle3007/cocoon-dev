@@ -129,7 +129,7 @@ const SearchControl = ({
               <Form.Item name="searchValue">
                 <Input
                   type="search"
-                  placeholder="Villa name or location"
+                  placeholder="Villa name"
                   prefix={<img src="/homepage/searchIcon.svg" />}
                   className={styles.input}
                   onChange={(e) => {
@@ -286,7 +286,7 @@ const SearchControl = ({
               <Form.Item name="searchValue">
                 <Input
                   type="search"
-                  placeholder="Villa name or location"
+                  placeholder="Villa name"
                   prefix={<img src="/homepage/searchIcon.svg" />}
                   className={styles.input}
                   onChange={(e) => {

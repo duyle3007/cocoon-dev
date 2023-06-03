@@ -43,6 +43,12 @@ const SearchBanner = () => {
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
+
+    // Auto focus on check out calendar
+    if (date) {
+      const checkOutCalendar = document.getElementsByClassName("ant-picker")[1];
+      checkOutCalendar.click();
+    }
   };
 
   const onChangeEndDay = (date) => {

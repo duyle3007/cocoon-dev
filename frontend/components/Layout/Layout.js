@@ -56,6 +56,7 @@ const Layout = ({ children }) => {
         console.log("Error while getting media list", err);
       }
     };
+
     fetchData();
     getMediaList();
   }, []);
@@ -69,7 +70,7 @@ const Layout = ({ children }) => {
     >
       <div className={styles.layout}>
         <Header />
-        {children}
+        <div className={styles.bodyWrapper}>{children}</div>
         <Footer />
       </div>
     </PropertyListContext.Provider>

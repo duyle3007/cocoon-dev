@@ -29,6 +29,9 @@
   }
   .doubleCalendar {
     @apply flex;
+    :global(.anticon) {
+      @apply flex justify-center w-full h-full;
+    }
   }
   .chooseDate {
     @apply flex flex-col gap-5 py-6 px-8 bg-white w-full;

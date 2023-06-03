@@ -38,6 +38,12 @@ const RangeDatePicker = ({ value, onSelect }) => {
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
 
+    // Auto focus on check out calendar
+    if (date) {
+      const checkOutCalendar = document.getElementsByClassName("ant-picker")[1];
+      checkOutCalendar.click();
+    }
+
     // If this component is controlled by form
     if (value) {
       formRef.setFieldsValue({ rangeDate: [date, value[1]] });

@@ -55,7 +55,7 @@ const SearchForm = ({ tabActive }) => {
         <Form.Item name="searchValue">
           <Input
             type="search"
-            placeholder="Villa name or location"
+            placeholder="Villa name"
             prefix={<img src="/homepage/searchIcon.svg" />}
             className={styles.input}
           />

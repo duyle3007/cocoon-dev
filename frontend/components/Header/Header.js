@@ -190,92 +190,42 @@ export const DESTINATION_LIST = [
   },
   {
     key: "3",
-    label: "NEW ZEALAND",
-    children: [
-      {
-        key: "3-1",
-        label: "North Queensland ",
-        children: [
-          {
-            key: "3-1-1",
-            label: "Manly (12)",
-          },
-          {
-            key: "3-1-2",
-            label: "Vaucluse (13)",
-          },
-          {
-            key: "3-1-3",
-            label: "Point Piper (4)",
-          },
-        ],
-      },
-      {
-        key: "3-2",
-        label: "Central Sydney",
-      },
-      {
-        key: "3-3",
-        label: "Eastern Suburbs",
-      },
-      {
-        key: "3-4",
-        label: "Eastern Suburbs Beach",
-      },
-      {
-        key: "3-5",
-        label: "Bryon Bay",
-      },
-      {
-        key: "3-6",
-        label: "Hunter Valley",
-      },
-      {
-        key: "3-7",
-        label: "Gold Coast",
-      },
-      {
-        key: "3-8",
-        label: "Noosa",
-      },
-    ],
-  },
-  {
-    key: "4",
-    label: "BALI",
-    children: [
-      {
-        key: "4-1",
-        label: "North Queensland (65)",
-      },
-    ],
+    label: <Link href="/search?country=new-zealand">NEW ZEALAND</Link>,
   },
   {
     key: "5",
-    label: <Link href="/search?destination=thailand">THAILAND</Link>,
+    label: <Link href="/search?country=thailand">THAILAND</Link>,
   },
   {
     key: "6",
-    label: <Link href="/search?destination=france">France</Link>,
+    label: <Link href="/search?country=france">France</Link>,
   },
   {
     key: "7",
-    label: <Link href="/search?destination=italy">ITALY</Link>,
+    label: <Link href="/search?country=italy">ITALY</Link>,
   },
   {
     key: "8",
-    label: <Link href="/search?destination=greece">GREECE</Link>,
+    label: <Link href="/search?country=greece">GREECE</Link>,
   },
 ];
 
 export const AUSTRALIA_LIST = [
   {
     key: "1",
-    label: <Link href="/search?villaType=private">Private Villas</Link>,
+    label: (
+      <Link href="/search?country=australia&villaType=private">
+        Private Villas
+      </Link>
+    ),
   },
   {
     key: "2",
-    label: <Link href="/search?villaType=luxury">Luxury Lodges</Link>,
+    label: (
+      <Link href="/search?country=australia&villaType=luxury">
+        Luxury Lodges
+      </Link>
+    ),
   },
 ];
 

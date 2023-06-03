@@ -10,8 +10,6 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 
 import styles from "./Calendar.module.scss";
 
-let initDisableClassname = false;
-
 const Calendar = ({ info }) => {
   const [monthFirstCalendar, setMonthFirstCalendar] = useState(
     moment().toDate()
@@ -29,12 +27,11 @@ const Calendar = ({ info }) => {
       const disabledDays = document.querySelectorAll(
         ".react-calendar__tile[disabled]"
       );
-      if (disabledDays.length && !initDisableClassname) {
+      if (disabledDays.length) {
         disabledDays[0].classList.add(styles.firstDateDisabled);
         disabledDays[disabledDays.length - 1].classList.add(
           styles.lastDateDisabled
         );
-        initDisableClassname = true;
       }
     }
   });

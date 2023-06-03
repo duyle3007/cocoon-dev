@@ -108,7 +108,7 @@ const Drawer = () => {
               />
             </div>
             <Input
-              placeholder="Villa name or Location..."
+              placeholder="Villa name"
               bordered={false}
               className={styles.searchVilla}
               value={searchInput}
