@@ -124,8 +124,8 @@ const HolidayPage = () => {
           initialValues={{
             selectedLocation: [],
             rangeDate: [],
-            rangePrice: [800, 2000],
-            maxGuest: 0,
+            rangePrice: [800, 5000],
+            maxGuest: null,
             selectedBedroom: "Any",
             selectedBed: "Any",
             selectedBadroom: "Any",

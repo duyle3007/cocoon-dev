@@ -89,6 +89,7 @@ const SearchControl = ({
       temp.push(selectedValues);
       formRef.setFieldsValue({ selectedLocation: temp });
     }
+    formRef.submit();
   };
 
   return (
@@ -132,9 +133,6 @@ const SearchControl = ({
                   placeholder="Villa name"
                   prefix={<img src="/homepage/searchIcon.svg" />}
                   className={styles.input}
-                  onChange={(e) => {
-                    onSearch(e.target.value);
-                  }}
                 />
               </Form.Item>
               <Form.Item name="villaType">
@@ -157,9 +155,10 @@ const SearchControl = ({
                     <SegmenedSelector
                       listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
                       selectedOption={selectedBedroom}
-                      onClick={(value) =>
-                        formRef.setFieldsValue({ selectedBedroom: value })
-                      }
+                      onClick={(value) => {
+                        formRef.setFieldsValue({ selectedBedroom: value });
+                        formRef.submit();
+                      }}
                     />
                   </Form.Item>
                 </div>
@@ -170,9 +169,10 @@ const SearchControl = ({
                   <SegmenedSelector
                     listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
                     selectedOption={selectedBed}
-                    onClick={(value) =>
-                      formRef.setFieldsValue({ selectedBed: value })
-                    }
+                    onClick={(value) => {
+                      formRef.setFieldsValue({ selectedBed: value });
+                      formRef.submit();
+                    }}
                   />
                 </Form.Item>
               </div>
@@ -182,9 +182,10 @@ const SearchControl = ({
                   <SegmenedSelector
                     listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
                     selectedOption={selectedBadroom}
-                    onClick={(value) =>
-                      formRef.setFieldsValue({ selectedBadroom: value })
-                    }
+                    onClick={(value) => {
+                      formRef.setFieldsValue({ selectedBadroom: value });
+                      formRef.submit();
+                    }}
                   />
                 </Form.Item>
               </div>
@@ -203,7 +204,7 @@ const SearchControl = ({
                       className={styles.sliderPrice}
                       step={100}
                       range={{ draggableTrack: true }}
-                      defaultValue={[800, 2000]}
+                      defaultValue={[800, 5000]}
                       tooltip={{
                         open: true,
                         placement: "bottom",
@@ -231,16 +232,18 @@ const SearchControl = ({
                         onClick={() => {
                           maxGuest > 0 &&
                             formRef.setFieldsValue({ maxGuest: maxGuest - 1 });
+                          formRef.submit();
                         }}
                       >
                         <MinusOutlined />
                       </div>
-                      {maxGuest}
+                      {maxGuest || 0}
                       <div
                         className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                        onClick={() =>
-                          formRef.setFieldsValue({ maxGuest: maxGuest + 1 })
-                        }
+                        onClick={() => {
+                          formRef.setFieldsValue({ maxGuest: maxGuest + 1 });
+                          formRef.submit();
+                        }}
                       >
                         <PlusOutlined />
                       </div>
@@ -253,11 +256,11 @@ const SearchControl = ({
               <div className={styles.featuresTitle}>FEATURES</div>
               <Form.Item name="feature">
                 <Checkbox.Group className={styles.featureSelector}>
-                  <Checkbox value="ac">Air Conditioning</Checkbox>
-                  <Checkbox value="pool">Pool</Checkbox>
-                  <Checkbox value="gym">Gym</Checkbox>
-                  <Checkbox value="tub">Hot Tub</Checkbox>
-                  <Checkbox value="bbq">BBQ Grill</Checkbox>
+                  <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
+                  <Checkbox value="Pool">Pool</Checkbox>
+                  <Checkbox value="Gym">Gym</Checkbox>
+                  <Checkbox value="Hot Tub">Hot Tub</Checkbox>
+                  <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
                 </Checkbox.Group>
               </Form.Item>
             </div>

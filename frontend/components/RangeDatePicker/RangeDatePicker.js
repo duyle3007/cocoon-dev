@@ -18,12 +18,13 @@ const RangeDatePicker = ({ value, onSelect }) => {
   };
 
   useEffect(() => {
-    if (momentStartDate && momentEndDate && onSelect) {
-      onSelect([momentStartDate, momentEndDate]);
+    if (momentStartDate && momentEndDate) {
+      onSelect && onSelect([momentStartDate, momentEndDate]);
 
       // If this component is controlled by form
       if (value) {
         formRef.setFieldsValue({ rangeDate: [momentStartDate, momentEndDate] });
+        formRef.submit();
       }
     }
   }, [momentStartDate, momentEndDate]);

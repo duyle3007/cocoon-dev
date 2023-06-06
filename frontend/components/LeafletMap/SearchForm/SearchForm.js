@@ -170,11 +170,11 @@ const SearchForm = ({ tabActive }) => {
         <div className={styles.featuresTitle}>FEATURES</div>
         <Form.Item name="feature">
           <Checkbox.Group className={styles.featureSelector}>
-            <Checkbox value="ac">Air Conditioning</Checkbox>
-            <Checkbox value="pool">Pool</Checkbox>
-            <Checkbox value="gym">Gym</Checkbox>
-            <Checkbox value="tub">Hot Tub</Checkbox>
-            <Checkbox value="bbq">BBQ Grill</Checkbox>
+            <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
+            <Checkbox value="Pool">Pool</Checkbox>
+            <Checkbox value="Gym">Gym</Checkbox>
+            <Checkbox value="Hot Tub">Hot Tub</Checkbox>
+            <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
           </Checkbox.Group>
         </Form.Item>
       </div>
