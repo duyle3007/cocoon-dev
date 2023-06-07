@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Form } from "antd";
 
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
+import { DESTINATION_LIST } from "@/components/Header/Header";
 
 import styles from "./MapControl.module.scss";
 import { isMobile } from "@/utils/utils";
@@ -50,12 +52,37 @@ const MapControl = ({
   onOpenSort,
 }) => {
   const router = useRouter();
+  const formRef = Form.useFormInstance();
 
   const [destination, setDestination] = useState(null);
 
   useEffect(() => {
-    if (router.query.destination) {
-      setDestination(router.query.destination);
+    if (router.query.country) {
+      setDestination(router.query.country);
+      formRef.setFieldsValue({
+        country: router.query.country,
+        location1: null,
+        location2: null,
+      });
+      formRef.submit();
+    } else if (router.query.location1) {
+      const levelRouter = router.query.location1.split(",");
+      setDestination(levelRouter);
+      formRef.setFieldsValue({
+        country: null,
+        location1: levelRouter[1],
+        location2: null,
+      });
+      formRef.submit();
+    } else if (router.query.location2) {
+      const levelRouter = router.query.location2.split(",");
+      setDestination(levelRouter);
+      formRef.setFieldsValue({
+        country: null,
+        location1: null,
+        location2: levelRouter[2],
+      });
+      formRef.submit();
     } else {
       setDestination(null);
     }
@@ -63,6 +90,9 @@ const MapControl = ({
 
   return (
     <div className={styles.mapControl}>
+      <Form.Item name="country" hidden />
+      <Form.Item name="location1" hidden />
+      <Form.Item name="location2" hidden />
       {isMobile() ? (
         <div className="flex flex-col w-full">
           <div className={styles.searchMobile} onClick={onOpenFilter}>
@@ -113,10 +143,11 @@ const MapControl = ({
         <>
           <SelectWithPrefix
             className={styles.selectPrefix}
-            value={destination}
             prefix={<img src="/homepage/discoverIcon.svg" />}
+            value={destination}
             placeholder="Choose a destination"
-            options={COUNTRY_LIST}
+            options={DESTINATION_LIST}
+            multipleLevel={true}
             onChange={(value) => setDestination(value)}
           />
           <div className={styles.searchType}>

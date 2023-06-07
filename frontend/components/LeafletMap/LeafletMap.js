@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
 import { Form, Spin, notification } from "antd";
@@ -14,7 +14,7 @@ import MarkerCluster from "./MarketCluster";
 import SearchControl from "./SearchControl";
 import SearchByFilter, { SORT_VALUES } from "./SearchByFilter/SearchByFilter";
 import MapControl from "./MapControl/MapControl";
-import { isMobile } from "@/utils/utils";
+import { isMobile, debounce } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 import FilterModal from "./FilterModal/FilterModal";
 
@@ -53,6 +53,9 @@ const LeafletMap = ({ mode }) => {
       rangePrice,
       maxGuest,
       feature,
+      country,
+      location1,
+      location2,
     } = fieldValues;
     const params = {
       name: searchValue?.length ? searchValue : null,
@@ -65,6 +68,9 @@ const LeafletMap = ({ mode }) => {
       price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
       price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
+      country,
+      location1,
+      location2,
     };
     setLoading(true);
     try {
@@ -102,8 +108,10 @@ const LeafletMap = ({ mode }) => {
     }
   };
 
+  const debounceFetchData = useCallback(debounce(fetchPropertyList), []);
+
   useEffect(() => {
-    fetchPropertyList();
+    formRef.submit();
   }, [tabActive]);
 
   const onSearch = (value) => {
@@ -133,117 +141,111 @@ const LeafletMap = ({ mode }) => {
       router.query.destination = formValues.destination;
       router.push(router);
     }
-    fetchPropertyList(formValues);
+    debounceFetchData(formValues);
     modalRef.current.closeFilterModal();
   };
 
   return (
-    <Spin spinning={loading}>
-      <Form
-        form={formRef}
-        initialValues={{
-          selectedLocation: [],
-          rangeDate: [],
-          rangePrice: [800, 5000],
-          maxGuest: null,
-          selectedBedroom: "Any",
-          selectedBed: "Any",
-          selectedBadroom: "Any",
-          feature: [],
-          sort: SORT_VALUES[0].value,
-        }}
-        onFinish={onFinishForm}
-        onValuesChange={(_, allField) => fetchPropertyList(allField)}
-      >
-        <div className={styles.mapContainer}>
-          <SearchControl
-            tabActive={tabActive}
-            setTabActive={setTabActive}
-            onSearch={onSearch}
-            listLocation={listLocation}
-            searchType={searchType}
-            onClick={navigateTo}
-            handleReinitClick={() => {
-              leafletRef.current?.invalidateSize();
-            }}
-            mode={mode}
-          />
+    <Form
+      form={formRef}
+      initialValues={{
+        selectedLocation: [],
+        rangeDate: [],
+        rangePrice: [800, 5000],
+        maxGuest: null,
+        selectedBedroom: "Any",
+        selectedBed: "Any",
+        selectedBadroom: "Any",
+        feature: [],
+        sort: SORT_VALUES[0].value,
+      }}
+      onFinish={onFinishForm}
+      onValuesChange={(_, allField) => debounceFetchData(allField)}
+    >
+      <div className={styles.mapContainer}>
+        <SearchControl
+          tabActive={tabActive}
+          setTabActive={setTabActive}
+          onSearch={onSearch}
+          listLocation={listLocation}
+          searchType={searchType}
+          onClick={navigateTo}
+          handleReinitClick={() => {
+            leafletRef.current?.invalidateSize();
+          }}
+          mode={mode}
+        />
 
-          <FilterModal ref={modalRef} tabActive={tabActive} />
-          <SortModal ref={sortModalRef} />
-          <div className={styles.right}>
-            {searchType === "filter" ? (
-              <SearchByFilter listLocation={listLocation} mode={mode} />
-            ) : (
-              <MapContainer
-                center={
-                  // listLocation.length > 0
-                  //   ? [listLocation[0].lat, listLocation[0].lng]
-                  //   : [-37.8839, 175.3745188667]
-                  [-37.8839, 175.3745188667]
-                }
-                ref={leafletRef}
-                zoom={13}
-                touchZoom={true}
-                zoomControl={false}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <MarkerCluster ref={mapRef} listLocation={listLocation} />
-              </MapContainer>
-            )}
-            {mode ? (
-              <div className={styles.searchTitle}>
-                {mode === "holiday"
-                  ? "HOLIDAYS PROPERTIES"
-                  : mode === "photoshoot"
-                  ? "PHOTOSHOOTS AND EVENTS"
-                  : "HOLIDAYS VILLAS IN SYNDNEY"}
-                {mode === "photoshoot" && (
-                  <div className={styles.note}>
-                    <div className={styles.noteItem}>
-                      <CheckOutlined /> Only Available for Photoshoots, Filming
-                      and TV Production.
-                    </div>
-                    <div className={styles.noteItem}>
-                      <CloseOutlined /> Strictly No Parties are allowed.
-                    </div>
-                    <div className={styles.noteItem}>
-                      <CloseOutlined />
-                      No Engagement Parties, No Birthday Parties, No Hens or
-                      Bucks Parties.
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <MapControl
-                listLocation={listLocation}
-                searchType={searchType}
-                onChangeSearchType={setSearchType}
-                onOpenFilter={() => modalRef.current.openFilterModal()}
-                onOpenSort={() => sortModalRef.current.openSortModal()}
+        <FilterModal ref={modalRef} tabActive={tabActive} />
+        <SortModal ref={sortModalRef} />
+        <div className={styles.right}>
+          {searchType === "filter" ? (
+            <SearchByFilter listLocation={listLocation} mode={mode} />
+          ) : (
+            <MapContainer
+              center={
+                // listLocation.length > 0
+                //   ? [listLocation[0].lat, listLocation[0].lng]
+                //   : [-37.8839, 175.3745188667]
+                [-37.8839, 175.3745188667]
+              }
+              ref={leafletRef}
+              zoom={13}
+              touchZoom={true}
+              zoomControl={false}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-            )}
-          </div>
-          {isMobile() && searchType === "map" && (
-            <div className={styles.mapResultMobile}>
-              {listLocation.map((location, index) => {
-                return (
-                  <MapCard
-                    key={index}
-                    location={location}
-                    onClick={navigateTo}
-                  />
-                );
-              })}
+              <MarkerCluster ref={mapRef} listLocation={listLocation} />
+            </MapContainer>
+          )}
+          {mode ? (
+            <div className={styles.searchTitle}>
+              {mode === "holiday"
+                ? "HOLIDAYS PROPERTIES"
+                : mode === "photoshoot"
+                ? "PHOTOSHOOTS AND EVENTS"
+                : "HOLIDAYS VILLAS IN SYNDNEY"}
+              {mode === "photoshoot" && (
+                <div className={styles.note}>
+                  <div className={styles.noteItem}>
+                    <CheckOutlined /> Only Available for Photoshoots, Filming
+                    and TV Production.
+                  </div>
+                  <div className={styles.noteItem}>
+                    <CloseOutlined /> Strictly No Parties are allowed.
+                  </div>
+                  <div className={styles.noteItem}>
+                    <CloseOutlined />
+                    No Engagement Parties, No Birthday Parties, No Hens or Bucks
+                    Parties.
+                  </div>
+                </div>
+              )}
             </div>
+          ) : (
+            <MapControl
+              listLocation={listLocation}
+              searchType={searchType}
+              onChangeSearchType={setSearchType}
+              onOpenFilter={() => modalRef.current.openFilterModal()}
+              onOpenSort={() => sortModalRef.current.openSortModal()}
+            />
           )}
         </div>
-      </Form>
-    </Spin>
+        {isMobile() && searchType === "map" && (
+          <div className={styles.mapResultMobile}>
+            {listLocation.map((location, index) => {
+              return (
+                <MapCard key={index} location={location} onClick={navigateTo} />
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </Form>
   );
 };
 

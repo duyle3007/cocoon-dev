@@ -12,201 +12,351 @@ import styles from "./Header.module.scss";
 export const DESTINATION_LIST = [
   {
     key: "1",
-    label: <Link href="/search?destination=all">All destinations</Link>,
-    url: "/search?destination=all",
+    label: <Link href="/search">All destinations</Link>,
+    url: "/search",
+    value: "",
   },
   {
     key: "2",
     label: "Australia",
+    value: "australia",
     children: [
       {
         key: "2-1",
         label: "North Queensland",
+        value: "north-queensland",
         children: [
           {
             key: "2-1-1",
-            label: "Manly ",
-            url: "/search?destination=manly",
+            label: (
+              <Link href="/search?location2=australia,north-queensland,manly">
+                Manly
+              </Link>
+            ),
+            url: "/search?location2=australia,north-queensland,manly",
+            value: "manly",
           },
           {
             key: "2-1-2",
-            label: "Vaucluse ",
-            url: "/search?destination=vaucluse",
+            label: (
+              <Link href="/search?location2=australia,north-queensland,vaucluse">
+                Vaucluse
+              </Link>
+            ),
+            url: "/search?location2=vaucluse",
+            value: "vaucluse",
           },
           {
             key: "2-1-3",
-            label: "Point Piper ",
-            url: "/search?destination=point-piper",
+            label: (
+              <Link href="/search?location2=australia,north-queensland,point-piper">
+                Point Piper
+              </Link>
+            ),
+            url: "/search?location2=point-piper",
+            value: "point-piper",
           },
         ],
       },
       {
         key: "2-2",
-        label: "Bryon Bay",
-        url: "/search?destination=bryon-bay",
+        label: (
+          <Link href="/search?location1=australia,bryon-bay">Bryon Bay</Link>
+        ),
+        url: "/search?location1=bryon-bay",
+        value: "bryon-bay",
       },
       {
         key: "2-3",
-        label: "Victoria",
-        url: "/search?destination=victoria",
+        label: (
+          <Link href="/search?location1=australia,victoria">Victoria</Link>
+        ),
+        url: "/search?location1=victoria",
+        value: "victoria",
       },
       {
         key: "2-4",
-        label: "Sydney with beaches",
-        url: "/search?destination=sydney-beaches",
+        label: (
+          <Link href="/search?location1=australia,sydney-beaches">
+            Sydney with beaches
+          </Link>
+        ),
+        url: "/search?location1=australia,sydney-beaches",
+        value: "sydney-beaches",
       },
       {
         key: "2-5",
         label: "Sydney",
+        value: "sydney",
         children: [
           {
             key: "2-5-1",
-            label: "Manly ",
-            url: "/search?destination=manly",
+            label: (
+              <Link href="/search?location2=australia,sydney,manly">Manly</Link>
+            ),
+            url: "/search?location2=manly",
+            value: "manly",
           },
           {
             key: "2-5-2",
-            label: "Vaucluse ",
-            url: "/search?destination=vaucluse",
+            label: (
+              <Link href="/search?location2=australia,sydney,vaucluse">
+                Vaucluse
+              </Link>
+            ),
+            url: "/search?location2=vaucluse",
+            value: "vaucluse",
           },
           {
             key: "2-5-3",
-            label: "Point Piper ",
-            url: "/search?destination=point-piper",
+            label: (
+              <Link href="/search?location2=australia,sydney,point-piper">
+                Point Piper
+              </Link>
+            ),
+            url: "/search?location2=point-piper",
+            value: "point-piper",
           },
           {
             key: "2-5-4",
-            label: "Mosman ",
-            url: "/search?destination=mosman",
+            label: (
+              <Link href="/search?location2=australia,sydney,mosman">
+                Mosman
+              </Link>
+            ),
+            url: "/search?location2=mosman",
+            value: "mosman",
           },
           {
             key: "2-5-5",
-            label: "Bronte ",
-            url: "/search?destination=bronte",
+            label: (
+              <Link href="/search?location2=australia,sydney,bronte">
+                Bronte
+              </Link>
+            ),
+            url: "/search?location2=bronte",
+            value: "bronte",
           },
           {
             key: "2-5-6",
-            label: "Balmoral Beach ",
-            url: "/search?destination=balmoral-beach",
+            label: (
+              <Link href="/search?location2=australia,sydney,balmoral-beach">
+                Balmoral Beach
+              </Link>
+            ),
+            url: "/search?location2=balmoral-beach",
+            value: "balmoral-beach",
           },
           {
             key: "2-5-7",
-            label: "Bellevue Hill ",
-            url: "/search?destination=bellevue-hill",
+            label: (
+              <Link href="/search?location2=australia,sydney,bellevue-hill">
+                Bellevue Hill
+              </Link>
+            ),
+            url: "/search?location2=bellevue-hill",
+            value: "bellevue-hill",
           },
           {
             key: "2-5-8",
-            label: "Bondi Beach ",
-            url: "/search?destination=bondi-beach",
+            label: (
+              <Link href="/search?location2=australia,sydney,bondi-beach">
+                Bondi Beach
+              </Link>
+            ),
+            url: "/search?location2=bondi-beach",
+            value: "bondi-beach",
           },
           {
             key: "2-5-9",
-            label: "Coogee ",
-            url: "/search?destination=coogee",
+            label: (
+              <Link href="/search?location2=australia,sydney,coogee">
+                Coogee
+              </Link>
+            ),
+            url: "/search?location2=coogee",
+            value: "coogee",
           },
           {
             key: "2-5-10",
-            label: "Darling Point ",
-            url: "/search?destination=darling-point",
+            label: (
+              <Link href="/search?location2=australia,sydney,darling-point">
+                Darling Point
+              </Link>
+            ),
+            url: "/search?location2=darling-point",
+            value: "darling-point",
           },
           {
             key: "2-5-11",
-            label: "Darlinghurst ",
-            url: "/search?destination=darlinghurst",
+            label: (
+              <Link href="/search?location2=australia,sydney,darlinghurst">
+                Darlinghurst
+              </Link>
+            ),
+            url: "/search?location2=darlinghurst",
+            value: "darlinghurst",
           },
           {
             key: "2-5-12",
-            label: "Double Bay ",
-            url: "/search?destination=double-bay",
+            label: (
+              <Link href="/search?location2=australia,sydney,double-bay">
+                Double Bay
+              </Link>
+            ),
+            url: "/search?location2=double-bay",
+            value: "double-bay",
           },
           {
             key: "2-5-13",
-            label: "Rose Bay ",
-            url: "/search?destination=rose-bay",
+            label: (
+              <Link href="/search?location2=australia,sydney,rose-bay">
+                Rose Bay
+              </Link>
+            ),
+            url: "/search?location2=rose-bay",
+            value: "rose-bay",
           },
           {
             key: "2-5-14",
-            label: "Tamarama ",
-            url: "/search?destination=tamarama",
+            label: (
+              <Link href="/search?location2=australia,sydney,tamarama">
+                Tamarama
+              </Link>
+            ),
+            url: "/search?location2=tamarama",
+            value: "tamarama",
           },
           {
             key: "2-5-15",
-            label: "Potts Point ",
-            url: "/search?destination=potts-point",
+            label: (
+              <Link href="/search?location2=australia,sydney,potts-point">
+                Potts Point
+              </Link>
+            ),
+            url: "/search?location2=potts-point",
+            value: "potts-point",
           },
           {
             key: "2-5-16",
-            label: "Gordon Bay ",
-            url: "/search?destination=gordon-bay",
+            label: (
+              <Link href="/search?location2=australia,sydney,gordon-bay">
+                Gordon Bay
+              </Link>
+            ),
+            url: "/search?location2=gordon-bay",
+            value: "gordon-bay",
           },
           {
             key: "2-5-17",
-            label: "Woollahra ",
-            url: "/search?destination=woollahra",
+            label: (
+              <Link href="/search?location2=australia,sydney,woollahra">
+                Woollahra
+              </Link>
+            ),
+            url: "/search?location2=woollahra",
+            value: "woollahra",
           },
           {
             key: "2-5-18",
-            label: "Watsons Bay ",
-            url: "/search?destination=watsons-bay",
+            label: (
+              <Link href="/search?location2=australia,sydney,watsons-bay">
+                Watsons Bay
+              </Link>
+            ),
+            url: "/search?location2=watsons-bay",
+            value: "watsons-bay",
           },
           {
             key: "2-5-19",
-            label: "Balgowlah Heights ",
-            url: "/search?destination=balgowlah-heights",
+            label: (
+              <Link href="/search?location2=australia,sydney,balgowlah-heights">
+                Balgowlah Heights
+              </Link>
+            ),
+            url: "/search?location2=australia,sydney,balgowlah-heights",
+            value: "balgowlah-heights",
           },
           {
             key: "2-5-20",
-            label: "Kensington ",
-            url: "/search?destination=kensington",
+            label: (
+              <Link href="/search?location2=australia,sydney,kensington">
+                Kensington
+              </Link>
+            ),
+            url: "/search?location2=kensington",
+            value: "kensington",
           },
         ],
       },
       {
         key: "2-6",
-        label: "Port Stephens",
-        url: "/search?destination=port-stephens",
+        label: (
+          <Link href="/search?location1=australia,port-stephens">
+            Port Stephens
+          </Link>
+        ),
+        url: "/search?location1=port-stephens",
+        value: "port-stephens",
       },
       {
         key: "2-7",
-        label: "Gold Coast",
-        url: "/search?destination=gold-coast",
+        label: (
+          <Link href="/search?location1=australia,gold-coast">Gold Coast</Link>
+        ),
+        url: "/search?location1=gold-coast",
+        value: "gold-coast",
       },
       {
         key: "2-8",
-        label: "Noosa",
-        url: "/search?destination=noosa",
+        label: <Link href="/search?location1=australia,noosa">Noosa</Link>,
+        url: "/search?location1=noosa",
+        value: "noosa",
       },
       {
         key: "2-9",
-        label: "Melbource",
-        url: "/search?destination=melbource",
+        label: (
+          <Link href="/search?location1=australia,melbource">Melbource</Link>
+        ),
+        url: "/search?location1=melbource",
+        value: "melbource",
       },
       {
         key: "2-10",
-        label: "Southern NSW Coast & Highlands",
-        url: "/search?destination=southern-nsw",
+        label: (
+          <Link href="/search?location1=australia,southern-nsw">
+            Southern NSW Coast & Highlands
+          </Link>
+        ),
+        url: "/search?location1=southern-nsw",
+        value: "southern-nsw",
       },
     ],
   },
   {
     key: "3",
-    label: <Link href="/search?country=new-zealand">NEW ZEALAND</Link>,
+    label: <Link href="/search?country=new-zealand">New Zealand</Link>,
+    value: "new-zealand",
   },
   {
     key: "5",
-    label: <Link href="/search?country=thailand">THAILAND</Link>,
+    label: <Link href="/search?country=thailand">Thailand</Link>,
+    value: "thailand",
   },
   {
     key: "6",
     label: <Link href="/search?country=france">France</Link>,
+    value: "france",
   },
   {
     key: "7",
-    label: <Link href="/search?country=italy">ITALY</Link>,
+    label: <Link href="/search?country=italy">Italy</Link>,
+    value: "italy",
   },
   {
     key: "8",
-    label: <Link href="/search?country=greece">GREECE</Link>,
+    label: <Link href="/search?country=greece">Greece</Link>,
+    value: "greece",
   },
 ];
 
