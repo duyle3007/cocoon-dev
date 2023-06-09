@@ -16,8 +16,6 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
     const markerClusterGroup = L.markerClusterGroup();
     const leafletMarkers = listLocation.map(
       ({
-        lat = Math.random() * 360 - 180,
-        lng = Math.random() * 360 - 180,
         title: { rendered: name },
         slug,
         acf: {
@@ -28,6 +26,8 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
           min_of_nights,
           location1,
           discount,
+          lat,
+          long,
         },
         images,
       }) => {
@@ -40,7 +40,7 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
           AU$${starting_price}
           </div>`,
         });
-        const marker = L.marker([lat, lng], { icon: customMarker });
+        const marker = L.marker([lat, long], { icon: customMarker });
 
         marker.on("click", function () {
           const customMarkers = document.querySelectorAll(

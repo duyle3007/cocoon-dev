@@ -108,7 +108,9 @@ const LeafletMap = ({ mode }) => {
     }
   };
 
-  const debounceFetchData = useCallback(debounce(fetchPropertyList), []);
+  const debounceFetchData = useCallback(debounce(fetchPropertyList), [
+    tabActive,
+  ]);
 
   useEffect(() => {
     formRef.submit();
@@ -122,17 +124,17 @@ const LeafletMap = ({ mode }) => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0]?.lat,
-          filterLocationList[0]?.lng,
+          filterLocationList[0]?.acf.lat,
+          filterLocationList[0]?.acf.long,
         ]);
       }
       return;
     }
   };
 
-  const navigateTo = (lat, lng) => {
-    if (lat && lng) {
-      mapRef.current.flyTo([lat, lng], 18);
+  const navigateTo = (lat, long) => {
+    if (lat && long) {
+      mapRef.current.flyTo([lat, long], 18);
     }
   };
 
@@ -184,10 +186,9 @@ const LeafletMap = ({ mode }) => {
           ) : (
             <MapContainer
               center={
-                // listLocation.length > 0
-                //   ? [listLocation[0].lat, listLocation[0].lng]
-                //   : [-37.8839, 175.3745188667]
-                [-37.8839, 175.3745188667]
+                listLocation.length > 0
+                  ? [listLocation[0].acf.lat, listLocation[0].acf.long]
+                  : [-37.8839, 175.3745188667]
               }
               ref={leafletRef}
               zoom={13}

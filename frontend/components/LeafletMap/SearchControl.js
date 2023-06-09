@@ -7,6 +7,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import dayjs from "dayjs";
 
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
@@ -61,6 +62,14 @@ const SearchControl = ({
       formRef.setFieldsValue({ searchValue: router.query.searchValue });
       onSearch(router.query.searchValue);
     }
+    if (router.query.guest) {
+      formRef.setFieldsValue({ maxGuest: router.query.guest });
+    }
+    if (router.query.startDate && router.query.endDate) {
+      formRef.setFieldsValue({
+        rangeDate: [dayjs(router.query.startDate), dayjs(router.query.endDate)],
+      });
+    }
   }, [router]);
 
   const onMinimize = () => {
@@ -107,7 +116,10 @@ const SearchControl = ({
                 className={`${styles.tab} ${
                   tabActive === "holiday" && styles.active
                 }`}
-                onClick={() => setTabActive("holiday")}
+                onClick={() => {
+                  setTabActive("holiday");
+                  formRef.resetFields();
+                }}
               >
                 HOLIDAYS
               </div>
@@ -115,7 +127,10 @@ const SearchControl = ({
                 className={`${styles.tab} ${
                   tabActive === "photoshoots" && styles.active
                 }`}
-                onClick={() => setTabActive("photoshoots")}
+                onClick={() => {
+                  setTabActive("photoshoots");
+                  formRef.resetFields();
+                }}
               >
                 PHOTOSHOOTS/EVENTS
               </div>
@@ -265,7 +280,7 @@ const SearchControl = ({
               </Form.Item>
             </div>
 
-            <Form.Item name="selectedLocation">
+            {/* <Form.Item name="selectedLocation">
               <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
                 {LOCATION_LIST.map((location) => (
                   <div
@@ -281,7 +296,7 @@ const SearchControl = ({
                   </div>
                 ))}
               </div>
-            </Form.Item>
+            </Form.Item> */}
           </div>
         ) : (
           <div className={styles.searchWrapper}>
@@ -307,7 +322,7 @@ const SearchControl = ({
                   <MapCard
                     key={index}
                     location={location}
-                    onClick={() => onClick(location.lat, location.lng)}
+                    onClick={() => onClick(location.acf.lat, location.acf.long)}
                   />
                 );
               })}

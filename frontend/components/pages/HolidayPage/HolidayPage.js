@@ -93,8 +93,8 @@ const HolidayPage = () => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0]?.lat,
-          filterLocationList[0]?.lng,
+          filterLocationList[0]?.acf.lat,
+          filterLocationList[0]?.acf.long,
         ]);
       }
       return;
@@ -161,10 +161,9 @@ const HolidayPage = () => {
           ) : (
             <MapContainer
               center={
-                // listLocation.length > 0
-                //   ? [listLocation[0].lat, listLocation[0].lng]
-                //   : [-37.8839, 175.3745188667]
-                [-37.8839, 175.3745188667]
+                listLocation.length > 0
+                  ? [listLocation[0].acf.lat, listLocation[0].acf.long]
+                  : [-37.8839, 175.3745188667]
               }
               ref={leafletRef}
               zoom={13}

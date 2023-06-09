@@ -10,6 +10,7 @@ const SelectWithPrefix = ({
   className,
   multipleLevel,
   value,
+  onChange,
   ...props
 }) => {
   const displayRender = (labels) => {
@@ -26,7 +27,11 @@ const SelectWithPrefix = ({
           bordered={false}
           options={options}
           displayRender={displayRender}
+          removeIcon={null}
+          onChange={onChange}
+          getPopupContainer={(node) => node}
           suffixIcon={<img src="/homepage/arrow-down.svg" />}
+          {...props}
         />
       ) : (
         <Select

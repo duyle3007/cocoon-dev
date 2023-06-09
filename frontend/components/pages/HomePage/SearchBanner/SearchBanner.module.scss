@@ -47,6 +47,9 @@
       @apply text-white;
     }
   }
+  :global(.ant-select-selection-item > a) {
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -61,5 +64,11 @@
       letter-spacing: 0.05em;
       color: #90744f;
     }
+  }
+}
+
+.selectPrefix {
+  :global(.ant-cascader-menu-item-content > a) {
+    pointer-events: none;
   }
 }

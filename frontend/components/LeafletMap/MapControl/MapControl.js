@@ -84,7 +84,13 @@ const MapControl = ({
       });
       formRef.submit();
     } else {
-      setDestination(null);
+      setDestination([""]);
+      formRef.setFieldsValue({
+        country: null,
+        location1: null,
+        location2: null,
+      });
+      formRef.submit();
     }
   }, [router]);
 
@@ -148,7 +154,13 @@ const MapControl = ({
             placeholder="Choose a destination"
             options={DESTINATION_LIST}
             multipleLevel={true}
-            onChange={(value) => setDestination(value)}
+            onChange={(value) => {
+              if (!value) {
+                router.push("/search");
+              } else {
+                setDestination(value);
+              }
+            }}
           />
           <div className={styles.searchType}>
             <div
