@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select } from "antd";
+import { Form, Select } from "antd";
 
 import FilterCard from "./FilterCard/FilterCard";
 
@@ -7,16 +7,14 @@ import styles from "./SearchByFilter.module.scss";
 import { isMobile } from "@/utils/utils";
 
 export const SORT_VALUES = [
-  { value: "relevance", label: "Relevance" },
   { value: "price:asc", label: "Price: Low to high" },
-  { value: "price:des", label: "Price: High to low" },
-  { value: "date:des", label: "Date: New to old" },
+  { value: "price:desc", label: "Price: High to low" },
+  { value: "date:desc", label: "Date: New to old" },
   { value: "date:asc", label: "Date: Old to new" },
-  { value: "popular", label: "Popular" },
 ];
 
 const SearchByFilter = ({ listLocation, mode }) => {
-  const [sortValue, setSortValue] = useState("RELEVANCE");
+  const formRef = Form.useFormInstance();
 
   return (
     <div
@@ -34,13 +32,14 @@ const SearchByFilter = ({ listLocation, mode }) => {
 
         <div className="text-xs gap-1 flex items-center opacity-80 cursor-pointer text-[#404040]">
           SORT BY:
-          <Select
-            className={styles.sortSelect}
-            defaultValue="relevance"
-            bordered={false}
-            options={SORT_VALUES}
-            suffixIcon={<img src="/searchPage/sort.svg" />}
-          />
+          <Form.Item name="sort">
+            <Select
+              className={styles.sortSelect}
+              bordered={false}
+              options={SORT_VALUES}
+              suffixIcon={<img src="/searchPage/sort.svg" />}
+            />
+          </Form.Item>
         </div>
       </div>
 

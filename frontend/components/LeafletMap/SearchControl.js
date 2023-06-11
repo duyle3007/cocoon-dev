@@ -154,6 +154,7 @@ const SearchControl = ({
                 <Select
                   placeholder="Choose villa type"
                   className={styles.villaTypeSelector}
+                  allowClear
                 >
                   <Option value="private">Private Villas</Option>
                   <Option value="apartment">Apartments</Option>
