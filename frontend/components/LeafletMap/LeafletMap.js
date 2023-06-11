@@ -69,7 +69,7 @@ const LeafletMap = ({ mode }) => {
       price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
       price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
-      orderBy: sort ? sort.split(":")[0] : undefined,
+      orderby: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
       country,
       location1,
