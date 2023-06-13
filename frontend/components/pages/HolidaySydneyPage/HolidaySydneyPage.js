@@ -1,18 +1,19 @@
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useState, useRef, useEffect } from "react";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { useState, useRef, useEffect, useCallback } from "react";
 import L from "leaflet";
-import { Form, Spin } from "antd";
+import { Form } from "antd";
 import { useRouter } from "next/router";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import axios from "axios";
 
-import { isMobile } from "@/utils/utils";
+import { debounce, isMobile } from "@/utils/utils";
 import SearchControl from "@/components/LeafletMap/SearchControl";
 import FilterModal from "@/components/LeafletMap/FilterModal/FilterModal";
-import SearchByFilter from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
+import SearchByFilter, {
+  SORT_VALUES,
+} from "@/components/LeafletMap/SearchByFilter/SearchByFilter";
 import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
@@ -42,43 +43,74 @@ const HolidaySydneyPage = () => {
   const [tabActive, setTabActive] = useState("holiday");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPropertyList = async () => {
-      setLoading(true);
-      try {
-        const { data: resWp } = await axios.get(
-          `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type?mphb_room_type_category=12`
-        );
-        const { data: resMoto } = await axios.get(
-          "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
-          {
-            auth: {
-              username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-              password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-            },
-          }
-        );
-        const res = resWp.map((result) => {
-          const findItemInMoto = resMoto.find(
-            (otherRes) => otherRes.id === result.id
-          );
-          if (findItemInMoto) {
-            return { ...findItemInMoto, ...result };
-          } else {
-            return result;
-          }
-        });
-        setListLocation(res);
-      } catch (err) {
-        console.log("Fetch list data", err);
-        notification.error({
-          message: "Something went wrong while trying to get list properties",
-        });
-      } finally {
-        setLoading(false);
-      }
+  const fetchPropertyList = async (fieldValues = {}) => {
+    const {
+      searchValue = null,
+      villaType,
+      rangeDate,
+      selectedBedroom,
+      selectedBed,
+      selectedBadroom,
+      rangePrice,
+      maxGuest,
+      feature,
+      sort,
+    } = fieldValues;
+    const params = {
+      name: searchValue?.length ? searchValue : null,
+      villa_type: villaType,
+      bedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
+      beds: selectedBed !== "Any" ? selectedBed : null,
+      bathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
+      guests: maxGuest,
+      features: feature?.length > 0 ? feature?.join(",") : null,
+      price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
+      price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
+      mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
+      orderby: sort ? sort.split(":")[0] : undefined,
+      order: sort ? sort.split(":")[1] : undefined,
+      location1: "sydney",
     };
-    fetchPropertyList();
+    setLoading(true);
+    try {
+      const { data: resWp } = await axios.get(
+        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type`,
+        { params }
+      );
+      const { data: resMoto } = await axios.get(
+        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+        {
+          auth: {
+            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          },
+        }
+      );
+      const res = resWp.map((result) => {
+        const findItemInMoto = resMoto.find(
+          (otherRes) => otherRes.id === result.id
+        );
+        if (findItemInMoto) {
+          return { ...findItemInMoto, ...result };
+        } else {
+          return result;
+        }
+      });
+      setListLocation(res);
+    } catch (err) {
+      console.log("Fetch list data", err);
+      notification.error({
+        message: "Something went wrong while trying to get list properties",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  const debounceFetchData = useCallback(debounce(fetchPropertyList), [
+    tabActive,
+  ]);
+  useEffect(() => {
+    formRef.submit();
   }, []);
 
   const onSearch = (value) => {
@@ -89,8 +121,8 @@ const HolidaySydneyPage = () => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0]?.lat,
-          filterLocationList[0]?.lng,
+          filterLocationList[0]?.acf.lat,
+          filterLocationList[0]?.acf.long,
         ]);
       }
       return;
@@ -104,46 +136,45 @@ const HolidaySydneyPage = () => {
   };
 
   const onFinishForm = (formValues) => {
-    console.log("Form values", formValues);
     if (formValues.destination) {
       router.query.destination = formValues.destination;
       router.push(router);
     }
+    debounceFetchData(formValues);
     modalRef.current.closeFilterModal();
   };
 
   return (
-    <Spin spinning={loading}>
+    <Form
+      form={formRef}
+      initialValues={{
+        selectedLocation: [],
+        rangeDate: [],
+        rangePrice: [800, 5000],
+        maxGuest: null,
+        selectedBedroom: "Any",
+        selectedBed: "Any",
+        feature: [],
+        sort: SORT_VALUES[0].value,
+      }}
+      onFinish={onFinishForm}
+      onValuesChange={(_, allField) => debounceFetchData(allField)}
+    >
       <div className={styles.mapContainer}>
-        <Form
-          form={formRef}
-          initialValues={{
-            selectedLocation: [],
-            rangeDate: [],
-            rangePrice: [800, 5000],
-            maxGuest: null,
-            selectedBedroom: "Any",
-            selectedBed: "Any",
-            selectedBadroom: "Any",
-            feature: [],
+        <SearchControl
+          tabActive={tabActive}
+          setTabActive={setTabActive}
+          onSearch={onSearch}
+          listLocation={listLocation}
+          searchType={searchType}
+          onClick={navigateTo}
+          handleReinitClick={() => {
+            leafletRef.current?.invalidateSize();
           }}
-          onFinish={onFinishForm}
-        >
-          <SearchControl
-            tabActive={tabActive}
-            setTabActive={setTabActive}
-            onSearch={onSearch}
-            listLocation={listLocation}
-            searchType={searchType}
-            onClick={navigateTo}
-            handleReinitClick={() => {
-              leafletRef.current?.invalidateSize();
-            }}
-            mode={mode}
-          />
+          mode={mode}
+        />
 
-          <FilterModal ref={modalRef} tabActive={tabActive} />
-        </Form>
+        <FilterModal ref={modalRef} tabActive={tabActive} />
         <div className={styles.right}>
           <ToolBarMobile
             onClickFilter={() => modalRef.current.openFilterModal()}
@@ -181,7 +212,7 @@ const HolidaySydneyPage = () => {
           </div>
         )}
       </div>
-    </Spin>
+    </Form>
   );
 };
 

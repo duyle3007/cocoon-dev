@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form, Select } from "antd";
 
 import FilterCard from "./FilterCard/FilterCard";
@@ -14,8 +13,6 @@ export const SORT_VALUES = [
 ];
 
 const SearchByFilter = ({ listLocation, mode }) => {
-  const formRef = Form.useFormInstance();
-
   return (
     <div
       className={`${styles.searchByFilter} ${

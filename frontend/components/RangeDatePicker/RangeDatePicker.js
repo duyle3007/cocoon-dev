@@ -1,6 +1,8 @@
 import { DatePicker, Form } from "antd";
 import { useEffect, useState } from "react";
 
+import { isMobile } from "@/utils/utils";
+
 import styles from "./RangeDatePicker.module.scss";
 
 const RangeDatePicker = ({ value, onSelect }) => {
@@ -24,7 +26,7 @@ const RangeDatePicker = ({ value, onSelect }) => {
       // If this component is controlled by form
       if (value) {
         formRef.setFieldsValue({ rangeDate: [momentStartDate, momentEndDate] });
-        formRef.submit();
+        !isMobile && formRef.submit();
       }
     }
   }, [momentStartDate, momentEndDate]);
@@ -41,7 +43,11 @@ const RangeDatePicker = ({ value, onSelect }) => {
 
     // Auto focus on check out calendar
     if (date) {
-      const checkOutCalendar = document.getElementsByClassName("ant-picker")[1];
+      // because in mobile, the Check out picker render 2 version (desktop and mobile), while desktop only have one
+      // so the picker have been duplicated
+      const checkOutCalendar = isMobile
+        ? document.getElementsByClassName("ant-picker")[3]
+        : document.getElementsByClassName("ant-picker")[1];
       checkOutCalendar.click();
     }
 

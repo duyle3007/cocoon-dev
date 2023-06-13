@@ -1,26 +1,35 @@
-import { HeartOutlined } from "@ant-design/icons";
 import Image from "@/components/Image/Image";
 
 import styles from "./PropertyIntro.module.scss";
+import { isMobile } from "@/utils/utils";
 
 const PropertyIntro = ({ info }) => {
   return (
     <div className={styles.propertyIntro}>
       <div className="flex justify-between">
         <div className={styles.propertyLocation}>{info?.acf.location1}</div>
-        <HeartOutlined />
+        {!isMobile() && (
+          <div className={styles.price}>
+            <h6 className="text-[#90744F] leading-8 flex items-center text-[28px] font-bold tracking-wider">
+              AU${info?.acf.starting_price}
+            </h6>
+            / NIGHT
+          </div>
+        )}
       </div>
       <div className={styles.nameAndPrice}>
         <div
           className={styles.name}
           dangerouslySetInnerHTML={{ __html: info?.title?.rendered }}
         />
-        <div className={styles.price}>
-          <h6 className="text-[#90744F] leading-8 flex items-center text-[28px] font-bold tracking-wider">
-            AU${info?.acf.starting_price}
-          </h6>
-          / NIGHT
-        </div>
+        {isMobile() && (
+          <div className={styles.price}>
+            <h6 className="text-[#90744F] leading-8 flex items-center text-[28px] font-bold tracking-wider">
+              AU${info?.acf.starting_price}
+            </h6>
+            / NIGHT
+          </div>
+        )}
       </div>
       <div className={styles.roomInfo}>
         <div className={styles.roomItem}>

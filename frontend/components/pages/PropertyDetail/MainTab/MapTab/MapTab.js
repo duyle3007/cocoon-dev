@@ -16,7 +16,7 @@ const MapTab = ({ info }) => {
   return (
     <div className={styles.mapTab}>
       <MapContainer
-        center={[-37.8839, 175.3745188667]}
+        center={[info.acf.lat + 0.001, info.acf.long + 0.001]}
         zoom={13}
         touchZoom={true}
         zoomControl={false}
@@ -25,7 +25,9 @@ const MapTab = ({ info }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[-37.8839, 175.3745188667]}></Marker>
+        <Marker
+          position={[info.acf.lat + 0.001, info.acf.long + 0.001]}
+        ></Marker>
       </MapContainer>
     </div>
   );

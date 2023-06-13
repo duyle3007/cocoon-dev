@@ -9,41 +9,6 @@ import styles from "./MapControl.module.scss";
 import { isMobile } from "@/utils/utils";
 import Image from "@/components/Image/Image";
 
-export const COUNTRY_LIST = [
-  {
-    name: "All destinations",
-    value: "all",
-  },
-  {
-    name: "Australia",
-    value: "australia",
-  },
-  {
-    name: "New Zealand",
-    value: "new_zealand",
-  },
-  {
-    name: "Bali",
-    value: "bali",
-  },
-  {
-    name: "Thailand",
-    value: "thai",
-  },
-  {
-    name: "France",
-    value: "france",
-  },
-  {
-    name: "Italy",
-    value: "italy",
-  },
-  {
-    name: "Greece",
-    value: "greece",
-  },
-];
-
 const MapControl = ({
   searchType,
   onChangeSearchType,
@@ -57,42 +22,44 @@ const MapControl = ({
   const [destination, setDestination] = useState(null);
 
   useEffect(() => {
-    if (router.query.country) {
-      setDestination(router.query.country);
-      formRef.setFieldsValue({
-        country: router.query.country,
-        location1: null,
-        location2: null,
-      });
-      formRef.submit();
-    } else if (router.query.location1) {
-      const levelRouter = router.query.location1.split(",");
-      setDestination(levelRouter);
-      formRef.setFieldsValue({
-        country: null,
-        location1: levelRouter[1],
-        location2: null,
-      });
-      formRef.submit();
-    } else if (router.query.location2) {
-      const levelRouter = router.query.location2.split(",");
-      setDestination(levelRouter);
-      formRef.setFieldsValue({
-        country: null,
-        location1: null,
-        location2: levelRouter[2],
-      });
-      formRef.submit();
-    } else {
-      setDestination([""]);
-      formRef.setFieldsValue({
-        country: null,
-        location1: null,
-        location2: null,
-      });
-      formRef.submit();
+    if (!isMobile) {
+      if (router.query.country) {
+        setDestination(router.query.country);
+        formRef.setFieldsValue({
+          country: router.query.country,
+          location1: null,
+          location2: null,
+        });
+        formRef.submit();
+      } else if (router.query.location1) {
+        const levelRouter = router.query.location1.split(",");
+        setDestination(levelRouter);
+        formRef.setFieldsValue({
+          country: null,
+          location1: levelRouter[1],
+          location2: null,
+        });
+        formRef.submit();
+      } else if (router.query.location2) {
+        const levelRouter = router.query.location2.split(",");
+        setDestination(levelRouter);
+        formRef.setFieldsValue({
+          country: null,
+          location1: null,
+          location2: levelRouter[2],
+        });
+        formRef.submit();
+      } else {
+        setDestination([""]);
+        formRef.setFieldsValue({
+          country: null,
+          location1: null,
+          location2: null,
+        });
+        formRef.submit();
+      }
     }
-  }, [router]);
+  }, [router, isMobile]);
 
   return (
     <div className={styles.mapControl}>
@@ -104,7 +71,7 @@ const MapControl = ({
           <div className={styles.searchMobile} onClick={onOpenFilter}>
             <Image src="/searchPage/whiteLocation.svg" className="mr-3" />
             <span>
-              {COUNTRY_LIST.find((country) => country.value === destination)
+              {DESTINATION_LIST.find((country) => country.value === destination)
                 ?.name || "Choose  destination"}
             </span>
             <Image

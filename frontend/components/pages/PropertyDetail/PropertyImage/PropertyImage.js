@@ -43,7 +43,6 @@ const PropertyImage = ({ listImage = [] }) => {
                 ))}
         </div>
       </div>
-      <div className={styles.placeholder} />
     </>
   );
 };

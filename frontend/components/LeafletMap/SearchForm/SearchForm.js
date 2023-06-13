@@ -5,8 +5,7 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { isMobile } from "@/utils/utils";
-import { COUNTRY_LIST } from "../MapControl/MapControl";
-import { LOCATION_LIST } from "../SearchControl";
+import { DESTINATION_LIST } from "@/components/Header/Header";
 
 import styles from "./SearchForm.module.scss";
 
@@ -34,20 +33,26 @@ const SearchForm = ({ tabActive }) => {
       temp.push(selectedValues);
       formRef.setFieldsValue({ selectedLocation: temp });
     }
+    formRef.submit();
   };
 
   return (
     <div className={styles.searchWrapper}>
       <div className={styles.inputWrapper}>
         {isMobile() && (
-          <Form.Item name="destination">
+          <Form.Item name="country">
             <SelectWithPrefix
               className={styles.selectPrefix}
               prefix={<img src="/locationIcon.svg" />}
-              placeholder="Choose a destination"
-              options={COUNTRY_LIST}
-              onChange={(value) =>
-                formRef.setFieldsValue({ destination: value })
+              placeholder="Choose  destination"
+              options={DESTINATION_LIST.map((destination) => ({
+                value: destination.value,
+                name: destination.label,
+              }))}
+              onSelect={(value) =>
+                formRef.setFieldsValue({
+                  country: value.length > 0 ? value : undefined,
+                })
               }
             />
           </Form.Item>
@@ -64,6 +69,7 @@ const SearchForm = ({ tabActive }) => {
           <Select
             placeholder="Choose villa type"
             className={styles.villaTypeSelector}
+            allowClear
           >
             <Option value="private">Private Villas</Option>
             <Option value="apartment">Apartments</Option>
@@ -80,9 +86,9 @@ const SearchForm = ({ tabActive }) => {
               <SegmenedSelector
                 listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
                 selectedOption={selectedBedroom}
-                onClick={(value) =>
-                  formRef.setFieldsValue({ selectedBedroom: value })
-                }
+                onClick={(value) => {
+                  formRef.setFieldsValue({ selectedBedroom: value });
+                }}
               />
             </Form.Item>
           </div>
@@ -93,9 +99,9 @@ const SearchForm = ({ tabActive }) => {
             <SegmenedSelector
               listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
               selectedOption={selectedBed}
-              onClick={(value) =>
-                formRef.setFieldsValue({ selectedBed: value })
-              }
+              onClick={(value) => {
+                formRef.setFieldsValue({ selectedBed: value });
+              }}
             />
           </Form.Item>
         </div>
@@ -105,9 +111,9 @@ const SearchForm = ({ tabActive }) => {
             <SegmenedSelector
               listOption={["Any", "1", "2", "3", "4", "5", "6++"]}
               selectedOption={selectedBadroom}
-              onClick={(value) =>
-                formRef.setFieldsValue({ selectedBadroom: value })
-              }
+              onClick={(value) => {
+                formRef.setFieldsValue({ selectedBadroom: value });
+              }}
             />
           </Form.Item>
         </div>
@@ -124,6 +130,7 @@ const SearchForm = ({ tabActive }) => {
                 className={styles.sliderPrice}
                 step={100}
                 range={{ draggableTrack: true }}
+                defaultValue={[800, 5000]}
                 tooltip={{
                   open: true,
                   placement: "bottom",
@@ -152,12 +159,12 @@ const SearchForm = ({ tabActive }) => {
                 >
                   <MinusOutlined />
                 </div>
-                {maxGuest}
+                {maxGuest || 0}
                 <div
                   className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                  onClick={() =>
-                    formRef.setFieldsValue({ maxGuest: maxGuest + 1 })
-                  }
+                  onClick={() => {
+                    formRef.setFieldsValue({ maxGuest: maxGuest + 1 });
+                  }}
                 >
                   <PlusOutlined />
                 </div>
@@ -179,7 +186,7 @@ const SearchForm = ({ tabActive }) => {
         </Form.Item>
       </div>
 
-      <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+      {/* <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
         <Form.Item name="selectedLocation">
           {LOCATION_LIST.map((location) => (
             <div
@@ -194,7 +201,7 @@ const SearchForm = ({ tabActive }) => {
             </div>
           ))}
         </Form.Item>
-      </div>
+      </div> */}
     </div>
   );
 };
