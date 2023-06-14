@@ -22,7 +22,7 @@ const MapControl = ({
   const [destination, setDestination] = useState(null);
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!isMobile()) {
       if (router.query.country) {
         setDestination(router.query.country);
         formRef.setFieldsValue({
