@@ -38,9 +38,11 @@ const Holiday = () => {
               .map((hotel, index) => (
                 <HotelCard key={index} item={hotel} className={styles.hotel} />
               ))
-          : holidayList.map((hotel, index) => (
-              <HotelCard key={index} item={hotel} className={styles.hotel} />
-            ))}
+          : holidayList
+              .slice(0, 5)
+              .map((hotel, index) => (
+                <HotelCard key={index} item={hotel} className={styles.hotel} />
+              ))}
       </div>
       {isMobile() && (
         <Link href="/holiday">
