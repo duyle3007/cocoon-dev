@@ -151,105 +151,111 @@ const LeafletMap = ({ mode }) => {
   };
 
   return (
-    <Form
-      form={formRef}
-      initialValues={{
-        selectedLocation: [],
-        rangeDate: [],
-        rangePrice: [800, 5000],
-        maxGuest: null,
-        selectedBedroom: "Any",
-        selectedBed: "Any",
-        selectedBadroom: "Any",
-        feature: [],
-        sort: SORT_VALUES[0].value,
-      }}
-      onFinish={onFinishForm}
-      onValuesChange={(_, allField) => debounceFetchData(allField)}
-    >
-      <div className={styles.mapContainer}>
-        <SearchControl
-          tabActive={tabActive}
-          setTabActive={setTabActive}
-          onSearch={onSearch}
-          listLocation={listLocation}
-          searchType={searchType}
-          onClick={navigateTo}
-          handleReinitClick={() => {
-            leafletRef.current?.invalidateSize();
-          }}
-          mode={mode}
-        />
+    <Spin spinning={loading}>
+      <Form
+        form={formRef}
+        initialValues={{
+          selectedLocation: [],
+          rangeDate: [],
+          rangePrice: [800, 5000],
+          maxGuest: null,
+          selectedBedroom: "Any",
+          selectedBed: "Any",
+          selectedBadroom: "Any",
+          feature: [],
+          sort: SORT_VALUES[0].value,
+        }}
+        onFinish={onFinishForm}
+        onValuesChange={(_, allField) => debounceFetchData(allField)}
+      >
+        <div className={styles.mapContainer}>
+          <SearchControl
+            tabActive={tabActive}
+            setTabActive={setTabActive}
+            onSearch={onSearch}
+            listLocation={listLocation}
+            searchType={searchType}
+            onClick={navigateTo}
+            handleReinitClick={() => {
+              leafletRef.current?.invalidateSize();
+            }}
+            mode={mode}
+          />
 
-        <FilterModal ref={modalRef} tabActive={tabActive} />
-        <SortModal ref={sortModalRef} />
-        <div className={styles.right}>
-          {searchType === "filter" ? (
-            <SearchByFilter listLocation={listLocation} mode={mode} />
-          ) : (
-            <MapContainer
-              center={
-                listLocation.length > 0
-                  ? [listLocation[0].acf.lat, listLocation[0].acf.long]
-                  : [-37.8839, 175.3745188667]
-              }
-              ref={leafletRef}
-              zoom={13}
-              touchZoom={true}
-              zoomControl={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          <FilterModal ref={modalRef} tabActive={tabActive} />
+          <SortModal ref={sortModalRef} />
+          <div className={styles.right}>
+            {searchType === "filter" ? (
+              <SearchByFilter listLocation={listLocation} mode={mode} />
+            ) : (
+              <MapContainer
+                center={
+                  listLocation.length > 0
+                    ? [listLocation[0].acf.lat, listLocation[0].acf.long]
+                    : [-37.8839, 175.3745188667]
+                }
+                ref={leafletRef}
+                zoom={13}
+                touchZoom={true}
+                zoomControl={false}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MarkerCluster ref={mapRef} listLocation={listLocation} />
+              </MapContainer>
+            )}
+            {mode ? (
+              <div className={styles.searchTitle}>
+                {mode === "holiday"
+                  ? "HOLIDAYS PROPERTIES"
+                  : mode === "photoshoot"
+                  ? "PHOTOSHOOTS AND EVENTS"
+                  : "HOLIDAYS VILLAS IN SYNDNEY"}
+                {mode === "photoshoot" && (
+                  <div className={styles.note}>
+                    <div className={styles.noteItem}>
+                      <CheckOutlined /> Only Available for Photoshoots, Filming
+                      and TV Production.
+                    </div>
+                    <div className={styles.noteItem}>
+                      <CloseOutlined /> Strictly No Parties are allowed.
+                    </div>
+                    <div className={styles.noteItem}>
+                      <CloseOutlined />
+                      No Engagement Parties, No Birthday Parties, No Hens or
+                      Bucks Parties.
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <MapControl
+                listLocation={listLocation}
+                searchType={searchType}
+                onChangeSearchType={setSearchType}
+                onOpenFilter={() => modalRef.current.openFilterModal()}
+                onOpenSort={() => sortModalRef.current.openSortModal()}
               />
-              <MarkerCluster ref={mapRef} listLocation={listLocation} />
-            </MapContainer>
-          )}
-          {mode ? (
-            <div className={styles.searchTitle}>
-              {mode === "holiday"
-                ? "HOLIDAYS PROPERTIES"
-                : mode === "photoshoot"
-                ? "PHOTOSHOOTS AND EVENTS"
-                : "HOLIDAYS VILLAS IN SYNDNEY"}
-              {mode === "photoshoot" && (
-                <div className={styles.note}>
-                  <div className={styles.noteItem}>
-                    <CheckOutlined /> Only Available for Photoshoots, Filming
-                    and TV Production.
-                  </div>
-                  <div className={styles.noteItem}>
-                    <CloseOutlined /> Strictly No Parties are allowed.
-                  </div>
-                  <div className={styles.noteItem}>
-                    <CloseOutlined />
-                    No Engagement Parties, No Birthday Parties, No Hens or Bucks
-                    Parties.
-                  </div>
-                </div>
-              )}
+            )}
+          </div>
+          {isMobile() && searchType === "map" && (
+            <div className={styles.mapResultMobile}>
+              {listLocation.map((location, index) => {
+                return (
+                  <MapCard
+                    key={index}
+                    location={location}
+                    onClick={navigateTo}
+                  />
+                );
+              })}
             </div>
-          ) : (
-            <MapControl
-              listLocation={listLocation}
-              searchType={searchType}
-              onChangeSearchType={setSearchType}
-              onOpenFilter={() => modalRef.current.openFilterModal()}
-              onOpenSort={() => sortModalRef.current.openSortModal()}
-            />
           )}
         </div>
-        {isMobile() && searchType === "map" && (
-          <div className={styles.mapResultMobile}>
-            {listLocation.map((location, index) => {
-              return (
-                <MapCard key={index} location={location} onClick={navigateTo} />
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </Form>
+      </Form>
+    </Spin>
   );
 };
 
