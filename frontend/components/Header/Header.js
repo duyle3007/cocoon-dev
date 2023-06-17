@@ -369,14 +369,14 @@ export const AUSTRALIA_LIST = [
       </Link>
     ),
   },
-  {
-    key: "2",
-    label: (
-      <Link href="/search?country=australia&villaType=luxury">
-        Luxury Lodges
-      </Link>
-    ),
-  },
+  // {
+  //   key: "2",
+  //   label: (
+  //     <Link href="/search?country=australia&villaType=luxury">
+  //       Luxury Lodges
+  //     </Link>
+  //   ),
+  // },
 ];
 
 const Header = () => {

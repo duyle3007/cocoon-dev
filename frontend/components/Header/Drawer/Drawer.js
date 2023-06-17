@@ -136,9 +136,9 @@ const Drawer = () => {
                     <p onClick={() => goTo("/search?villaType=private")}>
                       PRIVATE VILLAS
                     </p>
-                    <p onClick={() => goTo("/search?villaType=luxury")}>
+                    {/* <p onClick={() => goTo("/search?villaType=luxury")}>
                       LUXURY LODGES
-                    </p>
+                    </p> */}
                   </Panel>
                   <Panel header="DESTINATION" key="2">
                     {DESTINATION_LIST.map((destination, index) => (

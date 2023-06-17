@@ -73,7 +73,6 @@ const SearchForm = ({ tabActive }) => {
           >
             <Option value="private">Private Villas</Option>
             <Option value="apartment">Apartments</Option>
-            <Option value="luxury">Luxury Lodges</Option>
           </Select>
         </Form.Item>
         <Form.Item name="rangeDate">

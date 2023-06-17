@@ -2,6 +2,12 @@
   @apply absolute top-10 left-0 flex px-[70px] justify-between w-full items-center;
   .selectPrefix {
     @apply w-[310px] bg-white py-2;
+    :global(.ant-cascader-dropdown) {
+      left: -33px !important;
+    }
+    :global(.ant-cascader-menu-item) {
+      width: 300px;
+    }
   }
   .searchType {
     @apply flex gap-4;

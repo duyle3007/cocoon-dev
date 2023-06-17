@@ -20,7 +20,7 @@
   }
 
   .searchTitle {
-    @apply flex px-[70px] gap-[236px] bg-[#F2EEE8] items-center pt-10;
+    @apply flex px-[70px] gap-[236px] bg-[#F2EEE8] items-center pt-10 w-full;
     font-family: "Goudy Old Style";
     font-weight: 400;
     font-size: 40px;

@@ -29,6 +29,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/map/marker-shadow.png",
 });
 
+export const DEFAULT_ZOOM_LEVEL = 14;
+
 const LeafletMap = ({ mode }) => {
   const router = useRouter();
 
@@ -137,7 +139,7 @@ const LeafletMap = ({ mode }) => {
 
   const navigateTo = (lat, long) => {
     if (lat && long) {
-      mapRef.current.flyTo([lat, long], 18);
+      leafletRef.current.setView([lat, long], DEFAULT_ZOOM_LEVEL);
     }
   };
 
@@ -195,7 +197,8 @@ const LeafletMap = ({ mode }) => {
                     : [-37.8839, 175.3745188667]
                 }
                 ref={leafletRef}
-                zoom={13}
+                zoom={DEFAULT_ZOOM_LEVEL}
+                maxZoom={15}
                 touchZoom={true}
                 zoomControl={false}
               >

@@ -52,7 +52,12 @@ const FilterCard = ({ villa }) => {
             </div>
           </div>
           {villa.acf.description ? (
-            <div className={styles.description}>{villa.acf.description}</div>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={{
+                __html: villa?.acf?.description,
+              }}
+            />
           ) : null}
         </div>
 

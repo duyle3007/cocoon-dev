@@ -150,17 +150,18 @@ const SearchControl = ({
                   className={styles.input}
                 />
               </Form.Item>
-              <Form.Item name="villaType">
-                <Select
-                  placeholder="Choose villa type"
-                  className={styles.villaTypeSelector}
-                  allowClear
-                >
-                  <Option value="private">Private Villas</Option>
-                  <Option value="apartment">Apartments</Option>
-                  <Option value="luxury">Luxury Lodges</Option>
-                </Select>
-              </Form.Item>
+              {tabActive === "holiday" && (
+                <Form.Item name="villaType">
+                  <Select
+                    placeholder="Choose villa type"
+                    className={styles.villaTypeSelector}
+                    allowClear
+                  >
+                    <Option value="private">Private Villas</Option>
+                    <Option value="apartment">Apartments</Option>
+                  </Select>
+                </Form.Item>
+              )}
               <Form.Item name="rangeDate">
                 <RangeDatePicker value={rangeDate} />
               </Form.Item>
@@ -313,6 +314,9 @@ const SearchControl = ({
                   }}
                 />
               </Form.Item>
+              <Form.Item name="rangeDate">
+                <RangeDatePicker value={rangeDate} />
+              </Form.Item>
             </div>
             <div className={styles.numResult}>
               {listLocation.length} PROPERTIES
@@ -323,7 +327,9 @@ const SearchControl = ({
                   <MapCard
                     key={index}
                     location={location}
-                    onClick={() => onClick(location.acf.lat, location.acf.long)}
+                    onClick={() => {
+                      onClick(location.acf.lat, location.acf.long);
+                    }}
                   />
                 );
               })}

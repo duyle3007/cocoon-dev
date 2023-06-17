@@ -17,6 +17,7 @@ import SearchByFilter, {
 import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
+import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 
 import styles from "./HolidaySydneyPage.module.scss";
 
@@ -131,7 +132,7 @@ const HolidaySydneyPage = () => {
 
   const navigateTo = (lat, lng) => {
     if (lat && lng) {
-      mapRef.current.flyTo([lat, lng], 18);
+      mapRef.current.flyTo([lat, lng], DEFAULT_ZOOM_LEVEL);
     }
   };
 

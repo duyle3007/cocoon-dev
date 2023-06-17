@@ -19,6 +19,7 @@ import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
+import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 
 import styles from "./PhotoshootPage.module.scss";
 
@@ -134,7 +135,7 @@ const PhotoshootPage = () => {
 
   const navigateTo = (lat, lng) => {
     if (lat && lng) {
-      mapRef.current.flyTo([lat, lng], 18);
+      mapRef.current.flyTo([lat, lng], DEFAULT_ZOOM_LEVEL);
     }
   };
 
@@ -202,12 +203,7 @@ const PhotoshootPage = () => {
             <SearchByFilter listLocation={listLocation} mode={mode} />
           ) : (
             <MapContainer
-              center={
-                // listLocation.length > 0
-                //   ? [listLocation[0].lat, listLocation[0].lng]
-                //   : [-37.8839, 175.3745188667]
-                [-37.8839, 175.3745188667]
-              }
+              center={[-37.8839, 175.3745188667]}
               ref={leafletRef}
               zoom={13}
               touchZoom={true}
