@@ -198,7 +198,7 @@ const LeafletMap = ({ mode }) => {
                 }
                 ref={leafletRef}
                 zoom={DEFAULT_ZOOM_LEVEL}
-                maxZoom={15}
+                maxZoom={13}
                 touchZoom={true}
                 zoomControl={false}
               >
