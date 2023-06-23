@@ -15,22 +15,25 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
     if (!map) return;
     const markerClusterGroup = L.markerClusterGroup();
     const leafletMarkers = listLocation.map(
-      ({
-        title: { rendered: name },
-        slug,
-        acf: {
-          description,
-          starting_price,
-          no_of_bedrooms,
-          no_of_bathrooms,
-          min_of_nights,
-          location1,
-          discount,
-          lat,
-          long,
+      (
+        {
+          title: { rendered: name },
+          slug,
+          acf: {
+            description,
+            starting_price,
+            no_of_bedrooms,
+            no_of_bathrooms,
+            min_of_nights,
+            location1,
+            discount,
+            lat,
+            long,
+          },
+          images,
         },
-        images,
-      }) => {
+        locationIndex
+      ) => {
         const customMarker = new L.DivIcon({
           className: "custom-marker-wrapper",
           iconSize: [30, 30],
@@ -41,6 +44,7 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
           </div>`,
         });
         const marker = L.marker([lat, long], { icon: customMarker });
+        let bannerIndex = 0;
 
         marker.on("click", function () {
           const customMarkers = document.querySelectorAll(
@@ -58,11 +62,40 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
           currChild.classList.add(styles.activeMarker);
         });
         marker.on("popupopen", function () {
-          const popupContent = document.querySelector(".leaflet-popup-content");
+          const popupContent = document.getElementById("body");
 
           popupContent.addEventListener("click", function () {
             router.push(`/properties/${slug}`);
           });
+
+          const prevBtn = document.getElementById(`prevBtn${locationIndex}`);
+          prevBtn.addEventListener("click", () => {
+            if (bannerIndex === 0) {
+              bannerIndex = images.length - 1;
+            } else {
+              bannerIndex = bannerIndex - 1;
+            }
+            const carousel = document.getElementById(
+              `carousel${locationIndex}`
+            );
+            carousel.style.transform = `translateX(-${bannerIndex * 310}px)`;
+          });
+
+          const nextBtn = document.getElementById(`nextBtn${locationIndex}`);
+          nextBtn.addEventListener("click", () => {
+            if (bannerIndex === images.length - 1) {
+              bannerIndex = 0;
+            } else {
+              bannerIndex = bannerIndex + 1;
+            }
+            const carousel = document.getElementById(
+              `carousel${locationIndex}`
+            );
+            carousel.style.transform = `translateX(-${bannerIndex * 310}px)`;
+          });
+        });
+        marker.on("popupclose", () => {
+          bannerIndex = 0;
         });
 
         if (name) {
@@ -76,8 +109,33 @@ const MarkerCluster = forwardRef(({ listLocation }, ref) => {
           </div>`
               : ""
           }
-          <img src=${images[0].src} class=${styles.locationImage} />
-          <div class=${styles.locationContent}>
+          <div class=${styles.carouselOverflow}>
+            ${
+              images.length > 0 &&
+              `<div class=${styles.prevBtn}>
+              <img class=${
+                styles.rightArrow
+              } id=${`prevBtn${locationIndex}`} src='/shortLeftArrow.png'>
+            </div>`
+            }
+            ${
+              images.length > 0 &&
+              `<div class=${styles.nextBtn}>
+              <img class=${
+                styles.rightArrow
+              } id=${`nextBtn${locationIndex}`} src='/shortRightArrow.png'>
+            </div>`
+            }
+            <div id=${`carousel${locationIndex}`} class=${styles.carousel}>
+              ${images
+                .map(
+                  (image) =>
+                    `<img src=${image.src} class=${styles.locationImage} />`
+                )
+                .join("")}
+            </div>
+          </div>
+          <div id="body" class=${styles.locationContent}>
             <h5 class=${styles.name}>${name}</h5>
             <div class=${styles.infoWrapper}>
               <div class=${styles.info}>
