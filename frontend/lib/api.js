@@ -114,7 +114,7 @@ async function createBooking(bookingData) {
       throw new Error("Accommodation not found");
     }
     data.reserved_accommodations.push({
-      accommodation: 110,
+      accommodation: accommodation.id,
       adults: numberOfAdult,
       children: numberOfChild,
       guest_name: `${firstName} ${lastName}`,
