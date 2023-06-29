@@ -26,7 +26,7 @@ const RangeDatePicker = ({ value, onSelect }) => {
       // If this component is controlled by form
       if (value) {
         formRef.setFieldsValue({ rangeDate: [momentStartDate, momentEndDate] });
-        !isMobile && formRef.submit();
+        !isMobile() && formRef.submit();
       }
     }
   }, [momentStartDate, momentEndDate]);
@@ -45,7 +45,7 @@ const RangeDatePicker = ({ value, onSelect }) => {
     if (date) {
       // because in mobile, the Check out picker render 2 version (desktop and mobile), while desktop only have one
       // so the picker have been duplicated
-      const checkOutCalendar = isMobile
+      const checkOutCalendar = isMobile()
         ? document.getElementsByClassName("ant-picker")[3]
         : document.getElementsByClassName("ant-picker")[1];
       checkOutCalendar.click();
