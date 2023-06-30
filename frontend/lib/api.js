@@ -28,7 +28,7 @@ async function fetchApi(url, method, data) {
     return response?.data;
   } catch (error) {
     if (error.response) {
-      throw new Error("Request failed: " + error.response.data.message);
+      throw new Error(error.response.data.message);
     } else if (error.request) {
       throw new Error("No response received from server");
     } else {
@@ -57,14 +57,14 @@ async function createBooking(bookingData) {
     checkOutDate,
     numberOfAdult,
     numberOfChild,
-    firstName,
-    lastName,
-    address,
+    firstName = "",
+    lastName = "",
+    address = "",
     country = "",
     state = "",
     city = "",
-    zip,
-    message,
+    zip = "",
+    message = "",
   } = bookingData;
 
   const data = {
@@ -82,6 +82,9 @@ async function createBooking(bookingData) {
     reserved_accommodations: [],
     note: message,
   };
+  if(numberOfAdult == 0) {
+    throw new Error("At least one adult is required");
+  }
   const rates = await fetchRates();
   if (rates) {
     let rate;
@@ -95,7 +98,7 @@ async function createBooking(bookingData) {
       }
     }
     if (!rate) {
-      throw new Error("Accommodation has no Rate");
+      throw new Error("Accommodation has no rate");
     }
   }
   const accommodations = await fetchAccommodations();
