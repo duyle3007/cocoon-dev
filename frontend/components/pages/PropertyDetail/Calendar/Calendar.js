@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "antd";
-import Link from "next/link";
+import { Button, notification } from "antd";
+import { useRouter } from "next/router";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -11,6 +11,7 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import styles from "./Calendar.module.scss";
 
 const Calendar = ({ info }) => {
+  const router = useRouter();
   const [monthFirstCalendar, setMonthFirstCalendar] = useState(
     moment().toDate()
   );
@@ -66,7 +67,17 @@ const Calendar = ({ info }) => {
     setMonthSecondCalendar(moment(monthSecondCalendar).add(1, "M").toDate());
   };
 
-  console.log("selectedDates", selectedDates);
+  const goToBooking = () => {
+    if (selectedDates.length > 0) {
+      router.push(
+        `/enquiry?propertyId=${info.id}&startDate=${selectedDates[0]}&endDate=${selectedDates[1]}`
+      );
+    } else {
+      notification.error({
+        message: "Please select checkin/checkout date first",
+      });
+    }
+  };
   return (
     <div className={styles.calendar}>
       <h1>Calendar</h1>
@@ -141,12 +152,11 @@ const Calendar = ({ info }) => {
               <span>{totalPrice} AUD</span>
             </div>
           </div>
-          <Link
-            href={`/enquiry?propertyId=${info.id}&startDate=${selectedDates[0]}&endDate=${selectedDates[1]}`}
-            className="flex flex-col"
-          >
-            <Button className={styles.enquiryButton}>GO TO ENQUIRY FORM</Button>
-          </Link>
+          <div className="flex flex-col">
+            <Button className={styles.enquiryButton} onClick={goToBooking}>
+              GO TO ENQUIRY FORM
+            </Button>
+          </div>
         </div>
       </div>
     </div>
