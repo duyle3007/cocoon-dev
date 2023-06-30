@@ -87,6 +87,7 @@ const FormEnquiry = () => {
 
       await axios.post("/api/createBooking", data);
       notification.success({ message: "Booking successfully" });
+      router.push("/");
     } catch (e) {
       console.log("e", e);
       notification.error({ message: e.response.data.error.props });
@@ -179,7 +180,7 @@ const FormEnquiry = () => {
                 />
               </Form.Item>
             )}
-            <Form.Item label="NIGHT BUDGET" name="budget">
+            {/* <Form.Item label="NIGHT BUDGET" name="budget">
               <Select
                 placeholder="Select"
                 options={[
@@ -193,11 +194,17 @@ const FormEnquiry = () => {
                   },
                 ]}
               />
+            </Form.Item> */}
+            <Form.Item label="ZIP" name="zip">
+              <Input
+                placeholder="Input zip code"
+                className={styles.formInput}
+              />
             </Form.Item>
           </div>
-          <Form.Item name="isFlexible">
+          {/* <Form.Item name="isFlexible">
             <Checkbox>My dates are flexible</Checkbox>
-          </Form.Item>
+          </Form.Item> */}
 
           <div className={styles.rowItem}>
             <Form.Item
@@ -233,7 +240,7 @@ const FormEnquiry = () => {
             />
           </Form.Item>
 
-          <div className={styles.rowItem}>
+          {/* <div className={styles.rowItem}>
             <Form.Item label="COUNTRY" name="country">
               <Select
                 placeholder="Choose country"
@@ -264,9 +271,9 @@ const FormEnquiry = () => {
                 ]}
               />
             </Form.Item>
-          </div>
+          </div> */}
 
-          <div className={styles.rowItem}>
+          {/* <div className={styles.rowItem}>
             <Form.Item label="CITY" name="city">
               <Select
                 placeholder="Choose city"
@@ -288,7 +295,7 @@ const FormEnquiry = () => {
                 className={styles.formInput}
               />
             </Form.Item>
-          </div>
+          </div> */}
 
           <Form.Item label="MESSAGE" name="message">
             <TextArea

@@ -148,76 +148,82 @@ const HolidayPage = () => {
   };
 
   return (
-    <Form
-      form={formRef}
-      initialValues={{
-        rangeDate: [],
-        rangePrice: [800, 5000],
-        maxGuest: null,
-        selectedBedroom: "Any",
-        selectedBed: "Any",
-        selectedBadroom: "Any",
-        feature: [],
-        sort: SORT_VALUES[0].value,
-      }}
-      onFinish={onFinishForm}
-      onValuesChange={(_, allField) => debounceFetchData(allField)}
-    >
-      <div className={styles.mapContainer}>
-        <SearchControl
-          tabActive={tabActive}
-          setTabActive={setTabActive}
-          onSearch={onSearch}
-          listLocation={listLocation}
-          searchType={searchType}
-          onClick={navigateTo}
-          handleReinitClick={() => {
-            leafletRef.current?.invalidateSize();
-          }}
-          mode={mode}
-        />
-
-        <FilterModal ref={modalRef} tabActive={tabActive} />
-        <SortModal ref={sortModalRef} />
-        <div className={styles.right}>
-          <ToolBarMobile
-            onClickFilter={() => modalRef.current.openFilterModal()}
-            onClickSort={() => sortModalRef.current.openSortModal()}
+    <Spin spinning={loading}>
+      <Form
+        form={formRef}
+        initialValues={{
+          rangeDate: [],
+          rangePrice: [800, 5000],
+          maxGuest: null,
+          selectedBedroom: "Any",
+          selectedBed: "Any",
+          selectedBadroom: "Any",
+          feature: [],
+          sort: SORT_VALUES[0].value,
+        }}
+        onFinish={onFinishForm}
+        onValuesChange={(_, allField) => debounceFetchData(allField)}
+      >
+        <div className={styles.mapContainer}>
+          <SearchControl
+            tabActive={tabActive}
+            setTabActive={setTabActive}
+            onSearch={onSearch}
+            listLocation={listLocation}
+            searchType={searchType}
+            onClick={navigateTo}
+            handleReinitClick={() => {
+              leafletRef.current?.invalidateSize();
+            }}
+            mode={mode}
           />
-          <div className={styles.searchTitle}>Holidays properties</div>
-          {searchType === "filter" ? (
-            <SearchByFilter listLocation={listLocation} mode={mode} />
-          ) : (
-            <MapContainer
-              center={
-                listLocation.length > 0
-                  ? [listLocation[0].acf.lat, listLocation[0].acf.long]
-                  : [-37.8839, 175.3745188667]
-              }
-              ref={leafletRef}
-              zoom={13}
-              touchZoom={true}
-              zoomControl={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <MarkerCluster ref={mapRef} markers={listLocation} />
-            </MapContainer>
+
+          <FilterModal ref={modalRef} tabActive={tabActive} />
+          <SortModal ref={sortModalRef} />
+          <div className={styles.right}>
+            <ToolBarMobile
+              onClickFilter={() => modalRef.current.openFilterModal()}
+              onClickSort={() => sortModalRef.current.openSortModal()}
+            />
+            <div className={styles.searchTitle}>Holidays properties</div>
+            {searchType === "filter" ? (
+              <SearchByFilter listLocation={listLocation} mode={mode} />
+            ) : (
+              <MapContainer
+                center={
+                  listLocation.length > 0
+                    ? [listLocation[0].acf.lat, listLocation[0].acf.long]
+                    : [-37.8839, 175.3745188667]
+                }
+                ref={leafletRef}
+                zoom={13}
+                touchZoom={true}
+                zoomControl={false}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MarkerCluster ref={mapRef} markers={listLocation} />
+              </MapContainer>
+            )}
+          </div>
+          {isMobile() && searchType === "map" && (
+            <div className={styles.mapResultMobile}>
+              {listLocation.map((location, index) => {
+                return (
+                  <MapCard
+                    key={index}
+                    location={location}
+                    onClick={navigateTo}
+                  />
+                );
+              })}
+            </div>
           )}
         </div>
-        {isMobile() && searchType === "map" && (
-          <div className={styles.mapResultMobile}>
-            {listLocation.map((location, index) => {
-              return (
-                <MapCard key={index} location={location} onClick={navigateTo} />
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </Form>
+      </Form>
+    </Spin>
   );
 };
 

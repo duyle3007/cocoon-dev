@@ -1,4 +1,5 @@
 import { DatePicker, Form } from "antd";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { isMobile } from "@/utils/utils";
@@ -7,6 +8,7 @@ import styles from "./RangeDatePicker.module.scss";
 
 const RangeDatePicker = ({ value, onSelect }) => {
   const formRef = Form.useFormInstance();
+  const router = useRouter();
 
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
@@ -45,9 +47,10 @@ const RangeDatePicker = ({ value, onSelect }) => {
     if (date) {
       // because in mobile, the Check out picker render 2 version (desktop and mobile), while desktop only have one
       // so the picker have been duplicated
-      const checkOutCalendar = isMobile()
-        ? document.getElementsByClassName("ant-picker")[3]
-        : document.getElementsByClassName("ant-picker")[1];
+      const checkOutCalendar =
+        isMobile() && router.pathname !== "/properties/[name]"
+          ? document.getElementsByClassName("ant-picker")[3]
+          : document.getElementsByClassName("ant-picker")[1];
       checkOutCalendar.click();
     }
 
