@@ -1,10 +1,11 @@
 import axios from "axios";
+import moment from "moment";
 import Error from "next/error";
 
 const MOTOPRESS_API_URL = process.env.MOTOPRESS_API_URL;
 const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL;
 
-async function fetchApi(url, method, data) {
+async function fetchApi(url, method, params, data) {
   const encodedCredentials = Buffer.from(
     `${process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME}:${process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD}`
   ).toString("base64");
@@ -13,6 +14,9 @@ async function fetchApi(url, method, data) {
   const options = {
     method: method,
   };
+  if (method == "GET" && params) {
+    options.params = params;
+  }
   if (method == "POST" || method == "PUT") {
     options.data = JSON.stringify(data);
   }
@@ -127,14 +131,57 @@ async function createBooking(bookingData) {
   const response = await fetchApi(
     `${MOTOPRESS_API_URL}/bookings`,
     "POST",
+    {},
     data
   );
   return response;
+}
+
+async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  if (!startDate || !endDate) {
+    throw new Error(`${!startDate ? "Start Date" : "End Date"} is required`);
+  }
+  if (
+    moment(startDate).isAfter(endDate) ||
+    moment(endDate).isBefore(startDate)
+  ) {
+    throw new Error("Start Date and End Date are invalid");
+  }
+  const params = {
+    filter: {
+      post_status: "confirmed",
+      post_type: "mphb_booking",
+      mphb_room_type_id: accommodationTypeId,
+      meta_query: [
+        {
+          key: "mphb_check_in_date",
+          value: new Date(startDate),
+          compare: ">=",
+        },
+        {
+          key: "mphb_check_out_date",
+          value: new Date(endDate),
+          compare: "<=",
+        },
+      ],
+    },
+  };
+  const response =
+    (await fetchApi(`${MOTOPRESS_API_URL}/bookings`, "GET", params)) ?? [];
+  const result = response.filter(
+    (item) =>
+      item.reserved_accommodations[0]?.accommodation_type == accommodationTypeId
+  );
+  return result;
 }
 
 module.exports = {
   fetchApi,
   fetchAccommodations,
   fetchRates,
+  fetchBookingsByDate,
   createBooking,
 };
