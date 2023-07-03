@@ -86,7 +86,7 @@ async function createBooking(bookingData) {
     reserved_accommodations: [],
     note: message,
   };
-  if(numberOfAdult == 0) {
+  if (numberOfAdult == 0) {
     throw new Error("At least one adult is required");
   }
   const rates = await fetchRates();
@@ -152,7 +152,7 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   }
   const params = {
     filter: {
-      post_status: "confirmed",
+      post_status: ["confirmed", "pending-user", "pending-payment", "pending"],
       post_type: "mphb_booking",
       mphb_room_type_id: accommodationTypeId,
       meta_query: [
@@ -171,10 +171,16 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   };
   const response =
     (await fetchApi(`${MOTOPRESS_API_URL}/bookings`, "GET", params)) ?? [];
-  const result = response.filter(
-    (item) =>
-      item.reserved_accommodations[0]?.accommodation_type == accommodationTypeId
-  );
+  const result = response
+    .filter(
+      (item) =>
+        item.reserved_accommodations[0]?.accommodation_type ==
+        accommodationTypeId
+    )
+    .map((item) => {
+      delete item.customer;
+      return item;
+    });
   return result;
 }
 
