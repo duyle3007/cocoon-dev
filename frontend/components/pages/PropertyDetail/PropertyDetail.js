@@ -1,8 +1,9 @@
-import { Breadcrumb, Spin } from "antd";
+import { Breadcrumb, Spin, notification } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import moment from "moment";
 
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
@@ -39,6 +40,7 @@ const PropertyDetail = () => {
         const { data: resWp } = await axios.get(
           "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
         );
+
         const propertyDetailInWp = resWp.find(
           (property) => property.slug === propertySlug
         );
@@ -46,9 +48,22 @@ const PropertyDetail = () => {
           (property) => property.id === propertyDetailInWp.id
         );
 
+        const startDate = `${moment().year()}-${moment().month() + 1}-01`;
+        const endDate = moment(startDate).add(6, "months").format("YYYY-MM-DD");
+        const { data: bookedDates } = await axios.get("/api/booking", {
+          params: {
+            accommodation_type: propertyDetailInWp.id,
+            startDate: startDate,
+            endDate: endDate,
+          },
+        });
+
+        console.log("bookedDates", bookedDates);
+
         setPropertyDetail({ ...propertyDetailInMoto, ...propertyDetailInWp });
       } catch (e) {
-        console.log("fetch detail error", e);
+        notification.error({ message: e.response.data.error.props || e });
+        console.log("fetch detail error", e.response.data.error.props || e);
       } finally {
         setLoading(false);
       }
