@@ -50,7 +50,9 @@ const PropertyDetail = () => {
 
         const startDate = `${moment().year()}-${moment().month() + 1}-01`;
         const endDate = moment(startDate).add(6, "months").format("YYYY-MM-DD");
-        const { data: bookedDates } = await axios.get("/api/booking", {
+        const {
+          data: { data: bookedDates },
+        } = await axios.get("/api/booking", {
           params: {
             accommodation_type: propertyDetailInWp.id,
             startDate: startDate,
@@ -58,9 +60,14 @@ const PropertyDetail = () => {
           },
         });
 
-        console.log("bookedDates", bookedDates);
-
-        setPropertyDetail({ ...propertyDetailInMoto, ...propertyDetailInWp });
+        setPropertyDetail({
+          ...propertyDetailInMoto,
+          ...propertyDetailInWp,
+          bookedDates: bookedDates.map((date) => ({
+            startDate: date.check_in_date,
+            endDate: date.check_out_date,
+          })),
+        });
       } catch (e) {
         notification.error({ message: e.response.data.error.props || e });
         console.log("fetch detail error", e.response.data.error.props || e);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, notification } from "antd";
 import { useRouter } from "next/router";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
@@ -19,36 +19,34 @@ const Calendar = ({ info }) => {
     moment().add(1, "M").toDate()
   );
   const [totalPrice, setTotalPrice] = useState("0.00");
-  const disableRangeStart = new Date("2023-05-10");
-  const disableRangeEnd = new Date("2023-05-16");
   const [selectedDates, setSelectedDates] = useState([]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const disabledDays = document.querySelectorAll(
-        ".react-calendar__tile[disabled]"
-      );
-      if (disabledDays.length) {
-        disabledDays[0].classList.add(styles.firstDateDisabled);
-        disabledDays[disabledDays.length - 1].classList.add(
-          styles.lastDateDisabled
-        );
-      }
-    }
-  });
-
-  const isDateInRange = (date, startDate, endDate) => {
+  const isDateInRange = (date) => {
     const formatDate = moment(date).format("YYYY-MM-DD");
-    const formatStartDate = moment(startDate).format("YYYY-MM-DD");
-    const formatEndDate = moment(endDate).format("YYYY-MM-DD");
-
-    return formatDate >= formatStartDate && formatDate <= formatEndDate;
+    return info.bookedDates.some(
+      (bookedDate) =>
+        formatDate >= bookedDate.startDate && formatDate <= bookedDate.endDate
+    );
   };
 
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      return isDateInRange(date, disableRangeStart, disableRangeEnd);
+      return isDateInRange(date);
     }
+  };
+
+  const tileClassName = ({ date }) => {
+    const currentDate = moment(date).format("YYYY-MM-DD");
+    let className = "";
+    info.bookedDates.forEach((bookedDate) => {
+      if (currentDate === bookedDate.startDate) {
+        className = styles.startDateDisabled;
+      }
+      if (currentDate === bookedDate.endDate) {
+        className = styles.endDateDisabled;
+      }
+    });
+    return className;
   };
 
   const onSelectRangeData = (selectedRangeDate) => {
@@ -78,6 +76,7 @@ const Calendar = ({ info }) => {
       });
     }
   };
+
   return (
     <div className={styles.calendar}>
       <h1>Calendar</h1>
@@ -101,6 +100,7 @@ const Calendar = ({ info }) => {
             activeStartDate={monthFirstCalendar}
             value={selectedDates}
             tileDisabled={tileDisabled}
+            tileClassName={tileClassName}
             prevLabel={
               <LeftOutlined
                 className={styles.leftArrowCalendar}
@@ -121,6 +121,7 @@ const Calendar = ({ info }) => {
           <ReactCalendar
             activeStartDate={monthSecondCalendar}
             tileDisabled={tileDisabled}
+            tileClassName={tileClassName}
             value={selectedDates}
             prevLabel={
               <LeftOutlined
@@ -141,7 +142,10 @@ const Calendar = ({ info }) => {
           />
         </div>
         <div className={styles.chooseDate}>
-          <RangeDatePicker onSelect={onSelectRangeData} />
+          <RangeDatePicker
+            onSelect={onSelectRangeData}
+            disabledDates={info.bookedDates}
+          />
           <div className={styles.priceTotal}>
             <div className="flex justify-between px-4 py-2">
               <span>PRICE</span>

@@ -33,6 +33,42 @@
       @apply flex justify-center w-full h-full;
     }
   }
+  .startDateDisabled {
+    @apply relative flex justify-center;
+    background: transparent !important;
+    & > abbr {
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 210px 200px;
+      border-color: transparent transparent #e8e8e8 transparent;
+    }
+  }
+  .endDateDisabled {
+    @apply relative flex justify-center;
+    background: transparent !important;
+    & > abbr {
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 200px 188px 0 0;
+      border-color: #e8e8e8 transparent transparent transparent;
+    }
+  }
   .chooseDate {
     @apply flex flex-col gap-5 py-6 px-8 bg-white w-full;
   }
@@ -60,42 +96,7 @@
     letter-spacing: 0.05em;
     color: #ffffff;
   }
-  .firstDateDisabled {
-    @apply relative flex justify-center;
-    background: transparent !important;
-    & > abbr {
-      z-index: 1;
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0 0 210px 200px;
-      border-color: transparent transparent #e8e8e8 transparent;
-    }
-  }
-  .lastDateDisabled {
-    @apply relative flex justify-center;
-    background: transparent !important;
-    & > abbr {
-      z-index: 1;
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 200px 188px 0 0;
-      border-color: #e8e8e8 transparent transparent transparent;
-    }
-  }
+
   :global(.react-calendar) {
     @apply p-4;
     border: none;
