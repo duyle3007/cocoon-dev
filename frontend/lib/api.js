@@ -54,6 +54,21 @@ async function fetchRates() {
   return rates ?? [];
 }
 
+async function getCurrentSeason() {
+  const seasons = (await fetchApi(`${MOTOPRESS_API_URL}/seasons`, "GET")) ?? [];
+  const currentDate = new Date();
+  let currentSeason;
+  for (const item of seasons) {
+    if (
+      moment(currentDate).isSameOrAfter(item.start_date) &&
+      moment(currentDate).isSameOrBefore(item.end_date)
+    ) {
+      currentSeason = item;
+    }
+  }
+  return currentSeason;
+}
+
 async function createBooking(bookingData) {
   const {
     accommodationTypeId,
@@ -137,6 +152,65 @@ async function createBooking(bookingData) {
   return response;
 }
 
+async function calculatePriceByDateRange(
+  accommodationTypeId,
+  startDate,
+  endDate
+) {
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  if (!startDate || !endDate) {
+    throw new Error(`${!startDate ? "Start Date" : "End Date"} is required`);
+  }
+  if (
+    moment(startDate).isAfter(endDate) ||
+    moment(endDate).isBefore(startDate)
+  ) {
+    throw new Error("Start Date and End Date are invalid");
+  }
+
+  let currentRate;
+  let basePrice = 0;
+  const numberOfDates = moment(endDate).diff(startDate, "days");
+
+  const rates = await fetchRates();
+  if (rates) {
+    for (let item of rates) {
+      if (
+        item.accommodation_type_id == accommodationTypeId &&
+        item.status == "active"
+      ) {
+        currentRate = item;
+        break;
+      }
+    }
+    if (!currentRate) {
+      throw new Error("Accommodation has no rate");
+    }
+  }
+  if (currentRate?.season_prices.length == 1) {
+    basePrice = currentRate.season_prices[0]?.base_price;
+  } else if (currentRate?.season_prices.length > 1) {
+    const currentSeason = await getCurrentSeason();
+    const selectedSeason = currentRate?.season_prices.find(
+      (item) => item.season_id == currentSeason.id
+    );
+    if (!selectedSeason) {
+      throw new Error("Season not found");
+    }
+    basePrice = selectedSeason?.base_price;
+  }
+  return {
+    checkInDate: moment(startDate).format('Y-MM-D'),
+    checkOutDate: moment(endDate).format('Y-MM-D'),
+    dates: numberOfDates,
+    rateId: currentRate?.id,
+    accommodationTypeId: Number(accommodationTypeId),
+    price: basePrice * numberOfDates,
+  };
+}
+
 async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   if (!accommodationTypeId) {
     throw new Error("Accommodation Type Id is required");
@@ -189,5 +263,6 @@ module.exports = {
   fetchAccommodations,
   fetchRates,
   fetchBookingsByDate,
+  calculatePriceByDateRange,
   createBooking,
 };
