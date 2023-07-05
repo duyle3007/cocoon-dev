@@ -258,11 +258,61 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   return result;
 }
 
+async function checkAvailableAccommodationForBooking(accommodationTypeId, startDate, endDate) {
+  const params = {
+    check_in_date: startDate,
+    check_out_date: endDate,
+    accommodation_type: Number(accommodationTypeId),
+  }
+  console.log('Params: ', params);
+  const response = await fetchApi(
+    `${MOTOPRESS_API_URL}/bookings/availability`,
+    "GET",
+    params
+  );
+  return response?.availability?.length > 0 ? true : false;
+}
+
+async function searchAccommodationType(input) {
+  const {searchStr = '', features = [], villaType = '', country = '', noOfBedrooms,  noOfBathrooms, startDate, endDate} = input;
+  const params = {
+    name: searchStr,
+    _fields: ['acf', 'title', 'id'],
+    villa_type: villaType,
+    features: features,
+    country: country,
+    status: 'publish'
+  };
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/mphb_room_type`,
+    "GET",
+    params
+  );
+  let accommodationTypes = [...response];
+  if(noOfBathrooms && noOfBathrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bathrooms == noOfBathrooms);
+  }
+  if(noOfBedrooms && noOfBedrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bedrooms == noOfBedrooms);
+  }
+  if(startDate && endDate) {
+    for(let i = 0; i <= accommodationTypes.length; i++) {
+      const available = await checkAvailableAccommodationForBooking(accommodationTypes[i].id, startDate, endDate);
+      if(!available) {
+        accommodationTypes.splice(i, 1);
+      }
+    }
+  }
+  return accommodationTypes;
+}
+
 module.exports = {
   fetchApi,
   fetchAccommodations,
   fetchRates,
   fetchBookingsByDate,
   calculatePriceByDateRange,
+  searchAccommodationType,
+  checkAvailableAccommodationForBooking,
   createBooking,
 };
