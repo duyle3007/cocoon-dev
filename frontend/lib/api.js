@@ -54,6 +54,21 @@ async function fetchRates() {
   return rates ?? [];
 }
 
+async function getCurrentSeason() {
+  const seasons = (await fetchApi(`${MOTOPRESS_API_URL}/seasons`, "GET")) ?? [];
+  const currentDate = new Date();
+  let currentSeason;
+  for (const item of seasons) {
+    if (
+      moment(currentDate).isSameOrAfter(item.start_date) &&
+      moment(currentDate).isSameOrBefore(item.end_date)
+    ) {
+      currentSeason = item;
+    }
+  }
+  return currentSeason;
+}
+
 async function createBooking(bookingData) {
   const {
     accommodationTypeId,
@@ -137,6 +152,65 @@ async function createBooking(bookingData) {
   return response;
 }
 
+async function calculatePriceByDateRange(
+  accommodationTypeId,
+  startDate,
+  endDate
+) {
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  if (!startDate || !endDate) {
+    throw new Error(`${!startDate ? "Start Date" : "End Date"} is required`);
+  }
+  if (
+    moment(startDate).isAfter(endDate) ||
+    moment(endDate).isBefore(startDate)
+  ) {
+    throw new Error("Start Date and End Date are invalid");
+  }
+
+  let currentRate;
+  let basePrice = 0;
+  const numberOfDates = moment(endDate).diff(startDate, "days");
+
+  const rates = await fetchRates();
+  if (rates) {
+    for (let item of rates) {
+      if (
+        item.accommodation_type_id == accommodationTypeId &&
+        item.status == "active"
+      ) {
+        currentRate = item;
+        break;
+      }
+    }
+    if (!currentRate) {
+      throw new Error("Accommodation has no rate");
+    }
+  }
+  if (currentRate?.season_prices.length == 1) {
+    basePrice = currentRate.season_prices[0]?.base_price;
+  } else if (currentRate?.season_prices.length > 1) {
+    const currentSeason = await getCurrentSeason();
+    const selectedSeason = currentRate?.season_prices.find(
+      (item) => item.season_id == currentSeason.id
+    );
+    if (!selectedSeason) {
+      throw new Error("Season not found");
+    }
+    basePrice = selectedSeason?.base_price;
+  }
+  return {
+    checkInDate: moment(startDate).format('Y-MM-D'),
+    checkOutDate: moment(endDate).format('Y-MM-D'),
+    dates: numberOfDates,
+    rateId: currentRate?.id,
+    accommodationTypeId: Number(accommodationTypeId),
+    price: basePrice * numberOfDates,
+  };
+}
+
 async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   if (!accommodationTypeId) {
     throw new Error("Accommodation Type Id is required");
@@ -184,10 +258,61 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   return result;
 }
 
+async function checkAvailableAccommodationForBooking(accommodationTypeId, startDate, endDate) {
+  const params = {
+    check_in_date: startDate,
+    check_out_date: endDate,
+    accommodation_type: Number(accommodationTypeId),
+  }
+  console.log('Params: ', params);
+  const response = await fetchApi(
+    `${MOTOPRESS_API_URL}/bookings/availability`,
+    "GET",
+    params
+  );
+  return response?.availability?.length > 0 ? true : false;
+}
+
+async function searchAccommodationType(input) {
+  const {searchStr = '', features = [], villaType = '', country = '', noOfBedrooms,  noOfBathrooms, startDate, endDate} = input;
+  const params = {
+    name: searchStr,
+    _fields: ['acf', 'title', 'id'],
+    villa_type: villaType,
+    features: features,
+    country: country,
+    status: 'publish'
+  };
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/mphb_room_type`,
+    "GET",
+    params
+  );
+  let accommodationTypes = [...response];
+  if(noOfBathrooms && noOfBathrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bathrooms == noOfBathrooms);
+  }
+  if(noOfBedrooms && noOfBedrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bedrooms == noOfBedrooms);
+  }
+  if(startDate && endDate) {
+    for(let i = 0; i <= accommodationTypes.length; i++) {
+      const available = await checkAvailableAccommodationForBooking(accommodationTypes[i].id, startDate, endDate);
+      if(!available) {
+        accommodationTypes.splice(i, 1);
+      }
+    }
+  }
+  return accommodationTypes;
+}
+
 module.exports = {
   fetchApi,
   fetchAccommodations,
   fetchRates,
   fetchBookingsByDate,
+  calculatePriceByDateRange,
+  searchAccommodationType,
+  checkAvailableAccommodationForBooking,
   createBooking,
 };
