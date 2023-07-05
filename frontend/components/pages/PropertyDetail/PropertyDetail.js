@@ -27,53 +27,63 @@ const PropertyDetail = () => {
 
     const fetchAccomodationDetail = async () => {
       setLoading(true);
-      try {
-        const { data: resMoto } = await axios.get(
-          "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
-          {
-            auth: {
-              username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-              password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-            },
-          }
-        );
-        const { data: resWp } = await axios.get(
-          "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
-        );
-
-        const propertyDetailInWp = resWp.find(
-          (property) => property.slug === propertySlug
-        );
-        const propertyDetailInMoto = resMoto.find(
-          (property) => property.id === propertyDetailInWp.id
-        );
-
-        const startDate = `${moment().year()}-${moment().month() + 1}-01`;
-        const endDate = moment(startDate).add(6, "months").format("YYYY-MM-DD");
-        const {
-          data: { data: bookedDates },
-        } = await axios.get("/api/booking", {
-          params: {
-            accommodation_type: propertyDetailInWp.id,
-            startDate: startDate,
-            endDate: endDate,
+      const getAccommodationTypes = axios.get(
+        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+        {
+          auth: {
+            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
           },
-        });
+        }
+      );
 
-        setPropertyDetail({
-          ...propertyDetailInMoto,
-          ...propertyDetailInWp,
-          bookedDates: bookedDates.map((date) => ({
-            startDate: date.check_in_date,
-            endDate: date.check_out_date,
-          })),
+      const getRoomTypes = axios.get(
+        "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
+      );
+
+      Promise.all([getAccommodationTypes, getRoomTypes])
+        .then(async ([resMoto, resWp]) => {
+          const { data: resMotoData } = resMoto;
+          const { data: resWpData } = resWp;
+
+          const propertyDetailInWp = resWpData.find(
+            (property) => property.slug === propertySlug
+          );
+          const propertyDetailInMoto = resMotoData.find(
+            (property) => property.id === propertyDetailInWp.id
+          );
+
+          // Calculate booking from beginning of current month to next 6 months
+          const startDate = `${moment().year()}-${moment().month() + 1}-01`;
+          const endDate = moment(startDate)
+            .add(6, "months")
+            .format("YYYY-MM-DD");
+          const {
+            data: { data: bookedDates },
+          } = await axios.get("/api/booking", {
+            params: {
+              accommodation_type: propertyDetailInWp.id,
+              startDate: startDate,
+              endDate: endDate,
+            },
+          });
+
+          setPropertyDetail({
+            ...propertyDetailInMoto,
+            ...propertyDetailInWp,
+            bookedDates: bookedDates.map((date) => ({
+              startDate: date.check_in_date,
+              endDate: date.check_out_date,
+            })),
+          });
+        })
+        .catch((e) => {
+          notification.error({ message: e.response.data.error.props || e });
+          console.log("fetch detail error", e.response.data.error.props || e);
+        })
+        .finally(() => {
+          setLoading(false);
         });
-      } catch (e) {
-        notification.error({ message: e.response.data.error.props || e });
-        console.log("fetch detail error", e.response.data.error.props || e);
-      } finally {
-        setLoading(false);
-      }
     };
     fetchAccomodationDetail();
   }, []);

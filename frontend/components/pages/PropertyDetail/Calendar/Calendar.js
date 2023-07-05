@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Button, notification } from "antd";
+import { useEffect, useState } from "react";
+import { Button, Spin, notification } from "antd";
 import { useRouter } from "next/router";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import moment from "moment";
 import dynamic from "next/dynamic";
 const ReactCalendar = dynamic(() => import("react-calendar"), { ssr: false });
+import axios from "axios";
+import dayjs from "dayjs";
 
 import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 
@@ -12,6 +14,7 @@ import styles from "./Calendar.module.scss";
 
 const Calendar = ({ info }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [monthFirstCalendar, setMonthFirstCalendar] = useState(
     moment().toDate()
   );
@@ -20,6 +23,41 @@ const Calendar = ({ info }) => {
   );
   const [totalPrice, setTotalPrice] = useState("0.00");
   const [selectedDates, setSelectedDates] = useState([]);
+
+  useEffect(() => {
+    const calculatedPrice = async () => {
+      setLoading(true);
+      try {
+        const {
+          data: { data: res },
+        } = await axios.get("/api/calculateBookingPrice", {
+          params: {
+            accommodationTypeId: info.id,
+            startDate: dayjs(selectedDates[0]).format("YYYY-MM-DD"),
+            endDate: dayjs(selectedDates[1]).format("YYYY-MM-DD"),
+          },
+        });
+        setTotalPrice(res.price);
+      } catch (e) {
+        notification.error({
+          message:
+            e.response.data?.error?.props ||
+            "Something went wrong while calculating price",
+        });
+        console.log(
+          "fetch detail error",
+          e.response.data?.error?.props ||
+            "Something went wrong while calculating price"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (selectedDates.length > 0) {
+      calculatedPrice();
+    }
+  }, [selectedDates]);
 
   const isDateInRange = (date) => {
     const formatDate = moment(date).format("YYYY-MM-DD");
@@ -141,27 +179,29 @@ const Calendar = ({ info }) => {
             showNeighboringMonth={false}
           />
         </div>
-        <div className={styles.chooseDate}>
-          <RangeDatePicker
-            onSelect={onSelectRangeData}
-            disabledDates={info.bookedDates}
-          />
-          <div className={styles.priceTotal}>
-            <div className="flex justify-between px-4 py-2">
-              <span>PRICE</span>
-              <span>TOTAL</span>
+        <Spin spinning={loading}>
+          <div className={styles.chooseDate}>
+            <RangeDatePicker
+              onSelect={onSelectRangeData}
+              disabledDates={info.bookedDates}
+            />
+            <div className={styles.priceTotal}>
+              <div className="flex justify-between px-4 py-2">
+                <span>PRICE</span>
+                <span>TOTAL</span>
+              </div>
+              <div className="flex justify-between px-4 bg-[#F2EEE8] py-2">
+                <span>Total</span>
+                <span>{totalPrice} AUD</span>
+              </div>
             </div>
-            <div className="flex justify-between px-4 bg-[#F2EEE8] py-2">
-              <span>Total</span>
-              <span>{totalPrice} AUD</span>
+            <div className="flex flex-col">
+              <Button className={styles.enquiryButton} onClick={goToBooking}>
+                GO TO ENQUIRY FORM
+              </Button>
             </div>
           </div>
-          <div className="flex flex-col">
-            <Button className={styles.enquiryButton} onClick={goToBooking}>
-              GO TO ENQUIRY FORM
-            </Button>
-          </div>
-        </div>
+        </Spin>
       </div>
     </div>
   );
