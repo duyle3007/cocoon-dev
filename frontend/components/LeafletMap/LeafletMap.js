@@ -8,6 +8,7 @@ import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import SortModal from "./SortModal/SortModal";
 import MarkerCluster from "./MarketCluster";
@@ -61,11 +62,11 @@ const LeafletMap = ({ mode }) => {
       sort,
     } = fieldValues;
     const params = {
-      name: searchValue?.length ? searchValue : null,
-      villa_type: villaType,
-      bedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
+      searchStr: searchValue?.length ? searchValue : null,
+      villaType: villaType,
+      noOfBedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
       beds: selectedBed !== "Any" ? selectedBed : null,
-      bathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
+      noOfBathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
       guests: maxGuest,
       features: feature?.length > 0 ? feature?.join(",") : null,
       price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
@@ -76,23 +77,33 @@ const LeafletMap = ({ mode }) => {
       country,
       location1,
       location2,
+      startDate: dayjs(rangeDate[0]).format("YYYY-MM-DD"),
+      endDate: dayjs(rangeDate[1]).format("YYYY-MM-DD"),
     };
+
+    const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
+      params,
+    });
+    const searchMotoPress = axios.get(
+      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      {
+        auth: {
+          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+        },
+      }
+    );
+
     setLoading(true);
     try {
-      const { data: resWp } = await axios.get(
-        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type`,
-        { params }
-      );
-      const { data: resMoto } = await axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      const [
         {
-          auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-          },
-        }
-      );
-      const res = resWp.map((result) => {
+          data: { data: res },
+        },
+        { data: resMoto },
+      ] = await Promise.all([searchAccommodationType, searchMotoPress]);
+
+      const mergeRes = res.map((result) => {
         const findItemInMoto = resMoto.find(
           (otherRes) => otherRes.id === result.id
         );
@@ -102,7 +113,7 @@ const LeafletMap = ({ mode }) => {
           return result;
         }
       });
-      setListLocation(res);
+      setListLocation(mergeRes);
     } catch (err) {
       console.log("Fetch list data", err);
       notification.error({
