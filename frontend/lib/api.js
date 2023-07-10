@@ -303,7 +303,7 @@ async function searchAccommodationType(input) {
     priceStart,
     priceEnd,
     guests,
-    mphb_room_type,
+    mphb_room_type_category,
     location1,
     location2,
     order,
@@ -312,12 +312,13 @@ async function searchAccommodationType(input) {
 
   const params = {
     name: searchStr,
-    _fields: ["acf", "title", "id"],
+    _fields: ["slug", "mphb_room_type_category", "date", "acf", "title", "id"],
     villa_type: villaType,
     features: features,
     country: country,
     status: "publish",
     slug: slug,
+    mphb_room_type_category: mphb_room_type_category,
     price_start: priceStart,
     price_end: priceEnd,
     location1: location1,
@@ -332,28 +333,41 @@ async function searchAccommodationType(input) {
   );
   let accommodationTypes = [...response];
   if (noOfBathrooms && noOfBathrooms != 0) {
-    accommodationTypes = accommodationTypes.filter(
-      (item) => item.acf.no_of_bathrooms == noOfBathrooms
-    );
+    if(noOfBathrooms == "6++") {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.no_of_bathrooms >= 6
+      );
+    } else {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.no_of_bathrooms == noOfBathrooms
+      );
+    }
   }
   if (noOfBedrooms && noOfBedrooms != 0) {
-    accommodationTypes = accommodationTypes.filter(
-      (item) => item.acf.no_of_bedrooms == noOfBedrooms
-    );
+    if(noOfBedrooms == "6++") {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.no_of_bedrooms >= 6
+      );
+    } else {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.no_of_bedrooms == noOfBedrooms
+      );
+    }
   }
   if (beds && beds != 0) {
-    accommodationTypes = accommodationTypes.filter(
-      (item) => item.acf.beds == beds
-    );
+    if(beds == "6++") {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.beds >= 6
+      );
+    } else {
+      accommodationTypes = accommodationTypes.filter(
+        (item) => item.acf.beds == beds
+      );
+    }
   }
   if (guests && guests != 0) {
     accommodationTypes = accommodationTypes.filter(
-      (item) => item.acf.guests == guests
-    );
-  }
-  if (mphb_room_type && mphb_room_type != 0) {
-    accommodationTypes = accommodationTypes.filter(
-      (item) => item.id == mphb_room_type
+      (item) => item.acf.guests >= guests
     );
   }
   if (startDate && endDate) {
