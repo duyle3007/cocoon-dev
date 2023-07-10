@@ -72,15 +72,19 @@ const LeafletMap = ({ mode }) => {
       priceStart: rangePrice?.length > 0 ? rangePrice[0] : undefined,
       priceEnd: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
-      orderby: sort ? sort.split(":")[0] : undefined,
+      orderBy: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
       country,
       location1,
       location2,
       startDate:
-        rangeDate.length > 0 ? dayjs(rangeDate[0]).format("YYYY-MM-DD") : null,
+        rangeDate.length > 0 && rangeDate[0]
+          ? dayjs(rangeDate[0]).format("YYYY-MM-DD")
+          : null,
       endDate:
-        rangeDate.length > 0 ? dayjs(rangeDate[1]).format("YYYY-MM-DD") : null,
+        rangeDate.length > 0 && rangeDate[1]
+          ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
+          : null,
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
