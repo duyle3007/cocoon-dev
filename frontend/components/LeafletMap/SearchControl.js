@@ -118,7 +118,7 @@ const SearchControl = ({
                 }`}
                 onClick={() => {
                   setTabActive("holiday");
-                  formRef.resetFields();
+                  // formRef.resetFields();
                 }}
               >
                 HOLIDAYS
@@ -129,7 +129,7 @@ const SearchControl = ({
                 }`}
                 onClick={() => {
                   setTabActive("photoshoots");
-                  formRef.resetFields();
+                  // formRef.resetFields();
                 }}
               >
                 PHOTOSHOOTS/EVENTS
