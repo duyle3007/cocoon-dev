@@ -69,16 +69,18 @@ const LeafletMap = ({ mode }) => {
       noOfBathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
       guests: maxGuest,
       features: feature?.length > 0 ? feature?.join(",") : null,
-      price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
-      price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
+      priceStart: rangePrice?.length > 0 ? rangePrice[0] : undefined,
+      priceEnd: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
       orderby: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
       country,
       location1,
       location2,
-      startDate: dayjs(rangeDate[0]).format("YYYY-MM-DD"),
-      endDate: dayjs(rangeDate[1]).format("YYYY-MM-DD"),
+      startDate:
+        rangeDate.length > 0 ? dayjs(rangeDate[0]).format("YYYY-MM-DD") : null,
+      endDate:
+        rangeDate.length > 0 ? dayjs(rangeDate[1]).format("YYYY-MM-DD") : null,
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
