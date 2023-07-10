@@ -202,8 +202,8 @@ async function calculatePriceByDateRange(
     basePrice = selectedSeason?.base_price;
   }
   return {
-    checkInDate: moment(startDate).format('Y-MM-D'),
-    checkOutDate: moment(endDate).format('Y-MM-D'),
+    checkInDate: moment(startDate).format("Y-MM-D"),
+    checkOutDate: moment(endDate).format("Y-MM-D"),
     dates: numberOfDates,
     rateId: currentRate?.id,
     accommodationTypeId: Number(accommodationTypeId),
@@ -258,30 +258,72 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   return result;
 }
 
-async function checkAvailableAccommodationForBooking(accommodationTypeId, startDate, endDate) {
+async function checkAvailableAccommodationForBooking(startDate, endDate) {
   const params = {
     check_in_date: startDate,
     check_out_date: endDate,
-    accommodation_type: Number(accommodationTypeId),
-  }
-  console.log('Params: ', params);
+    accommodation_type: 0,
+  };
   const response = await fetchApi(
     `${MOTOPRESS_API_URL}/bookings/availability`,
     "GET",
     params
   );
-  return response?.availability?.length > 0 ? true : false;
+  return response;
 }
 
 async function searchAccommodationType(input) {
-  const {searchStr = '', features = [], villaType = '', country = '', noOfBedrooms,  noOfBathrooms, startDate, endDate} = input;
+  const orderValues = ["asc", "desc"];
+  const orderByValues = [
+    "author",
+    "date",
+    "id",
+    "include",
+    "modified",
+    "parent",
+    "relevance",
+    "slug",
+    "include_slugs",
+    "title",
+    "menu_order",
+    "price",
+  ];
+  let availableAccommodation = [];
+  const {
+    searchStr = "",
+    features = [],
+    villaType = "",
+    country = "",
+    noOfBedrooms,
+    noOfBathrooms,
+    startDate,
+    endDate,
+    slug,
+    beds,
+    priceStart,
+    priceEnd,
+    guests,
+    mphb_room_type,
+    location1,
+    location2,
+    order,
+    orderBy,
+  } = input;
+
   const params = {
     name: searchStr,
-    _fields: ['acf', 'title', 'id'],
+    _fields: ["acf", "title", "id"],
     villa_type: villaType,
     features: features,
     country: country,
-    status: 'publish'
+    status: "publish",
+    slug: slug,
+    price_start: priceStart,
+    price_end: priceEnd,
+    location1: location1,
+    location2: location2,
+    order: orderValues.includes(order) ? order : orderValues[1],
+    orderby: orderByValues.includes(orderBy) ? orderBy : orderByValues[1],
   };
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/mphb_room_type`,
@@ -289,19 +331,45 @@ async function searchAccommodationType(input) {
     params
   );
   let accommodationTypes = [...response];
-  if(noOfBathrooms && noOfBathrooms != 0) {
-    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bathrooms == noOfBathrooms);
+  if (noOfBathrooms && noOfBathrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(
+      (item) => item.acf.no_of_bathrooms == noOfBathrooms
+    );
   }
-  if(noOfBedrooms && noOfBedrooms != 0) {
-    accommodationTypes = accommodationTypes.filter(item => item.acf.no_of_bedrooms == noOfBedrooms);
+  if (noOfBedrooms && noOfBedrooms != 0) {
+    accommodationTypes = accommodationTypes.filter(
+      (item) => item.acf.no_of_bedrooms == noOfBedrooms
+    );
   }
-  if(startDate && endDate) {
-    for(let i = 0; i <= accommodationTypes.length; i++) {
-      const available = await checkAvailableAccommodationForBooking(accommodationTypes[i].id, startDate, endDate);
-      if(!available) {
-        accommodationTypes.splice(i, 1);
-      }
-    }
+  if (beds && beds != 0) {
+    accommodationTypes = accommodationTypes.filter(
+      (item) => item.acf.beds == beds
+    );
+  }
+  if (guests && guests != 0) {
+    accommodationTypes = accommodationTypes.filter(
+      (item) => item.acf.guests == guests
+    );
+  }
+  if (mphb_room_type && mphb_room_type != 0) {
+    accommodationTypes = accommodationTypes.filter(
+      (item) => item.id == mphb_room_type
+    );
+  }
+  if (startDate && endDate) {
+    availableAccommodation = await checkAvailableAccommodationForBooking(
+      startDate,
+      endDate
+    );
+    availableAccommodation?.availability.sort(
+      (a, b) => a.accommodation_type - b.accommodation_type
+    );
+    const ids = new Set(
+      availableAccommodation?.availability.map(
+        (item) => item.accommodation_type
+      )
+    );
+    accommodationTypes = accommodationTypes.filter((item) => ids.has(item.id));
   }
   return accommodationTypes;
 }
