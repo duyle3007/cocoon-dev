@@ -17,6 +17,7 @@
 
   .right {
     @apply relative flex flex-1 h-auto;
+    max-height: calc(100vh - 85px);
   }
   .searchTitle {
     @apply absolute top-10 left-0 flex px-[70px] gap-[236px] items-center;
@@ -53,6 +54,7 @@
     }
     .right {
       @apply flex-col-reverse;
+      max-height: fit-content;
     }
     .mapResultMobile {
       @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto z-[99];
