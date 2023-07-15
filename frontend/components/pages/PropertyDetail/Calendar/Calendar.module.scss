@@ -39,7 +39,7 @@
     & > abbr {
       z-index: 1;
     }
-    &:after {
+    &:before {
       content: "";
       position: absolute;
       top: 0;
@@ -165,7 +165,7 @@
   :global(.react-calendar__tile--rangeStart) {
     @apply bg-white text-black flex justify-center;
   }
-  :global(.react-calendar__tile--rangeStart:after) {
+  :global(.react-calendar__tile--rangeStart:before) {
     content: "";
     position: absolute;
     top: 0;

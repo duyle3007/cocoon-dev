@@ -73,16 +73,26 @@ const Calendar = ({ info }) => {
     }
   };
 
+  let previousClassnameEndDate;
   const tileClassName = ({ date }) => {
     const currentDate = moment(date).format("YYYY-MM-DD");
     let className = "";
-    info.bookedDates.forEach((bookedDate) => {
-      if (currentDate === bookedDate.startDate) {
+    const sortBookedDate = info.bookedDates.sort((a, b) => {
+      return new Date(a.startDate) - new Date(b.startDate);
+    });
+
+    sortBookedDate.forEach((bookedDate) => {
+      if (
+        currentDate === bookedDate.startDate &&
+        bookedDate.startDate === previousClassnameEndDate
+      ) {
+        className = `${styles.startDateDisabled} ${styles.endDateDisabled}`;
+      } else if (currentDate === bookedDate.startDate) {
         className = styles.startDateDisabled;
-      }
-      if (currentDate === bookedDate.endDate) {
+      } else if (currentDate === bookedDate.endDate) {
         className = styles.endDateDisabled;
       }
+      previousClassnameEndDate = bookedDate.endDate;
     });
     return className;
   };

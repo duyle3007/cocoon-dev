@@ -14,15 +14,36 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
 
+  disabledDates.sort((a, b) => {
+    return new Date(a.startDate) - new Date(b.startDate);
+  });
+
+  let previousBookedEndDate;
   const disabledStartDatePicker = (current) => {
     const currentDate = dayjs(current).format("YYYY-MM-DD");
     dayjs(current).format("YYYY-MM-DD");
     if (disabledDates) {
-      const isBookedDate = disabledDates.some(
-        (disabledDate) =>
+      const isBookedDate = disabledDates.some((disabledDate) => {
+        // Allow book half day
+        previousBookedEndDate = disabledDate.endDate;
+
+        if (
+          previousBookedEndDate &&
+          previousBookedEndDate === disabledDate.startDate
+        ) {
+          return true;
+        }
+        if (currentDate === dayjs(disabledDate.endDate).format("YYYY-MM-DD")) {
+          return false;
+        }
+        if (
           dayjs(disabledDate.startDate).format("YYYY-MM-DD") <= currentDate &&
           currentDate <= dayjs(disabledDate.endDate).format("YYYY-MM-DD")
-      );
+        ) {
+          return true;
+        }
+        return false;
+      });
       if (isBookedDate) {
         return isBookedDate;
       }
@@ -37,22 +58,44 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
         (disabledDate) =>
           dayjs(disabledDate.endDate).format("YYYY-MM-DD") <
             dayjs(momentEndDate).format("YYYY-MM-DD") &&
-          currentDate <= dayjs(disabledDate.endDate).format("YYYY-MM-DD")
+          currentDate < dayjs(disabledDate.endDate).format("YYYY-MM-DD")
       );
     }
     return momentEndDate ? current && current > momentEndDate : false;
   };
 
+  let previousBookedStartDate;
   const disabledEndDatePicker = (current) => {
     const currentDate = dayjs(current).format("YYYY-MM-DD");
     dayjs(current).format("YYYY-MM-DD");
 
     if (disabledDates) {
-      const isBookedDate = disabledDates.some(
-        (disabledDate) =>
+      const isBookedDate = disabledDates.some((disabledDate) => {
+        // Allow book half day
+        previousBookedStartDate = disabledDate.startDate;
+        if (dayjs(momentStartDate).format("YYYY-MM-DD") === currentDate) {
+          return true;
+        }
+        if (
+          previousBookedStartDate &&
+          previousBookedStartDate === disabledDate.endDate
+        ) {
+          return true;
+        }
+        if (
+          currentDate === dayjs(disabledDate.startDate).format("YYYY-MM-DD")
+        ) {
+          return false;
+        }
+
+        if (
           dayjs(disabledDate.startDate).format("YYYY-MM-DD") <= currentDate &&
           currentDate <= dayjs(disabledDate.endDate).format("YYYY-MM-DD")
-      );
+        ) {
+          return true;
+        }
+        return false;
+      });
       if (isBookedDate) {
         return isBookedDate;
       }
@@ -67,7 +110,7 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
         (disabledDate) =>
           dayjs(disabledDate.startDate).format("YYYY-MM-DD") >
             dayjs(momentStartDate).format("YYYY-MM-DD") &&
-          currentDate >= dayjs(disabledDate.startDate).format("YYYY-MM-DD")
+          currentDate > dayjs(disabledDate.startDate).format("YYYY-MM-DD")
       );
     }
     return momentStartDate ? current && current < momentStartDate : false;

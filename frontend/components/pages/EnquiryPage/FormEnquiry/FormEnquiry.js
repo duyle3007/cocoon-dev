@@ -118,6 +118,7 @@ const FormEnquiry = () => {
               ]}
             >
               <DatePicker
+                disabled
                 format="MMM DD, YYYY"
                 disabledDate={disabledStartDate}
                 onChange={onChangeStartDay}
@@ -132,6 +133,7 @@ const FormEnquiry = () => {
                 ]}
               >
                 <DatePicker
+                  disabled
                   disabledDate={disabledEndDate}
                   format="MMM DD, YYYY"
                   onChange={onChangeEndDay}
@@ -162,6 +164,7 @@ const FormEnquiry = () => {
                 ]}
               >
                 <DatePicker
+                  disabled
                   disabledDate={disabledEndDate}
                   format="MMM DD, YYYY"
                   onChange={onChangeEndDay}
