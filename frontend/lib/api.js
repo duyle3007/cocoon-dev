@@ -333,7 +333,7 @@ async function searchAccommodationType(input) {
   );
   let accommodationTypes = [...response];
   if (noOfBathrooms && noOfBathrooms != 0) {
-    if(noOfBathrooms == "6++") {
+    if (noOfBathrooms == "6++") {
       accommodationTypes = accommodationTypes.filter(
         (item) => item.acf.no_of_bathrooms >= 6
       );
@@ -344,7 +344,7 @@ async function searchAccommodationType(input) {
     }
   }
   if (noOfBedrooms && noOfBedrooms != 0) {
-    if(noOfBedrooms == "6++") {
+    if (noOfBedrooms == "6++") {
       accommodationTypes = accommodationTypes.filter(
         (item) => item.acf.no_of_bedrooms >= 6
       );
@@ -355,7 +355,7 @@ async function searchAccommodationType(input) {
     }
   }
   if (beds && beds != 0) {
-    if(beds == "6++") {
+    if (beds == "6++") {
       accommodationTypes = accommodationTypes.filter(
         (item) => item.acf.beds >= 6
       );
@@ -388,13 +388,72 @@ async function searchAccommodationType(input) {
   return accommodationTypes;
 }
 
+async function fetchLocations(input) {
+  const { slug } = input;
+  const params = {
+    _fields: ["slug", "id", "title", "acf"],
+    slug: slug,
+  };
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/location`,
+    "GET",
+    params
+  );
+  return response;
+}
+
+async function fetchReviews(email, accommodationTypeId) {
+  const params = {
+    _fields: ["id", "acf"],
+    search: email,
+  };
+  const response = await fetchApi(`${WORDPRESS_API_URL}/review`, "GET", params);
+  if (accommodationTypeId) {
+    return response.filter(
+      (item) =>
+        item.acf.mphb_room_type[0] == accommodationTypeId &&
+        item.acf.reviewStatus == "approved"
+    );
+  }
+  return response;
+}
+
+async function createReviews(reviewData) {
+  const { email, accommodationTypeId, review, rating, name } = reviewData;
+  if (!email) {
+    throw new Error("Email is required");
+  }
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  const body = {
+    acf: {
+      email: email,
+      name: name,
+      review: review,
+      rate: rating,
+      mphb_room_type: [Number(accommodationTypeId)],
+    },
+  };
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/review`,
+    "POST",
+    {},
+    body
+  );
+  return response;
+}
+
 module.exports = {
   fetchApi,
   fetchAccommodations,
   fetchRates,
   fetchBookingsByDate,
+  fetchLocations,
+  fetchReviews,
   calculatePriceByDateRange,
   searchAccommodationType,
   checkAvailableAccommodationForBooking,
   createBooking,
+  createReviews
 };
