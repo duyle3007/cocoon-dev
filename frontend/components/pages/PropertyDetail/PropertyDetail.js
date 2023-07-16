@@ -54,31 +54,29 @@ const PropertyDetail = () => {
           );
 
           // Calculate booking from beginning of current month to next 6 months
-          const startDate = `${moment().year()}-${moment().month() + 1}-01`;
-          const endDate = moment(startDate)
-            .add(6, "months")
-            .format("YYYY-MM-DD");
-          const {
-            data: { data: bookedDates },
-          } = await axios.get("/api/booking", {
-            params: {
-              accommodation_type: propertyDetailInWp.id,
-              startDate: startDate,
-              endDate: moment(startDate).add(6, "months").format("YYYY-MM-DD"),
-            },
-          });
+          // const startDate = `${moment().year()}-${moment().month() + 1}-01`;
+          // const endDate = moment(startDate)
+          //   .add(6, "months")
+          //   .format("YYYY-MM-DD");
+          // const {
+          //   data: { data: bookedDates },
+          // } = await axios.get("/api/booking", {
+          //   params: {
+          //     accommodation_type: propertyDetailInWp.id,
+          //     startDate: startDate,
+          //     endDate: endDate,
+          //   },
+          // });
 
           setPropertyDetail({
             ...propertyDetailInMoto,
             ...propertyDetailInWp,
-            bookedDates: bookedDates.map((date) => ({
-              startDate: date.check_in_date,
-              endDate: date.check_out_date,
-            })),
+            bookedDates: [],
           });
         })
         .catch((e) => {
           notification.error({ message: e.response.data.error.props || e });
+          console.log("fetch detail error", e.response.data.error.props || e);
         })
         .finally(() => {
           setLoading(false);
