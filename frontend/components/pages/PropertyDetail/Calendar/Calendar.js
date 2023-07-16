@@ -114,6 +114,15 @@ const Calendar = ({ info }) => {
   };
 
   const goToBooking = () => {
+    if (
+      info.acf.min_of_nights &&
+      selectedDates[1].diff(selectedDates[0], "day") < info.acf.min_of_nights
+    ) {
+      notification.error({
+        message: `You must select at least ${info.acf.min_of_nights} nights`,
+      });
+      return;
+    }
     if (selectedDates.length > 0) {
       router.push(
         `/enquiry?propertyId=${info.id}&startDate=${selectedDates[0]}&endDate=${selectedDates[1]}`

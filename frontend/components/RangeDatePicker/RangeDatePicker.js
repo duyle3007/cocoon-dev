@@ -14,7 +14,7 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
 
-  disabledDates.sort((a, b) => {
+  disabledDates?.sort((a, b) => {
     return new Date(a.startDate) - new Date(b.startDate);
   });
 

@@ -107,6 +107,9 @@ const FormEnquiry = () => {
           form={form}
           layout="vertical"
           onFinish={onSubmit}
+          onFinishFailed={({ errorFields }) =>
+            notification.error({ message: errorFields[0].errors[0] })
+          }
           scrollToFirstError
         >
           <div className={styles.rowItem}>
@@ -142,7 +145,9 @@ const FormEnquiry = () => {
             ) : (
               <Form.Item
                 name="numPeople"
-                rules={[{ required: true, message: "Please select!" }]}
+                rules={[
+                  { required: true, message: "Please select number of guest!" },
+                ]}
               >
                 <GuestDropdown
                   onUpdateGuest={(value) =>
@@ -173,7 +178,9 @@ const FormEnquiry = () => {
             ) : (
               <Form.Item
                 name="numPeople"
-                rules={[{ required: true, message: "Please choose!" }]}
+                rules={[
+                  { required: true, message: "Please select number of guest!" },
+                ]}
               >
                 <GuestDropdown
                   onUpdateGuest={(value) =>
