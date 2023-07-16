@@ -216,8 +216,8 @@ const LeafletMap = ({ mode }) => {
                 ref={leafletRef}
                 zoom={DEFAULT_ZOOM_LEVEL}
                 maxZoom={13}
-                touchZoom={true}
-                zoomControl={false}
+                touchZoom={isMobile() ? false : true}
+                zoomControl={isMobile()}
               >
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

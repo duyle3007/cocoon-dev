@@ -2,6 +2,7 @@ import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
+import { isMobile } from "@/utils/utils";
 
 import styles from "./MapTab.module.scss";
 
@@ -21,8 +22,8 @@ const MapTab = ({ info }) => {
         center={[info.acf.lat + 0.001, info.acf.long + 0.001]}
         zoom={DEFAULT_ZOOM_LEVEL}
         maxZoom={13}
-        touchZoom={true}
-        zoomControl={false}
+        touchZoom={isMobile() ? false : true}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
