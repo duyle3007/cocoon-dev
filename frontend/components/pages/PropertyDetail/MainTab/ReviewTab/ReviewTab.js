@@ -1,8 +1,10 @@
 import { Button, Form, Rate, Input, Checkbox, Modal } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+import Image from "@/components/Image/Image";
 
 import styles from "./ReviewTab.module.scss";
-import Image from "@/components/Image/Image";
-import { useState } from "react";
 
 const { TextArea } = Input;
 
@@ -11,7 +13,11 @@ const ReviewCard = ({ review }) => {
     <div className={styles.reviewCard}>
       <div className={styles.reviewTitle}>
         <div className="flex gap-5 items-center">
-          <Image src={review.avatar} className={styles.avatarReview} />
+          <Image
+            src={review.avatar}
+            fallback={"/avatarPlaceholder.png"}
+            className={styles.avatarReview}
+          />
           <div className="flex flex-col gap-2">
             <div className="uppercase">{review.title}</div>
             <Rate value={review.rate} disabled />
@@ -21,13 +27,35 @@ const ReviewCard = ({ review }) => {
         <div className={styles.date}>{review.date}</div>
       </div>
 
-      <div className={styles.description}>{review.description}</div>
+      <div className={styles.description}>{review.review}</div>
       <div className="uppercase">{review.name}</div>
     </div>
   );
 };
 const ReviewTab = ({ info }) => {
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [reviewList, setReviewList] = useState([]);
+
+  useEffect(() => {
+    const getReviewList = async () => {
+      try {
+        const {
+          data: { data: reviewList },
+        } = await axios.get("/api/review", {
+          params: {
+            accommodationTypeId: info.id,
+          },
+        });
+        setReviewList(reviewList);
+      } catch (e) {
+        console.log("Fetch review error: " + e.message);
+      }
+    };
+
+    if (info) {
+      getReviewList();
+    }
+  }, [info]);
 
   const onSubmitForm = (fieldValues) => {
     setIsWriteModalOpen(false);
@@ -124,9 +152,9 @@ const ReviewTab = ({ info }) => {
         WRITE A REVIEW
       </Button>
       <div className={styles.reviewList}>
-        {info.reviews?.length &&
-          info.reviews.map((review, index) => (
-            <ReviewCard key={index} review={review} />
+        {reviewList.length > 0 &&
+          reviewList.map((review, index) => (
+            <ReviewCard key={index} review={review?.acf} />
           ))}
       </div>
     </div>

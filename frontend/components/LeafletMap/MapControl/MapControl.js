@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Form } from "antd";
 
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { DESTINATION_LIST } from "@/components/Header/Header";
-
-import styles from "./MapControl.module.scss";
 import { isMobile } from "@/utils/utils";
 import Image from "@/components/Image/Image";
+import { PropertyListContext } from "@/components/Layout/Layout";
+
+import styles from "./MapControl.module.scss";
 
 const MapControl = ({
   searchType,
@@ -16,6 +17,8 @@ const MapControl = ({
   onOpenFilter,
   onOpenSort,
 }) => {
+  const { allLocation } = useContext(PropertyListContext);
+
   const router = useRouter();
   const formRef = Form.useFormInstance();
 

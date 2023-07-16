@@ -1,11 +1,12 @@
 import { Dropdown, Input } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Image from "../Image/Image";
 import { isMobile } from "@/utils/utils";
 import Drawer from "./Drawer/Drawer";
+import { PropertyListContext } from "../Layout/Layout";
 
 import styles from "./Header.module.scss";
 
@@ -380,6 +381,8 @@ export const AUSTRALIA_LIST = [
 ];
 
 const Header = () => {
+  const { allLocation } = useContext(PropertyListContext);
+
   const router = useRouter();
   const [renderClientSideComponent, setRenderClientSideComponent] =
     useState(false);
@@ -389,6 +392,8 @@ const Header = () => {
   useEffect(() => {
     setRenderClientSideComponent(true);
   }, []);
+
+  console.log("allLocation", allLocation);
 
   if (!renderClientSideComponent) {
     return <></>;

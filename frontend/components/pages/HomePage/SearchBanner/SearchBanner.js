@@ -1,15 +1,18 @@
 import { Button, Cascader, DatePicker, Dropdown } from "antd";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 
 import Link from "next/link";
 import Image from "@/components/Image/Image";
 import GuestDropdown from "./GuestDropdown/GuestDropdown";
 import { isMobile } from "@/utils/utils";
 import { DESTINATION_LIST } from "@/components/Header/Header";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./SearchBanner.module.scss";
 
 const SearchBanner = () => {
+  const { allLocation } = useContext(PropertyListContext);
+
   const [guestNumber, setGuestNumber] = useState();
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);

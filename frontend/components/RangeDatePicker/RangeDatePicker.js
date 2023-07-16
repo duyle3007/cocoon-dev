@@ -69,7 +69,7 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
     const currentDate = dayjs(current).format("YYYY-MM-DD");
     dayjs(current).format("YYYY-MM-DD");
 
-    if (disabledDates) {
+    if (disabledDates.length > 0) {
       const isBookedDate = disabledDates.some((disabledDate) => {
         // Allow book half day
         previousBookedStartDate = disabledDate.startDate;
@@ -100,7 +100,11 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
         return isBookedDate;
       }
     }
-    if (momentStartDate && current >= momentStartDate && disabledDates) {
+    if (
+      momentStartDate &&
+      current >= momentStartDate &&
+      disabledDates.length > 0
+    ) {
       // Check if range selected date is match with bookedDate
       // Three condition:
       // - Calendar day item must larger than selected start date
@@ -113,7 +117,10 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
           currentDate > dayjs(disabledDate.startDate).format("YYYY-MM-DD")
       );
     }
-    return momentStartDate ? current && current < momentStartDate : false;
+
+    return momentStartDate
+      ? current && currentDate <= dayjs(momentStartDate).format("YYYY-MM-DD")
+      : false;
   };
 
   useEffect(() => {
