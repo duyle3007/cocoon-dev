@@ -1,6 +1,8 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 
+import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
+
 import styles from "./MapTab.module.scss";
 
 // Fix for the missing icon issue
@@ -17,7 +19,8 @@ const MapTab = ({ info }) => {
     <div className={styles.mapTab}>
       <MapContainer
         center={[info.acf.lat + 0.001, info.acf.long + 0.001]}
-        zoom={13}
+        zoom={DEFAULT_ZOOM_LEVEL}
+        maxZoom={13}
         touchZoom={true}
         zoomControl={false}
       >

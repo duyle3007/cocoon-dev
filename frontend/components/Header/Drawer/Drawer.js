@@ -120,7 +120,7 @@ const Drawer = () => {
               suffix={
                 <SearchOutlined
                   onClick={(e) => {
-                    goTo(`/search?searchValue=${searchInput}`);
+                    goTo(`/search?searchValue=${searchInput || ""}`);
                     setSearchInput(null);
                   }}
                 />

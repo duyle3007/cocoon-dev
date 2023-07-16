@@ -89,7 +89,7 @@ const PropertyDetail = () => {
         });
     };
     fetchAccomodationDetail();
-  }, []);
+  }, [router]);
 
   if (!renderClientSideComponent) {
     return <></>;
