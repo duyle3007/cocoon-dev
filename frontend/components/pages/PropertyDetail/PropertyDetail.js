@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import moment from "moment";
+import dayjs from "dayjs";
 
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
@@ -54,29 +54,35 @@ const PropertyDetail = () => {
           );
 
           // Calculate booking from beginning of current month to next 6 months
-          // const startDate = `${moment().year()}-${moment().month() + 1}-01`;
-          // const endDate = moment(startDate)
-          //   .add(6, "months")
-          //   .format("YYYY-MM-DD");
-          // const {
-          //   data: { data: bookedDates },
-          // } = await axios.get("/api/booking", {
-          //   params: {
-          //     accommodation_type: propertyDetailInWp.id,
-          //     startDate: startDate,
-          //     endDate: endDate,
-          //   },
-          // });
+          const startDate = `${dayjs().year()}-${dayjs().month() + 1}-01`;
+          const endDate = dayjs(startDate)
+            .add(6, "months")
+            .format("YYYY-MM-DD");
+          const {
+            data: { data: bookedDates },
+          } = await axios.get("/api/booking", {
+            params: {
+              accommodation_type: propertyDetailInWp.id,
+              startDate: startDate,
+              endDate: endDate,
+            },
+          });
 
           setPropertyDetail({
             ...propertyDetailInMoto,
             ...propertyDetailInWp,
-            bookedDates: [],
+            bookedDates: bookedDates.map((date) => ({
+              startDate: date.check_in_date,
+              endDate: date.check_out_date,
+            })),
           });
         })
         .catch((e) => {
-          notification.error({ message: e.response.data.error.props || e });
-          console.log("fetch detail error", e.response.data.error.props || e);
+          notification.error({ message: e.response?.data?.error?.props || e });
+          console.log(
+            "fetch detail error",
+            e.response?.data?.error?.props || e
+          );
         })
         .finally(() => {
           setLoading(false);
