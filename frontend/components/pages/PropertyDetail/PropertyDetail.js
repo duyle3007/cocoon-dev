@@ -64,7 +64,7 @@ const PropertyDetail = () => {
             params: {
               accommodation_type: propertyDetailInWp.id,
               startDate: startDate,
-              endDate: endDate,
+              endDate: moment(startDate).add(6, "months").format("YYYY-MM-DD"),
             },
           });
 
