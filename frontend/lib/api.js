@@ -424,7 +424,7 @@ async function fetchLocations(input) {
           url: `/search?destination=${item.slug}`,
         };
       })
-    : nestedRes;
+    : removeEmptyChildren(nestedRes);
 }
 
 async function fetchReviews(email, accommodationTypeId) {
@@ -500,6 +500,18 @@ function createNestedData(data, parentId = "") {
   } else {
     return findChildren(data, parentId);
   }
+}
+
+function removeEmptyChildren(data) {
+  return data.map((item) => {
+    const newItem = { ...item };
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      newItem.children = removeEmptyChildren(item.children);
+    } else {
+      delete newItem.children;
+    }
+    return newItem;
+  });
 }
 
 module.exports = {
