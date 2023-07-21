@@ -1,11 +1,12 @@
 import { Checkbox, Form, Input, Select, Slider } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { useContext } from "react";
 
 import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { isMobile } from "@/utils/utils";
-import { DESTINATION_LIST } from "@/components/Header/Header";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./SearchForm.module.scss";
 
@@ -13,6 +14,7 @@ const { Option } = Select;
 
 const SearchForm = ({ tabActive }) => {
   const formRef = Form.useFormInstance();
+  const { allLocation } = useContext(PropertyListContext);
 
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
@@ -45,7 +47,7 @@ const SearchForm = ({ tabActive }) => {
               className={styles.selectPrefix}
               prefix={<img src="/locationIcon.svg" />}
               placeholder="Choose  destination"
-              options={DESTINATION_LIST.map((destination) => ({
+              options={allLocation.map((destination) => ({
                 value: destination.value,
                 name: destination.label,
               }))}

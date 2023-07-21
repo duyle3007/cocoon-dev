@@ -433,7 +433,7 @@ const Header = () => {
             </div>
           </Dropdown>
           <Dropdown
-            menu={{ items: DESTINATION_LIST }}
+            menu={{ items: allLocation }}
             overlayClassName={styles.dropdownMenu}
           >
             <div className={styles.dropdown}>

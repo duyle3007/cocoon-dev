@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "@/components/Image/Image";
 import GuestDropdown from "./GuestDropdown/GuestDropdown";
 import { isMobile } from "@/utils/utils";
-import { DESTINATION_LIST } from "@/components/Header/Header";
 import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./SearchBanner.module.scss";
@@ -82,7 +81,7 @@ const SearchBanner = () => {
             return labels[labels.length - 1];
           }}
           placeholder="Choose a destination"
-          options={DESTINATION_LIST}
+          options={allLocation}
           onChange={(value) => {
             setDestination(value);
           }}

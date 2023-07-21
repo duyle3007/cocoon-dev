@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { Form } from "antd";
 
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
-import { DESTINATION_LIST } from "@/components/Header/Header";
 import { isMobile } from "@/utils/utils";
 import Image from "@/components/Image/Image";
 import { PropertyListContext } from "@/components/Layout/Layout";
@@ -74,7 +73,7 @@ const MapControl = ({
           <div className={styles.searchMobile} onClick={onOpenFilter}>
             <Image src="/searchPage/whiteLocation.svg" className="mr-3" />
             <span>
-              {DESTINATION_LIST.find((country) => country.value === destination)
+              {allLocation.find((country) => country.value === destination)
                 ?.name || "Choose  destination"}
             </span>
             <Image
@@ -122,7 +121,7 @@ const MapControl = ({
             prefix={<img src="/homepage/discoverIcon.svg" />}
             value={destination}
             placeholder="Choose a destination"
-            options={DESTINATION_LIST}
+            options={allLocation}
             multipleLevel={true}
             onChange={(value) => {
               if (!value) {

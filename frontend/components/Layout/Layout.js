@@ -3,6 +3,7 @@ import { createContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { notification } from "antd";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import Footer from "../Footer/Footer";
 
@@ -53,7 +54,17 @@ const Layout = ({ children }) => {
           }
         });
         setPropertyList(res);
-        setAllLocation(allLocation);
+
+        const formattedLocation = processData(allLocation);
+        setAllLocation([
+          {
+            key: "0",
+            label: <Link href="/search">All destinations</Link>,
+            url: "/search",
+            value: "",
+          },
+          ...formattedLocation,
+        ]);
       } catch (err) {
         console.log("Fetch list data", err);
         notification.error({
@@ -61,6 +72,52 @@ const Layout = ({ children }) => {
         });
       }
     };
+
+    let currentKeyIndex = 1;
+
+    function processItem(item, parentPath = "", parentValue = "") {
+      const currentKey = currentKeyIndex++;
+      const key = parentPath ? `${parentPath}-${currentKey}` : `${currentKey}`;
+
+      const label = item.label;
+      const url = generateURL(item, parentValue);
+
+      const formattedItem = {
+        key,
+        label: url ? <Link href={url}>{label}</Link> : label,
+        value: item.slug || "",
+        url: url,
+      };
+
+      if (item.children && item.children.length > 0) {
+        formattedItem.children = item.children.map((child) =>
+          processItem(
+            child,
+            key,
+            parentValue ? `${parentValue},${item.slug}` : item.slug
+          )
+        );
+      }
+
+      return formattedItem;
+    }
+
+    function generateURL(item, parentValue) {
+      if (!parentValue) {
+        return `/search?country=${item.slug}` || "";
+      } else {
+        const locationLevel = (parentValue.match(/,/g) || []).length + 1;
+        const locationValue = parentValue
+          ? `${parentValue},${item.slug}`
+          : item.slug;
+        return `/search?location${locationLevel}=${locationValue}`;
+      }
+    }
+
+    function processData(data) {
+      currentKeyIndex = 1;
+      return data.map((item) => processItem(item));
+    }
     const getMediaList = async () => {
       try {
         const { data: res } = await axios.get(

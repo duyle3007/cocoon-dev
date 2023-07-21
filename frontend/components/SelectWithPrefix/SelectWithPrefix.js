@@ -25,6 +25,7 @@ const SelectWithPrefix = ({
           value={value}
           placeholder={"Select"}
           bordered={false}
+          expandTrigger="hover"
           options={options}
           displayRender={displayRender}
           removeIcon={null}
