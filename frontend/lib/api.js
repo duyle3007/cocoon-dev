@@ -78,6 +78,8 @@ async function createBooking(bookingData) {
     numberOfChild,
     firstName = "",
     lastName = "",
+    email = "",
+    phone = "",
     address = "",
     country = "",
     state = "",
@@ -92,6 +94,8 @@ async function createBooking(bookingData) {
     customer: {
       first_name: firstName,
       last_name: lastName,
+      email: email,
+      phone: phone,
       address1: address,
       country,
       state,
@@ -389,17 +393,38 @@ async function searchAccommodationType(input) {
 }
 
 async function fetchLocations(input) {
-  const { slug } = input;
+  const {
+    slug,
+    page = 1,
+    per_page = 100,
+    order = "asc",
+    orderBy = "title",
+  } = input;
   const params = {
     _fields: ["slug", "id", "title", "acf"],
     slug: slug,
+    post_status: "publish",
+    page: page,
+    per_page: per_page,
+    order: order,
+    orderby: orderBy,
   };
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/location`,
     "GET",
     params
   );
-  return response;
+  const nestedRes = createNestedData(response);
+  return slug
+    ? response.map((item) => {
+        return {
+          key: item.id,
+          label: item.title.rendered,
+          slug: item.slug,
+          url: `/search?destination=${item.slug}`,
+        };
+      })
+    : nestedRes;
 }
 
 async function fetchReviews(email, accommodationTypeId) {
@@ -444,6 +469,39 @@ async function createReviews(reviewData) {
   return response;
 }
 
+function findRoots(data) {
+  return data.filter((item) => !Array.isArray(item.acf.parent));
+}
+
+function findChildren(data, parentId) {
+  const children = data.filter(
+    (item) =>
+      Array.isArray(item.acf.parent) && item.acf.parent.includes(parentId)
+  );
+  return children.map((child) => ({
+    key: child.id,
+    label: child.title.rendered,
+    slug: child.slug,
+    children: findChildren(data, child.id),
+    url: `/search?destination=${child.slug}`,
+  }));
+}
+
+function createNestedData(data, parentId = "") {
+  if (parentId === "") {
+    const roots = findRoots(data);
+    return roots.map((root) => ({
+      key: root.id,
+      label: root.title.rendered,
+      slug: root.slug,
+      children: findChildren(data, root.id),
+      url: `/search?destination=${root.slug}`,
+    }));
+  } else {
+    return findChildren(data, parentId);
+  }
+}
+
 module.exports = {
   fetchApi,
   fetchAccommodations,
@@ -455,5 +513,5 @@ module.exports = {
   searchAccommodationType,
   checkAvailableAccommodationForBooking,
   createBooking,
-  createReviews
+  createReviews,
 };
