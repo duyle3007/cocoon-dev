@@ -65,7 +65,7 @@
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 200px 186px 0 0;
+      border-width: 200px 184px 0 0;
       border-color: #e8e8e8 transparent transparent transparent;
     }
   }
@@ -184,7 +184,7 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 200px 205px 0 0;
+    border-width: 200px 184px 0 0;
     border-color: #90744f transparent transparent transparent;
   }
   :global(.react-calendar__tile--rangeEnd > abbr),
@@ -220,8 +220,11 @@
     }
     .endDateDisabled {
       &:after {
-        border-width: 200px 52.5vw 0 0;
+        border-width: 200px 205px 0 0;
       }
+    }
+    :global(.react-calendar__tile--rangeEnd:after) {
+      border-width: 200px 205px 0 0;
     }
   }
 }

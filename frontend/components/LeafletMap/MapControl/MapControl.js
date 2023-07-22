@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Form } from "antd";
 
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
@@ -23,43 +23,55 @@ const MapControl = ({
 
   const [destination, setDestination] = useState(null);
 
+  const locationTitle = useMemo(() => {
+    if (typeof destination === "string") {
+      return destination.charAt(0).toUpperCase() + destination.slice(1);
+    }
+    if (destination) {
+      return destination[destination.length - 1]
+        ?.split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    }
+
+    return null;
+  });
+
   useEffect(() => {
+    if (router.query.country) {
+      setDestination(router.query.country);
+      formRef.setFieldsValue({
+        country: router.query.country,
+        location1: null,
+        location2: null,
+      });
+    } else if (router.query.location1) {
+      const levelRouter = router.query.location1.split(",");
+      setDestination(levelRouter);
+      formRef.setFieldsValue({
+        country: null,
+        location1: levelRouter[1],
+        location2: null,
+      });
+    } else if (router.query.location2) {
+      const levelRouter = router.query.location2.split(",");
+      setDestination(levelRouter);
+      formRef.setFieldsValue({
+        country: null,
+        location1: null,
+        location2: levelRouter[2],
+      });
+    } else {
+      setDestination([""]);
+      formRef.setFieldsValue({
+        country: null,
+        location1: null,
+        location2: null,
+      });
+    }
+
     if (!isMobile()) {
-      if (router.query.country) {
-        setDestination(router.query.country);
-        formRef.setFieldsValue({
-          country: router.query.country,
-          location1: null,
-          location2: null,
-        });
-        formRef.submit();
-      } else if (router.query.location1) {
-        const levelRouter = router.query.location1.split(",");
-        setDestination(levelRouter);
-        formRef.setFieldsValue({
-          country: null,
-          location1: levelRouter[1],
-          location2: null,
-        });
-        formRef.submit();
-      } else if (router.query.location2) {
-        const levelRouter = router.query.location2.split(",");
-        setDestination(levelRouter);
-        formRef.setFieldsValue({
-          country: null,
-          location1: null,
-          location2: levelRouter[2],
-        });
-        formRef.submit();
-      } else {
-        setDestination([""]);
-        formRef.setFieldsValue({
-          country: null,
-          location1: null,
-          location2: null,
-        });
-        formRef.submit();
-      }
+      formRef.submit();
     }
   }, [router, isMobile]);
 
@@ -72,10 +84,7 @@ const MapControl = ({
         <div className="flex flex-col w-full">
           <div className={styles.searchMobile} onClick={onOpenFilter}>
             <Image src="/searchPage/whiteLocation.svg" className="mr-3" />
-            <span>
-              {allLocation.find((country) => country.value === destination)
-                ?.name || "Choose  destination"}
-            </span>
+            <span>{locationTitle || "Choose  destination"}</span>
             <Image
               src="/searchPage/filterMobile.svg"
               className="right-4"

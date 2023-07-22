@@ -21,7 +21,10 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
   let previousBookedEndDate;
   const disabledStartDatePicker = (current) => {
     const currentDate = dayjs(current).format("YYYY-MM-DD");
-    dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
+    if (isDateInThePast) {
+      return true;
+    }
     if (disabledDates) {
       const isBookedDate = disabledDates.some((disabledDate) => {
         // Allow book half day
@@ -67,9 +70,13 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
   let previousBookedStartDate;
   const disabledEndDatePicker = (current) => {
     const currentDate = dayjs(current).format("YYYY-MM-DD");
-    dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
 
-    if (disabledDates.length > 0) {
+    if (isDateInThePast) {
+      return true;
+    }
+
+    if (disabledDates?.length > 0) {
       const isBookedDate = disabledDates.some((disabledDate) => {
         // Allow book half day
         previousBookedStartDate = disabledDate.startDate;
@@ -103,7 +110,7 @@ const RangeDatePicker = ({ value, onSelect, disabledDates }) => {
     if (
       momentStartDate &&
       current >= momentStartDate &&
-      disabledDates.length > 0
+      disabledDates?.length > 0
     ) {
       // Check if range selected date is match with bookedDate
       // Three condition:

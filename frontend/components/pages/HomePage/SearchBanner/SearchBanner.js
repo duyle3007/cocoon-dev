@@ -1,5 +1,6 @@
 import { Button, Cascader, DatePicker, Dropdown } from "antd";
 import { useContext, useMemo, useState } from "react";
+import dayjs from "dayjs";
 
 import Link from "next/link";
 import Image from "@/components/Image/Image";
@@ -35,12 +36,27 @@ const SearchBanner = () => {
 
     return totalGuest;
   }, [guestNumber]);
-  const disabledEndDate = (current) => {
-    return momentStartDate ? current && current < momentStartDate : false;
-  };
 
   const disabledStartDate = (current) => {
+    const currentDate = dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
+
+    if (isDateInThePast) {
+      return true;
+    }
+
     return momentEndDate ? current && current > momentEndDate : false;
+  };
+
+  const disabledEndDate = (current) => {
+    const currentDate = dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
+
+    if (isDateInThePast) {
+      return true;
+    }
+
+    return momentStartDate ? current && current < momentStartDate : false;
   };
 
   const onChangeStartDay = (date) => {

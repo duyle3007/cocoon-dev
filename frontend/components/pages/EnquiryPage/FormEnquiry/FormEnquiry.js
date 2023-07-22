@@ -4,6 +4,7 @@ import {
   DatePicker,
   Form,
   Input,
+  InputNumber,
   Select,
   Spin,
   notification,
@@ -69,6 +70,8 @@ const FormEnquiry = () => {
       address,
       zip,
       message,
+      email,
+      phoneNumber,
     } = formData;
     setLoading(true);
     try {
@@ -83,6 +86,8 @@ const FormEnquiry = () => {
         address: address,
         zip: zip,
         message: message,
+        email,
+        phoneNumber: phoneNumber,
       };
 
       await axios.post("/api/createBooking", data);
@@ -238,6 +243,32 @@ const FormEnquiry = () => {
             >
               <Input
                 placeholder="Input your last name"
+                className={styles.formInput}
+              />
+            </Form.Item>
+          </div>
+
+          <div className={styles.rowItem}>
+            <Form.Item
+              label="EMAIL"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "Please enter a valid email!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Input your email"
+                className={styles.formInput}
+              />
+            </Form.Item>
+            <Form.Item label="Phone number" name="phoneNumber">
+              <InputNumber
+                controls={false}
+                placeholder="Input your phone"
                 className={styles.formInput}
               />
             </Form.Item>

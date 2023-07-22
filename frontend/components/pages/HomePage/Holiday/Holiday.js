@@ -21,7 +21,7 @@ const Holiday = () => {
           <div>Holiday</div>
           <div>All activities are allowed.</div>
         </div>
-        <Link href="/holiday">
+        <Link href="/search">
           <div className={styles.rightHeader}>
             CHECK ALL
             <span>

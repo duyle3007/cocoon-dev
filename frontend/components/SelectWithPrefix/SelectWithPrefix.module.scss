@@ -7,9 +7,6 @@
   :global(.ant-cascader-menu-item) {
     @apply p-0 w-[265px];
   }
-  :global(.ant-cascader-menu-item-expand) {
-    @apply px-2 py-3;
-  }
   :global(.ant-cascader-menu-item-content > a) {
     @apply w-full flex px-2 py-3;
   }

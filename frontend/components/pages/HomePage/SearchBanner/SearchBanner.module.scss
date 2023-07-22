@@ -1,5 +1,5 @@
 .searchBanner {
-  @apply bg-white flex w-[1036px] absolute top-[80%] left-0 right-0 mx-auto items-center;
+  @apply bg-white flex w-[1036px] absolute top-[80%] left-0 right-0 mx-auto items-center z-[1];
   font-family: "Whitney";
   .searchItem {
     @apply flex flex-col pr-4 ml-4 py-4;
@@ -51,10 +51,14 @@
     pointer-events: none;
   }
 }
-
+@media (max-width: 1068px) {
+  .searchBanner {
+    @apply w-[90%];
+  }
+}
 @media (max-width: 768px) {
   .searchMobile {
-    @apply flex justify-center absolute top-[80%] left-0 right-0 mx-auto items-center px-8;
+    @apply flex justify-center absolute top-[80%] left-0 right-0 mx-auto items-center px-8 z-[1];
     button {
       @apply bg-white h-[50px] w-full;
       font-family: "Whitney";

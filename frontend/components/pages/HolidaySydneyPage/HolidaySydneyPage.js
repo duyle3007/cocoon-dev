@@ -7,6 +7,7 @@ import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import { debounce, isMobile } from "@/utils/utils";
 import SearchControl from "@/components/LeafletMap/SearchControl";
@@ -18,6 +19,7 @@ import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
+import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 
 import styles from "./HolidaySydneyPage.module.scss";
 
@@ -38,6 +40,8 @@ const HolidaySydneyPage = () => {
   const mapRef = useRef();
   const leafletRef = useRef();
   const modalRef = useRef();
+  const sortModalRef = useRef();
+
   const [formRef] = Form.useForm();
   const [listLocation, setListLocation] = useState([]);
   const [searchType, setSearchType] = useState("filter");
@@ -58,36 +62,52 @@ const HolidaySydneyPage = () => {
       sort,
     } = fieldValues;
     const params = {
-      name: searchValue?.length ? searchValue : null,
-      villa_type: villaType,
-      bedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
+      searchStr: searchValue?.length ? searchValue : null,
+      villaType: villaType,
+      noOfBedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
       beds: selectedBed !== "Any" ? selectedBed : null,
-      bathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
+      noOfBathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
       guests: maxGuest,
       features: feature?.length > 0 ? feature?.join(",") : null,
-      price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
-      price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
+      priceStart: rangePrice?.length > 0 ? rangePrice[0] : undefined,
+      priceEnd: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
-      orderby: sort ? sort.split(":")[0] : undefined,
+      orderBy: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
       location1: "sydney",
+      startDate:
+        rangeDate.length > 0 && rangeDate[0]
+          ? dayjs(rangeDate[0]).format("YYYY-MM-DD")
+          : null,
+      endDate:
+        rangeDate.length > 0 && rangeDate[1]
+          ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
+          : null,
     };
+
+    const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
+      params,
+    });
+    const searchMotoPress = axios.get(
+      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      {
+        auth: {
+          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+        },
+      }
+    );
+
     setLoading(true);
     try {
-      const { data: resWp } = await axios.get(
-        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type`,
-        { params }
-      );
-      const { data: resMoto } = await axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      const [
         {
-          auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-          },
-        }
-      );
-      const res = resWp.map((result) => {
+          data: { data: res },
+        },
+        { data: resMoto },
+      ] = await Promise.all([searchAccommodationType, searchMotoPress]);
+
+      const mergeRes = res.map((result) => {
         const findItemInMoto = resMoto.find(
           (otherRes) => otherRes.id === result.id
         );
@@ -97,7 +117,7 @@ const HolidaySydneyPage = () => {
           return result;
         }
       });
-      setListLocation(res);
+      setListLocation(mergeRes);
     } catch (err) {
       console.log("Fetch list data", err);
       notification.error({
@@ -155,6 +175,7 @@ const HolidaySydneyPage = () => {
         maxGuest: null,
         selectedBedroom: "Any",
         selectedBed: "Any",
+        selectedBadroom: "Any",
         feature: [],
         sort: SORT_VALUES[0].value,
       }}
@@ -176,9 +197,11 @@ const HolidaySydneyPage = () => {
         />
 
         <FilterModal ref={modalRef} tabActive={tabActive} />
+        <SortModal ref={sortModalRef} />
         <div className={styles.right}>
           <ToolBarMobile
             onClickFilter={() => modalRef.current.openFilterModal()}
+            onClickSort={() => sortModalRef.current.openSortModal()}
           />
           <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYNDNEY</div>
           {searchType === "filter" ? (

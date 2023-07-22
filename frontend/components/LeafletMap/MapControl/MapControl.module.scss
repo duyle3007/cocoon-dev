@@ -8,6 +8,9 @@
     :global(.ant-cascader-menu-item) {
       width: 300px;
     }
+    :global(.ant-cascader-menu) {
+      height: 300px;
+    }
   }
   .searchType {
     @apply flex gap-4;

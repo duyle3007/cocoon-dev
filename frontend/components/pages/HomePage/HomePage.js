@@ -40,6 +40,7 @@ const HomePage = () => {
           />
           Your browser does not support the video tag.
         </video>
+        <SearchBanner />
       </div>
 
       <div className={styles.banner}>
@@ -50,7 +51,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <SearchBanner />
 
       <Headline />
       <Slideshow

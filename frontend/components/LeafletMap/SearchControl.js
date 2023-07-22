@@ -86,21 +86,6 @@ const SearchControl = ({
     }, 200);
   };
 
-  const updateLocationFilter = (selectedValues) => {
-    const temp = [...selectedLocation];
-    if (selectedLocation.some((location) => location === selectedValues)) {
-      formRef.setFieldsValue({
-        selectedLocation: temp.filter(
-          (location) => location !== selectedValues
-        ),
-      });
-    } else {
-      temp.push(selectedValues);
-      formRef.setFieldsValue({ selectedLocation: temp });
-    }
-    formRef.submit();
-  };
-
   return (
     <>
       <div

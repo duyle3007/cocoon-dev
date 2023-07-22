@@ -18,15 +18,12 @@ export async function getServerSideProps({ resolvedUrl }) {
   const propertySlug = resolvedUrl.split("/")[2];
   try {
     const { data: resWp } = await axios.get(
-      "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
-    );
-    const propertyDetailInWp = resWp.find(
-      (property) => property.slug === propertySlug
+      `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type?slug=${propertySlug}`
     );
 
     return {
       props: {
-        propertyDetail: propertyDetailInWp,
+        propertyDetail: resWp,
       },
     };
   } catch (err) {

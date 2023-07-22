@@ -28,7 +28,7 @@ const PropertyDetail = () => {
     const fetchAccomodationDetail = async () => {
       setLoading(true);
       const getAccommodationTypes = axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+        `https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types?slug=${propertySlug}`,
         {
           auth: {
             username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
@@ -38,20 +38,13 @@ const PropertyDetail = () => {
       );
 
       const getRoomTypes = axios.get(
-        "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
+        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type?slug=${propertySlug}`
       );
 
       Promise.all([getAccommodationTypes, getRoomTypes])
         .then(async ([resMoto, resWp]) => {
           const { data: resMotoData } = resMoto;
           const { data: resWpData } = resWp;
-
-          const propertyDetailInWp = resWpData.find(
-            (property) => property.slug === propertySlug
-          );
-          const propertyDetailInMoto = resMotoData.find(
-            (property) => property.id === propertyDetailInWp.id
-          );
 
           // Calculate booking from beginning of current month to next 6 months
           const startDate = `${dayjs().year()}-${dayjs().month() + 1}-01`;
@@ -62,15 +55,15 @@ const PropertyDetail = () => {
             data: { data: bookedDates },
           } = await axios.get("/api/booking", {
             params: {
-              accommodation_type: propertyDetailInWp.id,
+              accommodation_type: resWpData[0].id,
               startDate: startDate,
               endDate: endDate,
             },
           });
 
           setPropertyDetail({
-            ...propertyDetailInMoto,
-            ...propertyDetailInWp,
+            ...resMotoData[0],
+            ...resWpData[0],
             bookedDates: bookedDates.map((date) => ({
               startDate: date.check_in_date,
               endDate: date.check_out_date,

@@ -2,7 +2,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
-import { Form, Spin } from "antd";
+import { Form, Spin, notification } from "antd";
 import { useRouter } from "next/router";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
@@ -62,35 +62,51 @@ const PhotoshootPage = () => {
       sort,
     } = fieldValues;
     const params = {
-      name: searchValue?.length ? searchValue : null,
-      villa_type: villaType,
-      bedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
+      searchStr: searchValue?.length ? searchValue : null,
+      villaType: villaType,
+      noOfBedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
       beds: selectedBed !== "Any" ? selectedBed : null,
-      bathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
+      noOfBathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
       guests: maxGuest,
       features: feature?.length > 0 ? feature?.join(",") : null,
-      price_start: rangePrice?.length > 0 ? rangePrice[0] : undefined,
-      price_end: rangePrice?.length > 0 ? rangePrice[1] : undefined,
+      priceStart: rangePrice?.length > 0 ? rangePrice[0] : undefined,
+      priceEnd: rangePrice?.length > 0 ? rangePrice[1] : undefined,
       mphb_room_type_category: 13,
-      orderby: sort ? sort.split(":")[0] : undefined,
+      orderBy: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
+      startDate:
+        rangeDate.length > 0 && rangeDate[0]
+          ? dayjs(rangeDate[0]).format("YYYY-MM-DD")
+          : null,
+      endDate:
+        rangeDate.length > 0 && rangeDate[1]
+          ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
+          : null,
     };
+
+    const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
+      params,
+    });
+    const searchMotoPress = axios.get(
+      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      {
+        auth: {
+          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+        },
+      }
+    );
+
     setLoading(true);
     try {
-      const { data: resWp } = await axios.get(
-        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type`,
-        { params }
-      );
-      const { data: resMoto } = await axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      const [
         {
-          auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-          },
-        }
-      );
-      const res = resWp.map((result) => {
+          data: { data: res },
+        },
+        { data: resMoto },
+      ] = await Promise.all([searchAccommodationType, searchMotoPress]);
+
+      const mergeRes = res.map((result) => {
         const findItemInMoto = resMoto.find(
           (otherRes) => otherRes.id === result.id
         );
@@ -100,7 +116,7 @@ const PhotoshootPage = () => {
           return result;
         }
       });
-      setListLocation(res);
+      setListLocation(mergeRes);
     } catch (err) {
       console.log("Fetch list data", err);
       notification.error({
@@ -110,6 +126,7 @@ const PhotoshootPage = () => {
       setLoading(false);
     }
   };
+
   const debounceFetchData = useCallback(debounce(fetchPropertyList), [
     tabActive,
   ]);
@@ -149,85 +166,91 @@ const PhotoshootPage = () => {
   };
 
   return (
-    <Form
-      form={formRef}
-      initialValues={{
-        rangeDate: [],
-        selectedBed: "Any",
-        selectedBadroom: "Any",
-        feature: [],
-        sort: SORT_VALUES[0].value,
-      }}
-      onFinish={onFinishForm}
-      onValuesChange={(_, allField) => debounceFetchData(allField)}
-    >
-      <div className={styles.mapContainer}>
-        <SearchControl
-          tabActive={tabActive}
-          setTabActive={setTabActive}
-          onSearch={onSearch}
-          listLocation={listLocation}
-          searchType={searchType}
-          onClick={navigateTo}
-          handleReinitClick={() => {
-            leafletRef.current?.invalidateSize();
-          }}
-          mode={mode}
-        />
-
-        <FilterModal ref={modalRef} tabActive={tabActive} />
-        <SortModal ref={sortModalRef} />
-        <div className={styles.right}>
-          <ToolBarMobile
-            onClickFilter={() => modalRef.current.openFilterModal()}
-            onClickSort={() => sortModalRef.current.openSortModal()}
+    <Spin spinning={loading}>
+      <Form
+        form={formRef}
+        initialValues={{
+          rangeDate: [],
+          selectedBed: "Any",
+          selectedBadroom: "Any",
+          feature: [],
+          sort: SORT_VALUES[0].value,
+        }}
+        onFinish={onFinishForm}
+        onValuesChange={(_, allField) => debounceFetchData(allField)}
+      >
+        <div className={styles.mapContainer}>
+          <SearchControl
+            tabActive={tabActive}
+            setTabActive={setTabActive}
+            onSearch={onSearch}
+            listLocation={listLocation}
+            searchType={searchType}
+            onClick={navigateTo}
+            handleReinitClick={() => {
+              leafletRef.current?.invalidateSize();
+            }}
+            mode={mode}
           />
-          <div className={styles.searchTitle}>
-            PHOTOSHOOTS AND EVENTS
-            <div className={styles.note}>
-              <div className={styles.noteItem}>
-                <CheckOutlined /> Only Available for Photoshoots, Filming and TV
-                Production.
-              </div>
-              <div className={styles.noteItem}>
-                <CloseOutlined /> Strictly No Parties are allowed.
-              </div>
-              <div className={styles.noteItem}>
-                <CloseOutlined />
-                No Engagement Parties, No Birthday Parties, No Hens or Bucks
-                Parties.
+
+          <FilterModal ref={modalRef} tabActive={tabActive} />
+          <SortModal ref={sortModalRef} />
+          <div className={styles.right}>
+            <ToolBarMobile
+              onClickFilter={() => modalRef.current.openFilterModal()}
+              onClickSort={() => sortModalRef.current.openSortModal()}
+            />
+            <div className={styles.searchTitle}>
+              PHOTOSHOOTS AND EVENTS
+              <div className={styles.note}>
+                <div className={styles.noteItem}>
+                  <CheckOutlined /> Only Available for Photoshoots, Filming and
+                  TV Production.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined /> Strictly No Parties are allowed.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined />
+                  No Engagement Parties, No Birthday Parties, No Hens or Bucks
+                  Parties.
+                </div>
               </div>
             </div>
+            {searchType === "filter" ? (
+              <SearchByFilter listLocation={listLocation} mode={mode} />
+            ) : (
+              <MapContainer
+                center={[-37.8839, 175.3745188667]}
+                ref={leafletRef}
+                zoom={13}
+                touchZoom={true}
+                zoomControl={false}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MarkerCluster ref={mapRef} markers={listLocation} />
+              </MapContainer>
+            )}
           </div>
-          {searchType === "filter" ? (
-            <SearchByFilter listLocation={listLocation} mode={mode} />
-          ) : (
-            <MapContainer
-              center={[-37.8839, 175.3745188667]}
-              ref={leafletRef}
-              zoom={13}
-              touchZoom={true}
-              zoomControl={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <MarkerCluster ref={mapRef} markers={listLocation} />
-            </MapContainer>
+          {isMobile() && searchType === "map" && (
+            <div className={styles.mapResultMobile}>
+              {listLocation.map((location, index) => {
+                return (
+                  <MapCard
+                    key={index}
+                    location={location}
+                    onClick={navigateTo}
+                  />
+                );
+              })}
+            </div>
           )}
         </div>
-        {isMobile() && searchType === "map" && (
-          <div className={styles.mapResultMobile}>
-            {listLocation.map((location, index) => {
-              return (
-                <MapCard key={index} location={location} onClick={navigateTo} />
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </Form>
+      </Form>
+    </Spin>
   );
 };
 

@@ -62,7 +62,7 @@ const Drawer = () => {
   };
 
   const goTo = (url, destination) => {
-    if (destination.children?.length > 0) {
+    if (destination?.children?.length > 0) {
       const destinationChildrenHtml = (
         <div className="flex gap-3 items-start mt-12 px-8">
           <LeftOutlined
@@ -88,8 +88,8 @@ const Drawer = () => {
       setRenderCollapseChildren(destinationChildrenHtml);
     } else if (url) {
       setOpenDrawer(false);
-      router.push(url);
       setRenderCollapseChildren(null);
+      router.push(url);
     }
   };
 
@@ -161,7 +161,7 @@ const Drawer = () => {
                     ))}
                   </Panel>
                 </Collapse>
-                <div onClick={() => goTo("/photoshoots")}>
+                <div onClick={() => goTo("/search#photoshoots")}>
                   PHOTOSHOOTS/ EVENTS
                 </div>
                 <div onClick={() => goTo("/about-us")}>ABOUT US</div>

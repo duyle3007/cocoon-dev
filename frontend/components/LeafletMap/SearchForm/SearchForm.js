@@ -1,10 +1,10 @@
-import { Checkbox, Form, Input, Select, Slider } from "antd";
+import { Checkbox, Form, Input, Select, Slider, TreeSelect } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
+import { useRouter } from "next/router";
 
 import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
-import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { isMobile } from "@/utils/utils";
 import { PropertyListContext } from "@/components/Layout/Layout";
 
@@ -14,6 +14,7 @@ const { Option } = Select;
 
 const SearchForm = ({ tabActive }) => {
   const formRef = Form.useFormInstance();
+  const router = useRouter();
   const { allLocation } = useContext(PropertyListContext);
 
   const rangeDate = Form.useWatch("rangeDate", formRef);
@@ -22,42 +23,34 @@ const SearchForm = ({ tabActive }) => {
   const selectedLocation = Form.useWatch("selectedLocation", formRef);
   const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
   const selectedBed = Form.useWatch("selectedBed", formRef);
+  const country = Form.useWatch("country", formRef);
+  const location1 = Form.useWatch("location1", formRef);
+  const location2 = Form.useWatch("location2", formRef);
 
-  const updateLocationFilter = (selectedValues) => {
-    const temp = [...selectedLocation];
-    if (selectedLocation.some((location) => location === selectedValues)) {
-      formRef.setFieldsValue({
-        selectedLocation: temp.filter(
-          (location) => location !== selectedValues
-        ),
-      });
-    } else {
-      temp.push(selectedValues);
-      formRef.setFieldsValue({ selectedLocation: temp });
+  const isShowDestination = useMemo(() => {
+    if (router.asPath === "/holiday-sydney") {
+      return false;
     }
-    formRef.submit();
-  };
+
+    return true;
+  }, [router]);
 
   return (
     <div className={styles.searchWrapper}>
       <div className={styles.inputWrapper}>
-        {isMobile() && (
-          <Form.Item name="country">
-            <SelectWithPrefix
-              className={styles.selectPrefix}
-              prefix={<img src="/locationIcon.svg" />}
-              placeholder="Choose  destination"
-              options={allLocation.map((destination) => ({
-                value: destination.value,
-                name: destination.label,
-              }))}
-              onSelect={(value) =>
-                formRef.setFieldsValue({
-                  country: value.length > 0 ? value : undefined,
-                })
+        {isMobile() && isShowDestination && (
+          <TreeSelect
+            className={styles.treeSelect}
+            placeholder="Choose destination"
+            allowClear
+            value={country || location1 || location2}
+            treeData={allLocation}
+            onChange={(value) => {
+              if (!value) {
+                router.push("/search");
               }
-            />
-          </Form.Item>
+            }}
+          />
         )}
         <Form.Item name="searchValue">
           <Input
