@@ -123,9 +123,6 @@
     background: #e8e8e8;
     color: rgba(64, 64, 64, 0.15);
   }
-  :global(.react-calendar__month-view__days__day:disabled:first-child) {
-    background: red;
-  }
 
   :global(.react-calendar__navigation__label) {
     @apply flex px-0 justify-center items-center;

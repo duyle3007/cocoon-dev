@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import countries from "./country.json";
 
 export function isMobile() {
   let isMobile = false;
@@ -20,4 +20,8 @@ export const debounce = (func) => {
       func.apply(context, args);
     }, 500);
   };
+};
+
+export const getCountryList = () => {
+  return countries;
 };

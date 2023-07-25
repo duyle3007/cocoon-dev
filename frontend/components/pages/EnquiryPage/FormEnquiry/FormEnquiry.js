@@ -11,24 +11,27 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import moment from "moment";
 import { useRouter } from "next/router";
+import dayjs from "dayjs";
 
 import GuestDropdown from "../../HomePage/SearchBanner/GuestDropdown/GuestDropdown";
-import { isMobile } from "@/utils/utils";
+import { getCountryList, isMobile } from "@/utils/utils";
 
 import styles from "./FormEnquiry.module.scss";
-import dayjs from "dayjs";
+
+const { Option } = Select;
 
 const { TextArea } = Input;
 
 const FormEnquiry = () => {
   const router = useRouter();
   const [form] = Form.useForm();
+  const countryList = getCountryList();
 
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [countryPhone, setCountryPhone] = useState("61");
 
   const [renderClientSideComponent, setRenderClientSideComponent] =
     useState(false);
@@ -87,18 +90,47 @@ const FormEnquiry = () => {
         zip: zip,
         message: message,
         email,
-        phoneNumber: phoneNumber,
+        phoneNumber: `+${countryPhone} ${phoneNumber}`,
       };
 
       await axios.post("/api/createBooking", data);
       notification.success({ message: "Booking successfully" });
-      router.push("/");
+
+      // Reset form
+      form.resetFields();
+      setCountryPhone("61");
     } catch (e) {
       console.log("e", e);
       notification.error({ message: e.response.data.error.props });
     } finally {
       setLoading(false);
     }
+  };
+
+  const PhoneCountrySelect = () => {
+    return (
+      <Select
+        value={countryPhone}
+        className={styles.phoneSelect}
+        getPopupContainer={(trigger) => trigger}
+        popupMatchSelectWidth={false}
+        onChange={(value) => setCountryPhone(value)}
+      >
+        {Object.keys(countryList).map(function (key) {
+          const country = countryList[key];
+          return (
+            <Option
+              key={country.name}
+              value={country.phone}
+              className="flex items-center"
+            >
+              {`${country.emoji} +`}
+              <span className="opacity-75">{country.phone}</span>
+            </Option>
+          );
+        })}
+      </Select>
+    );
   };
 
   if (!renderClientSideComponent) {
@@ -117,7 +149,7 @@ const FormEnquiry = () => {
           }
           scrollToFirstError
         >
-          <div className={styles.rowItem}>
+          <div className={`${styles.rowItem} items-end`}>
             <Form.Item
               label="CHECK IN"
               name="checkIn"
@@ -210,9 +242,9 @@ const FormEnquiry = () => {
                 ]}
               />
             </Form.Item> */}
-            <Form.Item label="ZIP" name="zip">
+            <Form.Item label="Postcode" name="zip">
               <Input
-                placeholder="Input zip code"
+                placeholder="Input postcode code"
                 className={styles.formInput}
               />
             </Form.Item>
@@ -267,6 +299,7 @@ const FormEnquiry = () => {
             </Form.Item>
             <Form.Item label="Phone number" name="phoneNumber">
               <InputNumber
+                addonBefore={<PhoneCountrySelect />}
                 controls={false}
                 placeholder="Input your phone"
                 className={styles.formInput}

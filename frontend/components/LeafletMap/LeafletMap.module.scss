@@ -55,6 +55,7 @@
     }
     .right {
       @apply flex-col-reverse;
+      max-height: calc(100vh - 140px);
     }
     .mapResultMobile {
       @apply absolute bottom-0 left-0 pl-8 pb-8 flex gap-3 max-w-full overflow-auto z-[99];
