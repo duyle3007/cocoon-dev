@@ -1,7 +1,7 @@
 import Header from "@/components/Header/Header";
 import { createContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { notification } from "antd";
+import { Spin, notification } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -17,9 +17,11 @@ const Layout = ({ children }) => {
   const [propertyList, setPropertyList] = useState([]);
   const [mediaList, setMediaList] = useState([]);
   const [allLocation, setAllLocation] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const searchMotoPress = axios.get(
         "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
         {
@@ -70,6 +72,8 @@ const Layout = ({ children }) => {
         notification.error({
           message: "Something went wrong while trying to get list properties",
         });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -149,9 +153,11 @@ const Layout = ({ children }) => {
       }}
     >
       <div className={styles.layout}>
-        <Header />
-        <div className={styles.bodyWrapper}>{children}</div>
-        {isShowFooter && <Footer />}
+        <Spin spinning={loading}>
+          <Header />
+          <div className={styles.bodyWrapper}>{children}</div>
+          {isShowFooter && <Footer />}
+        </Spin>
       </div>
     </PropertyListContext.Provider>
   );
