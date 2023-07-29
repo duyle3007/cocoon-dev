@@ -41,6 +41,17 @@ async function fetchApi(url, method, params, data) {
   }
 }
 
+async function fetchAccommodationTypeByWPApi(accommodationTypeId) {
+  const params = {
+    _fields: ["slug", "id", "title", "acf"],
+  };
+  return await fetchApi(
+    `${WORDPRESS_API_URL}/mphb_room_type/${accommodationTypeId}`,
+    "GET",
+    params
+  );
+}
+
 async function fetchAccommodations() {
   const accommodations = await fetchApi(
     `${MOTOPRESS_API_URL}/accommodations`,
@@ -189,21 +200,18 @@ async function calculatePriceByDateRange(
         break;
       }
     }
-    if (!currentRate) {
-      throw new Error("Accommodation has no rate");
-    }
   }
   if (currentRate?.season_prices.length == 1) {
-    basePrice = currentRate.season_prices[0]?.base_price;
+    basePrice = currentRate.season_prices[0]?.base_price ?? 0;
   } else if (currentRate?.season_prices.length > 1) {
     const currentSeason = await getCurrentSeason();
     const selectedSeason = currentRate?.season_prices.find(
       (item) => item.season_id == currentSeason.id
     );
-    if (!selectedSeason) {
-      throw new Error("Season not found");
-    }
-    basePrice = selectedSeason?.base_price;
+    basePrice = selectedSeason?.base_price ?? 0;
+  } else {
+    const accommodationType = await fetchAccommodationTypeByWPApi(accommodationTypeId);
+    basePrice = accommodationType?.acf?.starting_price ?? 0;
   }
   return {
     checkInDate: moment(startDate).format("Y-MM-D"),
@@ -215,7 +223,12 @@ async function calculatePriceByDateRange(
   };
 }
 
-async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
+async function fetchBookingsByDate(
+  accommodationTypeId,
+  startDate,
+  endDate,
+  status = ["confirmed", "pending-user", "pending-payment", "pending"]
+) {
   if (!accommodationTypeId) {
     throw new Error("Accommodation Type Id is required");
   }
@@ -228,9 +241,10 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
   ) {
     throw new Error("Start Date and End Date are invalid");
   }
+
   const params = {
     filter: {
-      post_status: ["confirmed", "pending-user", "pending-payment", "pending"],
+      post_status: status,
       post_type: "mphb_booking",
       mphb_room_type_id: accommodationTypeId,
       meta_query: [
@@ -247,6 +261,7 @@ async function fetchBookingsByDate(accommodationTypeId, startDate, endDate) {
       ],
     },
   };
+
   const response =
     (await fetchApi(`${MOTOPRESS_API_URL}/bookings`, "GET", params)) ?? [];
   const result = response
