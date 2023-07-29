@@ -58,6 +58,7 @@ const PropertyDetail = () => {
               accommodation_type: resWpData[0].id,
               startDate: startDate,
               endDate: endDate,
+              status: "confirmed",
             },
           });
 
