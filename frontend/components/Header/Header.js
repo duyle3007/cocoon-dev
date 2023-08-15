@@ -114,7 +114,7 @@ const Header = () => {
               />
             }
             onPressEnter={(e) =>
-              router.push(`/search?searchValue=${e.target.value}`)
+              router.push(`/search?searchValue=${e.target.value}&mode=map`)
             }
           />
           <Link href="/holiday-sydney">
@@ -123,7 +123,7 @@ const Header = () => {
                 !isHomepage && styles.bookBtnBlack
               }`}
             >
-              SEND INQUIRE
+              ENQUIRE NOW
             </span>
           </Link>
         </div>

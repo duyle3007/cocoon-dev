@@ -18,7 +18,7 @@ const Holiday = () => {
     <div className={styles.holidayContainer}>
       <div className={styles.header}>
         <div className={styles.leftHeader}>
-          <div>Holiday</div>
+          <div>HOLIDAY</div>
           <div>All activities are allowed.</div>
         </div>
         <Link href="/search">
@@ -39,7 +39,7 @@ const Holiday = () => {
                 <HotelCard key={index} item={hotel} className={styles.hotel} />
               ))
           : holidayList
-              .slice(0, 5)
+              .slice(0, 3)
               .map((hotel, index) => (
                 <HotelCard key={index} item={hotel} className={styles.hotel} />
               ))}

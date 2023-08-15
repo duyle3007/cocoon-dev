@@ -53,10 +53,10 @@ const HomePage = () => {
       </div>
 
       <Headline />
-      <Slideshow
+      {/* <Slideshow
         data={["/homepage/slider1.png"]}
         className={styles.slideShow}
-      />
+      /> */}
 
       <Holiday />
       <Photoshoot />

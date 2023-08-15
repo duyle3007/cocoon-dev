@@ -1,11 +1,32 @@
 @import "styles/variables.scss";
 
 .serviceContainer {
-  @apply mt-[171px] flex mx-auto items-center justify-between px-[107px] gap-[76px];
+  @apply mt-[171px] flex mx-auto items-center justify-between gap-[76px];
   max-width: $mWidth;
-  img {
-    @apply w-[500px] h-[500px] object-cover;
-    transition: all 0.3s;
+  .imgSelection {
+    @apply w-[400px] h-[250px] text-white gap-2 flex flex-col justify-end z-[1] relative;
+
+    background: linear-gradient(
+        180deg,
+        rgba(129, 100, 62, 0) 47.18%,
+        rgba(144, 116, 79, 0.5) 100%
+      ),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 60.72%, rgba(0, 0, 0, 0.5) 100%);
+    background-blend-mode: normal, multiply;
+
+    .serviceDetail {
+      @apply text-[#F3F3F3] text-xl absolute bottom-5 left-5 gap-2 flex flex-col;
+      font-family: Whitney;
+      letter-spacing: 0.01em;
+    }
+    .description {
+      @apply text-sm flex gap-6;
+      font-family: "Whitney Book";
+    }
+    img {
+      @apply w-full h-full object-cover;
+      transition: all 0.3s;
+    }
   }
 
   h4 {
@@ -21,11 +42,11 @@
   }
 
   .serviceSelection {
-    @apply flex flex-col;
+    @apply flex flex-col w-[60%];
   }
 
   .serviceList {
-    @apply mt-[38px] mb-[30px];
+    @apply mt-[38px] mb-[30px] flex gap-6 items-center;
     .service {
       @apply cursor-pointer;
       font-family: Whitney Book;
@@ -54,7 +75,9 @@
 @media (max-width: 768px) {
   .serviceContainer {
     @apply px-8 flex flex-col mt-[64px] gap-0;
-
+    .imgSelection {
+      @apply w-full;
+    }
     h4 {
       font-size: 32px;
       line-height: 40px;

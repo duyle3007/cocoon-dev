@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { Form } from "antd";
+import { Form, Tooltip } from "antd";
 
 import SelectWithPrefix from "@/components/SelectWithPrefix/SelectWithPrefix";
 import { isMobile } from "@/utils/utils";
@@ -141,25 +141,28 @@ const MapControl = ({
             }}
           />
           <div className={styles.searchType}>
-            <div
-              className={`${styles.info} ${
-                searchType === "filter" && styles.active
-              }`}
-              onClick={() => onChangeSearchType("filter")}
-            >
-              <img src="/searchPage/filter.svg" />
-              FILTER
-            </div>
-
-            <div
-              className={`${styles.info} ${
-                searchType === "map" && styles.active
-              }`}
-              onClick={() => onChangeSearchType("map")}
-            >
-              <img src="/searchPage/map.svg" />
-              MAP
-            </div>
+            <Tooltip title="Refine villa search results" placement="bottom">
+              <div
+                className={`${styles.info} ${
+                  searchType === "filter" && styles.active
+                }`}
+                onClick={() => onChangeSearchType("filter")}
+              >
+                <img src="/searchPage/filter.svg" />
+                FILTER
+              </div>
+            </Tooltip>
+            <Tooltip title="View villa locations on map" placement="bottom">
+              <div
+                className={`${styles.info} ${
+                  searchType === "map" && styles.active
+                }`}
+                onClick={() => onChangeSearchType("map")}
+              >
+                <img src="/searchPage/map.svg" />
+                MAP
+              </div>
+            </Tooltip>
           </div>
         </>
       )}

@@ -2,6 +2,7 @@ import { Button } from "antd";
 import styles from "./Footer.module.scss";
 import Link from "next/link";
 import Image from "../Image/Image";
+import moment from "moment";
 
 const Footer = () => {
   return (
@@ -66,7 +67,8 @@ const Footer = () => {
       <div className={styles.copyrightContainer}>
         <div className={styles.copyright}>
           <div className={styles.left}>
-            Copyright 2022 Cocoon Luxury Properties All Rights Reserved.
+            Copyright {moment().format("YYYY")} Cocoon Luxury Properties All
+            Rights Reserved.
           </div>
 
           <div className={styles.right}>
@@ -77,6 +79,14 @@ const Footer = () => {
                 onClick={() =>
                   window.open(
                     "https://www.facebook.com/cocoonluxuryproperties/"
+                  )
+                }
+              />
+              <Image
+                src="/homepage/instagram.png"
+                onClick={() =>
+                  window.open(
+                    "https://www.instagram.com/cocoonluxuryproperties"
                   )
                 }
               />
@@ -93,14 +103,6 @@ const Footer = () => {
                 onClick={() =>
                   window.open(
                     "https://au.linkedin.com/company/cocoon-luxury-properties"
-                  )
-                }
-              />
-              <Image
-                src="/homepage/twitterLogo.svg"
-                onClick={() =>
-                  window.open(
-                    "https://www.instagram.com/cocoonluxuryproperties/"
                   )
                 }
               />

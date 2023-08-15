@@ -138,6 +138,13 @@ const LeafletMap = ({ mode }) => {
     formRef.submit();
   }, [tabActive]);
 
+  useEffect(() => {
+    const { mode: searchMode } = router.query;
+    if (searchMode) {
+      setSearchType(searchMode);
+    }
+  }, [router]);
+
   const onSearch = (value) => {
     if (value) {
       const filterLocationList = listLocation.filter((location) =>
