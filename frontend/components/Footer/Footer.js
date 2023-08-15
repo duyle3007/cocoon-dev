@@ -75,7 +75,8 @@ const Footer = () => {
             <h5>Follow us on</h5>
             <div className={styles.socialMedia}>
               <Image
-                src="/homepage/facebookLogo.svg"
+                className={styles.icon}
+                src="/homepage/facebookLogo.png"
                 onClick={() =>
                   window.open(
                     "https://www.facebook.com/cocoonluxuryproperties/"
@@ -83,6 +84,7 @@ const Footer = () => {
                 }
               />
               <Image
+                className={styles.icon}
                 src="/homepage/instagram.png"
                 onClick={() =>
                   window.open(
@@ -91,7 +93,8 @@ const Footer = () => {
                 }
               />
               <Image
-                src="/homepage/youtubeLogo.svg"
+                className={styles.icon}
+                src="/homepage/youtubeLogo.png"
                 onClick={() =>
                   window.open(
                     "https://www.youtube.com/channel/UCxprkxhJ9FodghRyyXUfPdw"
@@ -99,7 +102,8 @@ const Footer = () => {
                 }
               />
               <Image
-                src="/homepage/linkedInLogo.svg"
+                className={styles.icon}
+                src="/homepage/linkedInLogo.png"
                 onClick={() =>
                   window.open(
                     "https://au.linkedin.com/company/cocoon-luxury-properties"
