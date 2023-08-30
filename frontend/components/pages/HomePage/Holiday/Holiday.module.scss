@@ -58,12 +58,9 @@
       }
     }
     .listHotel {
-      @apply flex flex-col h-auto;
+      @apply flex h-auto overflow-auto;
       .hotel {
-        @apply h-[192px];
-        &:first-child {
-          @apply h-[409px];
-        }
+        @apply h-[192px] min-w-[80%];
       }
     }
     .checkAll {
