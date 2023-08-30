@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, Select, Slider } from "antd";
+import { Checkbox, Divider, Form, Input, Select, Slider } from "antd";
 import { useEffect, useState } from "react";
 import {
   LeftOutlined,
@@ -54,6 +54,8 @@ const SearchControl = ({
     const hash = router.asPath.split("#")[1];
     if (hash) {
       setTabActive(hash);
+    } else {
+      setTabActive("holiday");
     }
     if (router.query.villaType) {
       formRef.setFieldsValue({ villaType: router.query.villaType });
@@ -93,11 +95,11 @@ const SearchControl = ({
           isMinimized ? styles.minimized : ""
         }`}
       >
-        {!mode && (
+        {!mode && !isMobile() && (
           <div className={styles.topSearch}>
             {isMobile() && <LeftOutlined onClick={() => router.back()} />}
             <div className={styles.tabBar}>
-              <div
+              {/* <div
                 className={`${styles.tab} ${
                   tabActive === "holiday" && styles.active
                 }`}
@@ -118,7 +120,7 @@ const SearchControl = ({
                 }}
               >
                 PHOTOSHOOTS/EVENTS
-              </div>
+              </div> */}
               {!isMobile() && <LeftOutlined onClick={onMinimize} />}
             </div>
           </div>
@@ -150,6 +152,38 @@ const SearchControl = ({
               <Form.Item name="rangeDate">
                 <RangeDatePicker value={rangeDate} />
               </Form.Item>
+              {tabActive === "holiday" && (
+                <div>
+                  <div>
+                    <div className="flex justify-between items-center">
+                      <div className={styles.priceTitle}>
+                        PRICE PER NIGHT (AUD)
+                      </div>
+                      <div className={styles.maxPrice}>$500 to +$5,000</div>
+                    </div>
+                    <Form.Item name="rangePrice">
+                      <Slider
+                        className={styles.sliderPrice}
+                        step={100}
+                        range={{ draggableTrack: true }}
+                        defaultValue={[800, 5000]}
+                        tooltip={{
+                          open: true,
+                          placement: "bottom",
+                          formatter: (value) => <div>${value}</div>,
+                          getPopupContainer: (trigger) => {
+                            return trigger;
+                          },
+                        }}
+                        max={5000}
+                        min={500}
+                      />
+                    </Form.Item>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className={styles.inputWrapper} style={{ gap: "24px" }}>
               {tabActive === "holiday" && (
                 <div>
                   <div className={styles.inputTitle}>Bedrooms</div>
@@ -192,68 +226,6 @@ const SearchControl = ({
                 </Form.Item>
               </div>
             </div>
-            {tabActive === "holiday" && (
-              <div className={styles.inputWrapper} style={{ gap: "48px" }}>
-                <div>
-                  <div className="flex justify-between items-center">
-                    <div className={styles.priceTitle}>
-                      PRICE PER NIGHT (AUD)
-                    </div>
-                    <div className={styles.maxPrice}>$500 to +$5,000</div>
-                  </div>
-                  <Form.Item name="rangePrice">
-                    <Slider
-                      className={styles.sliderPrice}
-                      step={100}
-                      range={{ draggableTrack: true }}
-                      defaultValue={[800, 5000]}
-                      tooltip={{
-                        open: true,
-                        placement: "bottom",
-                        formatter: (value) => <div>${value}</div>,
-                        getPopupContainer: (trigger) => {
-                          return trigger;
-                        },
-                      }}
-                      max={5000}
-                      min={500}
-                    />
-                  </Form.Item>
-                </div>
-                <div className="flex justify-between">
-                  <div
-                    className={styles.inputTitle}
-                    style={{ marginBottom: "0px" }}
-                  >
-                    Choose max guest
-                  </div>
-                  <Form.Item name="maxGuest">
-                    <div className="flex gap-4 items-center">
-                      <div
-                        className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
-                        onClick={() => {
-                          maxGuest > 0 &&
-                            formRef.setFieldsValue({ maxGuest: maxGuest - 1 });
-                          formRef.submit();
-                        }}
-                      >
-                        <MinusOutlined />
-                      </div>
-                      {maxGuest || 0}
-                      <div
-                        className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                        onClick={() => {
-                          formRef.setFieldsValue({ maxGuest: maxGuest + 1 });
-                          formRef.submit();
-                        }}
-                      >
-                        <PlusOutlined />
-                      </div>
-                    </div>
-                  </Form.Item>
-                </div>
-              </div>
-            )}
             <div className={styles.inputWrapper}>
               <div className={styles.featuresTitle}>FEATURES</div>
               <Form.Item name="feature">
@@ -302,6 +274,34 @@ const SearchControl = ({
               <Form.Item name="rangeDate">
                 <RangeDatePicker value={rangeDate} />
               </Form.Item>
+              <div>
+                <div>
+                  <div className="flex justify-between items-center">
+                    <div className={styles.priceTitle}>
+                      PRICE PER NIGHT (AUD)
+                    </div>
+                    <div className={styles.maxPrice}>$500 to +$5,000</div>
+                  </div>
+                  <Form.Item name="rangePrice">
+                    <Slider
+                      className={styles.sliderPrice}
+                      step={100}
+                      range={{ draggableTrack: true }}
+                      defaultValue={[800, 5000]}
+                      tooltip={{
+                        open: true,
+                        placement: "bottom",
+                        formatter: (value) => <div>${value}</div>,
+                        getPopupContainer: (trigger) => {
+                          return trigger;
+                        },
+                      }}
+                      max={5000}
+                      min={500}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
             </div>
             <div className={styles.numResult}>
               {listLocation.length} PROPERTIES

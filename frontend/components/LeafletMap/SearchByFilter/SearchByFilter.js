@@ -8,8 +8,6 @@ import { isMobile } from "@/utils/utils";
 export const SORT_VALUES = [
   { value: "price:asc", label: "Price: Low to high" },
   { value: "price:desc", label: "Price: High to low" },
-  { value: "date:desc", label: "Date: New to old" },
-  { value: "date:asc", label: "Date: Old to new" },
 ];
 
 const SearchByFilter = ({ listLocation, mode }) => {

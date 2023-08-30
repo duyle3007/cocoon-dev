@@ -38,7 +38,7 @@ const PropertyIntro = ({ info }) => {
         </div>
         <div className={styles.roomItem}>
           <Image src="/map/bathIcon.svg" className={styles.roomIcon} />
-          <span>{info?.acf.no_of_bathrooms} badthroom</span>
+          <span>{info?.acf.no_of_bathrooms} bathroom</span>
         </div>
         <div className={styles.roomItem}>
           <Image src="/map/peopleIcon.svg" className={styles.roomIcon} />

@@ -18,7 +18,7 @@ const Holiday = () => {
     <div className={styles.holidayContainer}>
       <div className={styles.header}>
         <div className={styles.leftHeader}>
-          <div>HOLIDAY</div>
+          <div>HOLIDAYS</div>
           <div>All activities are allowed.</div>
         </div>
         <Link href="/search">

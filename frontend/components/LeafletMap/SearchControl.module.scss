@@ -3,7 +3,7 @@
   max-height: calc(100vh - 85px);
   transition: 0.3s all;
   .topSearch {
-    @apply flex pt-6 pl-10 pr-6;
+    @apply flex pt-6 pl-10 pr-6 justify-end;
     border-bottom: 1px solid #e0e0e0;
     .tabBar {
       @apply flex gap-8 items-start;
@@ -15,6 +15,9 @@
       .active {
         opacity: 1;
         border-bottom: 2px solid #404040;
+      }
+      svg {
+        margin-bottom: 1.5rem;
       }
     }
     svg {

@@ -60,19 +60,49 @@ const SearchForm = ({ tabActive }) => {
             className={styles.input}
           />
         </Form.Item>
-        <Form.Item name="villaType">
-          <Select
-            placeholder="Choose villa type"
-            className={styles.villaTypeSelector}
-            allowClear
-          >
-            <Option value="private">Private Villas</Option>
-            <Option value="apartment">Apartments</Option>
-          </Select>
-        </Form.Item>
+        {tabActive === "holiday" && (
+          <Form.Item name="villaType">
+            <Select
+              placeholder="Choose villa type"
+              className={styles.villaTypeSelector}
+              allowClear
+            >
+              <Option value="private">Private Villas</Option>
+              <Option value="apartment">Apartments</Option>
+            </Select>
+          </Form.Item>
+        )}
         <Form.Item name="rangeDate">
           <RangeDatePicker value={rangeDate} />
         </Form.Item>
+        {tabActive === "holiday" && (
+          <div>
+            <div className="flex justify-between items-center">
+              <div className={styles.priceTitle}>PRICE PER NIGHT (AUD)</div>
+              <div className={styles.maxPrice}>$500 to +$5,000</div>
+            </div>
+            <Form.Item name="rangePrice">
+              <Slider
+                className={styles.sliderPrice}
+                step={100}
+                range={{ draggableTrack: true }}
+                defaultValue={[800, 5000]}
+                tooltip={{
+                  open: true,
+                  placement: "bottom",
+                  formatter: (value) => <div>${value}</div>,
+                  getPopupContainer: (trigger) => {
+                    return trigger;
+                  },
+                }}
+                max={5000}
+                min={500}
+              />
+            </Form.Item>
+          </div>
+        )}
+      </div>
+      <div className={styles.inputWrapper} style={{ gap: "24px" }}>
         {tabActive === "holiday" && (
           <div>
             <div className={styles.inputTitle}>Bedrooms</div>
@@ -112,61 +142,6 @@ const SearchForm = ({ tabActive }) => {
           </Form.Item>
         </div>
       </div>
-      {tabActive === "holiday" && (
-        <div className={styles.inputWrapper} style={{ gap: "48px" }}>
-          <div>
-            <div className="flex justify-between items-center">
-              <div className={styles.priceTitle}>PRICE PER NIGHT (AUD)</div>
-              <div className={styles.maxPrice}>$500 to +$5,000</div>
-            </div>
-            <Form.Item name="rangePrice">
-              <Slider
-                className={styles.sliderPrice}
-                step={100}
-                range={{ draggableTrack: true }}
-                defaultValue={[800, 5000]}
-                tooltip={{
-                  open: true,
-                  placement: "bottom",
-                  formatter: (value) => <div>${value}</div>,
-                  getPopupContainer: (trigger) => {
-                    return trigger;
-                  },
-                }}
-                max={5000}
-                min={500}
-              />
-            </Form.Item>
-          </div>
-          <div className="flex justify-between">
-            <div className={styles.inputTitle} style={{ marginBottom: "0px" }}>
-              Choose max guest
-            </div>
-            <Form.Item name="maxGuest">
-              <div className="flex gap-4 items-center">
-                <div
-                  className="flex justify-center items-center w-7 h-7 text-xs border border-[#E8E8E8] rounded-full cursor-pointer"
-                  onClick={() => {
-                    maxGuest > 0 &&
-                      formRef.setFieldsValue({ maxGuest: maxGuest - 1 });
-                  }}
-                >
-                  <MinusOutlined />
-                </div>
-                {maxGuest || 0}
-                <div
-                  className="flex justify-center items-center w-7 h-7 text-xs bg-[#90744F] text-white rounded-full cursor-pointer"
-                  onClick={() => {
-                    formRef.setFieldsValue({ maxGuest: maxGuest + 1 });
-                  }}
-                >
-                  <PlusOutlined />
-                </div>
-              </div>
-            </Form.Item>
-          </div>
-        </div>
-      )}
       <div className={styles.inputWrapper}>
         <div className={styles.featuresTitle}>FEATURES</div>
         <Form.Item name="feature">
