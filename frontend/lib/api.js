@@ -3,12 +3,21 @@ import moment from "moment";
 import Error from "next/error";
 
 const MOTOPRESS_API_URL = process.env.MOTOPRESS_API_URL;
-const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL;
+const MOTOPRESS_USERNAME = process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME;
+const MOTOPRESS_PASSWORD = process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD;
 
-async function fetchApi(url, method, params, data) {
-  const encodedCredentials = Buffer.from(
-    `${process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME}:${process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD}`
-  ).toString("base64");
+const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL;
+const WORDPRESS_USERNAME = process.env.WORDPRESS_USERNAME;
+const WORDPRESS_PASSWORD = process.env.WORDPRESS_PASSWORD;
+
+async function fetchApi(url, method, params, data, typeOfApi = "motopress") {
+  let encodedCredentials;
+  if (typeOfApi == "motopress") {
+    encodedCredentials = Buffer.from(`${MOTOPRESS_USERNAME}:${MOTOPRESS_PASSWORD}`).toString("base64");
+  }
+  if (typeOfApi == "wordpress") {
+    encodedCredentials = Buffer.from(`${WORDPRESS_USERNAME}:${WORDPRESS_PASSWORD}`).toString("base64");
+  }
   const authHeader = `Basic ${encodedCredentials}`;
 
   const options = {
@@ -48,7 +57,9 @@ async function fetchAccommodationTypeByWPApi(accommodationTypeId) {
   return await fetchApi(
     `${WORDPRESS_API_URL}/mphb_room_type/${accommodationTypeId}`,
     "GET",
-    params
+    params,
+    {},
+    "wordpress"
   );
 }
 
@@ -210,7 +221,9 @@ async function calculatePriceByDateRange(
     );
     basePrice = selectedSeason?.base_price ?? 0;
   } else {
-    const accommodationType = await fetchAccommodationTypeByWPApi(accommodationTypeId);
+    const accommodationType = await fetchAccommodationTypeByWPApi(
+      accommodationTypeId
+    );
     basePrice = accommodationType?.acf?.starting_price ?? 0;
   }
   return {
@@ -348,7 +361,9 @@ async function searchAccommodationType(input) {
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/mphb_room_type`,
     "GET",
-    params
+    params,
+    {},
+    "wordpress"
   );
   let accommodationTypes = [...response];
   if (noOfBathrooms && noOfBathrooms != 0) {
@@ -427,7 +442,9 @@ async function fetchLocations(input) {
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/location`,
     "GET",
-    params
+    params,
+    {},
+    "wordpress"
   );
   const nestedRes = createNestedData(response);
   return slug
@@ -444,14 +461,20 @@ async function fetchLocations(input) {
 
 async function fetchReviews(email, accommodationTypeId) {
   const params = {
-    _fields: ["id", "acf"],
+    _fields: ["id", "title", "acf", "status"],
     search: email,
   };
-  const response = await fetchApi(`${WORDPRESS_API_URL}/review`, "GET", params);
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/review`,
+    "GET",
+    params,
+    {},
+    "wordpress"
+  );
   if (accommodationTypeId) {
     return response.filter(
       (item) =>
-        item.acf.mphb_room_type[0] == accommodationTypeId &&
+        (item.acf.mphb_room_type[0] == accommodationTypeId || item.acf.mphb_room_type == accommodationTypeId) &&
         item.acf.reviewStatus == "approved"
     );
   }
@@ -467,19 +490,23 @@ async function createReviews(reviewData) {
     throw new Error("Accommodation Type Id is required");
   }
   const body = {
+    title: email + ' wrote a review on ' + new Date().toISOString(),
     acf: {
       email: email,
       name: name,
       review: review,
       rate: rating,
       mphb_room_type: [Number(accommodationTypeId)],
+      reviewStatus: "approved",
     },
+    status: 'publish'
   };
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/review`,
     "POST",
     {},
-    body
+    body,
+    "wordpress"
   );
   return response;
 }
