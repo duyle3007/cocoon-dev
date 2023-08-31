@@ -2,7 +2,7 @@
   @apply flex;
   font-family: "Whitney";
   .slider {
-    @apply w-[250px] h-[250px];
+    @apply w-[250px];
     img {
       @apply w-full h-full object-cover;
     }
