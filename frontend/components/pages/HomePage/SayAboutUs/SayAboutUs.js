@@ -1,6 +1,10 @@
-import { useState } from "react";
-import styles from "./SayAboutUs.module.scss";
+import { useRef, useState } from "react";
 import { isMobile } from "@/utils/utils";
+import { Carousel } from "antd";
+
+import Slideshow from "@/components/pages/HomePage/Slideshow/Slideshow";
+
+import styles from "./SayAboutUs.module.scss";
 
 const CUSTOMERS = [
   {
@@ -25,28 +29,18 @@ const CUSTOMERS = [
   },
 ];
 const SayAboutUs = () => {
+  const carouselRef = useRef();
+
   const [selectedCustomer, setSelectedCustomer] = useState(CUSTOMERS[0]);
 
-  const onNext = () => {
-    const findCurrentOne = CUSTOMERS.findIndex(
-      (customer) => customer.id === selectedCustomer.id
-    );
-    setSelectedCustomer(
-      findCurrentOne < CUSTOMERS.length - 1
-        ? CUSTOMERS[findCurrentOne + 1]
-        : CUSTOMERS[0]
-    );
+  const onNext = (e) => {
+    e.preventDefault();
+    carouselRef.current.next();
   };
 
-  const onPrev = () => {
-    const findCurrentOne = CUSTOMERS.findIndex(
-      (customer) => customer.id === selectedCustomer.id
-    );
-    setSelectedCustomer(
-      findCurrentOne > 0
-        ? CUSTOMERS[findCurrentOne - 1]
-        : CUSTOMERS[CUSTOMERS.length - 1]
-    );
+  const onPrev = (e) => {
+    e.preventDefault();
+    carouselRef.current.prev();
   };
 
   return (
@@ -58,31 +52,24 @@ const SayAboutUs = () => {
           className={styles.leftArrow}
           onClick={onPrev}
         />
-        <div className={styles.content}>
-          <img src={selectedCustomer.picture} className={styles.picture} />
-          {!isMobile() && (
-            <>
-              <div className={styles.description}>
-                {selectedCustomer.description}
-              </div>
-              <div className={styles.name}>{selectedCustomer.name}</div>
-            </>
-          )}
-        </div>
+        <Carousel ref={carouselRef} className={styles.carouselContent}>
+          {CUSTOMERS.map((customer) => (
+            <div key={customer.id} className={styles.content}>
+              <img src={customer.picture} className={styles.picture} />
+              <>
+                <div className={styles.description}>{customer.description}</div>
+                <div className={styles.name}>{customer.name}</div>
+              </>
+            </div>
+          ))}
+        </Carousel>
+
         <img
           src="/rightArrow.png"
           className={styles.rightArrow}
           onClick={onNext}
         />
       </div>
-      {isMobile() && (
-        <>
-          <div className={styles.description}>
-            {selectedCustomer.description}
-          </div>
-          <div className={styles.name}>{selectedCustomer.name}</div>
-        </>
-      )}
     </div>
   );
 };

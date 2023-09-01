@@ -18,9 +18,14 @@
       font-size: 24px;
       cursor: pointer;
     }
+    .carouselContent {
+      @apply w-[60vw] flex items-center justify-between;
+      :global(.slick-list) {
+      }
+    }
     .content {
-      @apply flex flex-col gap-6 items-center;
-      width: 50%;
+      @apply flex-col gap-6 justify-between items-center;
+      display: flex !important;
     }
     .picture {
       @apply w-[240px] h-[240px] rounded-full;
@@ -45,7 +50,7 @@
 
 @media (max-width: 768px) {
   .sayAboutUs {
-    @apply mt-[130px] px-8;
+    @apply mt-[40px] px-8;
     .title {
       font-size: 32px;
       line-height: 40px;
@@ -56,7 +61,9 @@
       .rightArrow {
         @apply w-8 h-8;
       }
-
+      .carouselContent {
+        @apply w-[50vw];
+      }
       .content {
         .picture {
           @apply h-[124px] w-[124px];
@@ -64,11 +71,10 @@
       }
     }
     .description {
-      @apply mt-6;
-      min-height: 100px;
+      min-height: 0;
     }
     .name {
-      @apply mt-6 text-center;
+      @apply text-center;
     }
   }
 }
