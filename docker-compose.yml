@@ -43,14 +43,14 @@ services:
     build:
       context: .
       dockerfile: frontend.dockerfile
-    volumes:
-      - ./frontend/:/app
-    command: npm run dev
     ports:
-      - "3000:3000"
+      - 3000:3000
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - HOST=0.0.0.0
       - PORT=3000
+    env_file:
+      - ./frontend/.env.local
 
 
 volumes:
