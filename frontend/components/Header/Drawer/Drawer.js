@@ -5,18 +5,20 @@ import {
   LeftOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Collapse, Drawer as DrawerAnt, Input } from "antd";
 import { useRouter } from "next/router";
 
 import Image from "@/components/Image/Image";
-import { DESTINATION_LIST } from "../Header";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./Drawer.module.scss";
 
 const { Panel } = Collapse;
 
 const Drawer = () => {
+  const { allLocation } = useContext(PropertyListContext);
+
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [renderCollapseChildren, setRenderCollapseChildren] = useState(null);
@@ -27,7 +29,10 @@ const Drawer = () => {
     if (levelChildren.length === 1) {
       setRenderCollapseChildren(null);
     } else {
-      const parentDestination = DESTINATION_LIST[levelChildren[0] - 1];
+      const parentDestination = allLocation.find(
+        (location) => location.key === levelChildren[0]
+      );
+
       const destinationChildrenHtml = (
         <div className="flex gap-3 items-start mt-12 px-8">
           <LeftOutlined
@@ -57,11 +62,7 @@ const Drawer = () => {
   };
 
   const goTo = (url, destination) => {
-    if (url) {
-      setOpenDrawer(false);
-      router.push(url);
-      setRenderCollapseChildren(null);
-    } else if (destination.children?.length > 0) {
+    if (destination?.children?.length > 0) {
       const destinationChildrenHtml = (
         <div className="flex gap-3 items-start mt-12 px-8">
           <LeftOutlined
@@ -75,7 +76,9 @@ const Drawer = () => {
 
             {destination.children.map((child, index) => (
               <div key={index} className="flex justify-between w-full">
-                <p onClick={() => goTo(child.url, child)}>{child.label}</p>
+                <p onClick={() => goTo(child.url, child)}>
+                  {child.label?.props.children}
+                </p>
                 <RightOutlined className={styles.rightArrow} />
               </div>
             ))}
@@ -83,6 +86,10 @@ const Drawer = () => {
         </div>
       );
       setRenderCollapseChildren(destinationChildrenHtml);
+    } else if (url) {
+      setOpenDrawer(false);
+      setRenderCollapseChildren(null);
+      router.push(url);
     }
   };
 
@@ -108,20 +115,20 @@ const Drawer = () => {
               />
             </div>
             <Input
-              placeholder="Villa name or Location..."
+              placeholder="Villa name"
               bordered={false}
               className={styles.searchVilla}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onPressEnter={(e) => {
-                setSearchInput(null);
                 goTo(`/search?searchValue=${e.target.value}`);
+                setSearchInput(null);
               }}
               suffix={
                 <SearchOutlined
                   onClick={(e) => {
+                    goTo(`/search?searchValue=${searchInput || ""}`);
                     setSearchInput(null);
-                    goTo(`/search?searchValue=${e.target.value}`);
                   }}
                 />
               }
@@ -136,25 +143,25 @@ const Drawer = () => {
                     <p onClick={() => goTo("/search?villaType=private")}>
                       PRIVATE VILLAS
                     </p>
-                    <p onClick={() => goTo("/search?villaType=luxury")}>
+                    {/* <p onClick={() => goTo("/search?villaType=luxury")}>
                       LUXURY LODGES
-                    </p>
+                    </p> */}
                   </Panel>
                   <Panel header="DESTINATION" key="2">
-                    {DESTINATION_LIST.map((destination, index) => (
+                    {allLocation.map((destination, index) => (
                       <div key={index} className="flex justify-between w-full">
                         <div
                           className="w-full"
                           onClick={() => goTo(destination.url, destination)}
                         >
-                          {destination.label}
+                          {destination.label?.props.children}
                         </div>
                         <RightOutlined className={styles.rightArrow} />
                       </div>
                     ))}
                   </Panel>
                 </Collapse>
-                <div onClick={() => goTo("/photoshoots")}>
+                <div onClick={() => goTo("/search#photoshoots")}>
                   PHOTOSHOOTS/ EVENTS
                 </div>
                 <div onClick={() => goTo("/about-us")}>ABOUT US</div>

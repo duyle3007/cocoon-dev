@@ -1,7 +1,7 @@
 @import "styles/variables.scss";
 
 .sayAboutUs {
-  @apply mt-[186px] mx-auto;
+  @apply mt-[80px] mx-auto;
   max-width: $mWidth;
   padding-inline: 107px;
   .title {
@@ -10,6 +10,7 @@
     font-family: "Goudy Old Style";
     margin-bottom: 47px;
     text-align: center;
+    padding-left: 40px;
   }
   .carousel {
     @apply flex items-center justify-between;
@@ -18,9 +19,14 @@
       font-size: 24px;
       cursor: pointer;
     }
+    .carouselContent {
+      @apply w-[60vw] flex items-center justify-between;
+      :global(.slick-list) {
+      }
+    }
     .content {
-      @apply flex flex-col gap-6 items-center;
-      width: 50%;
+      @apply flex-col gap-6 justify-between items-center;
+      display: flex !important;
     }
     .picture {
       @apply w-[240px] h-[240px] rounded-full;
@@ -34,6 +40,7 @@
     letter-spacing: 0.006em;
     text-align: center;
     color: #bd9a7b;
+    min-height: 80px;
   }
   .name {
     @apply text-xs;
@@ -44,18 +51,21 @@
 
 @media (max-width: 768px) {
   .sayAboutUs {
-    @apply mt-[130px] px-8;
+    @apply mt-[40px] px-8;
     .title {
       font-size: 32px;
       line-height: 40px;
       margin-bottom: 56px;
+      padding-left: 0;
     }
     .carousel {
       .leftArrow,
       .rightArrow {
         @apply w-8 h-8;
       }
-
+      .carouselContent {
+        @apply w-[50vw];
+      }
       .content {
         .picture {
           @apply h-[124px] w-[124px];
@@ -63,10 +73,10 @@
       }
     }
     .description {
-      @apply mt-6;
+      min-height: 0;
     }
     .name {
-      @apply mt-6 text-center;
+      @apply text-center;
     }
   }
 }

@@ -2,7 +2,7 @@
 
 .intro {
   background: #f2eee8;
-  padding-block: 121px;
+  padding-block: 0px;
   margin-top: 76px;
   .introContainer {
     @apply mx-auto flex items-center justify-between gap-[106px];
@@ -26,14 +26,14 @@
     letter-spacing: 0.006em;
   }
   img {
-    width: 55%;
-    height: 400px;
+    width: 45%;
+    height: 300px;
   }
 }
 
 @media (max-width: 768px) {
   .intro {
-    @apply mt-[80px] pt-[80px] pb-16;
+    @apply mt-[30px] pt-[30px] pb-16;
     .introContainer {
       @apply flex-col px-8 flex-col-reverse gap-10;
       .leftContent {

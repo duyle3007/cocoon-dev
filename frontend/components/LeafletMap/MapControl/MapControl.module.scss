@@ -2,20 +2,29 @@
   @apply absolute top-10 left-0 flex px-[70px] justify-between w-full items-center;
   .selectPrefix {
     @apply w-[310px] bg-white py-2;
+    :global(.ant-cascader-dropdown) {
+      left: -33px !important;
+    }
+    :global(.ant-cascader-menu-item) {
+      width: 300px;
+    }
+    :global(.ant-cascader-menu) {
+      height: 300px;
+    }
   }
   .searchType {
     @apply flex gap-4;
     .info {
-      @apply flex gap-2 opacity-50 py-2 px-4 items-center cursor-pointer h-fit;
+      @apply flex gap-2  opacity-100 py-2 px-4 items-center cursor-pointer h-fit;
       font-family: "Whitney";
       font-weight: 500;
       font-size: 14px;
       line-height: 20px;
       letter-spacing: 0.07em;
+      border: 1px solid #404040;
     }
     .active {
-      @apply opacity-100;
-      border: 1px solid #404040;
+      @apply bg-gray-400;
     }
   }
 }

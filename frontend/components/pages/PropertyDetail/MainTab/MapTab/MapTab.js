@@ -1,6 +1,9 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 
+import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
+import { isMobile } from "@/utils/utils";
+
 import styles from "./MapTab.module.scss";
 
 // Fix for the missing icon issue
@@ -16,16 +19,19 @@ const MapTab = ({ info }) => {
   return (
     <div className={styles.mapTab}>
       <MapContainer
-        center={[-37.8839, 175.3745188667]}
-        zoom={13}
-        touchZoom={true}
-        zoomControl={false}
+        center={[info.acf.lat + 0.001, info.acf.long + 0.001]}
+        zoom={DEFAULT_ZOOM_LEVEL}
+        maxZoom={13}
+        touchZoom={isMobile() ? false : true}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[-37.8839, 175.3745188667]}></Marker>
+        <Marker
+          position={[info.acf.lat + 0.001, info.acf.long + 0.001]}
+        ></Marker>
       </MapContainer>
     </div>
   );

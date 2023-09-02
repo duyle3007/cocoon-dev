@@ -13,18 +13,6 @@
   line-height: 24px;
   letter-spacing: 0.01em;
   color: #404040;
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #ffffff;
-  }
 }
 .activeMarker {
   background-color: #404040;
@@ -47,9 +35,28 @@
     display: none;
   }
   .locationImage {
-    width: 310px;
+    min-width: 310px;
     height: 200px;
     object-fit: cover;
+  }
+  .nextBtn {
+    @apply rounded-full h-8 w-8 flex justify-center items-center absolute right-2 top-[45%] z-[1] bg-white;
+  }
+  .rightArrow {
+    @apply w-6 h-6;
+  }
+  .prevBtn {
+    @apply rounded-full h-8 w-8 flex justify-center items-center absolute left-2 top-[45%] z-[1] bg-white;
+  }
+  .leftArrow {
+    @apply w-6 h-6;
+  }
+  .carouselOverflow {
+    @apply overflow-hidden relative w-[310px];
+  }
+  .carousel {
+    @apply flex w-[310px] h-[200px];
+    transition: transform 0.5s;
   }
   .markerPopup {
     cursor: pointer;

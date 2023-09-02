@@ -4,6 +4,12 @@
   :global .ant-select-single {
     @apply w-full;
   }
+  :global(.ant-cascader-menu-item) {
+    @apply p-0 w-[265px];
+  }
+  :global(.ant-cascader-menu-item-content > a) {
+    @apply w-full flex px-2 py-3;
+  }
 }
 
 @media (max-width: 767px) {
