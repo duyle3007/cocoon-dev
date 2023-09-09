@@ -321,7 +321,9 @@ async function searchAccommodationType(input) {
     "price",
   ];
   let availableAccommodation = [];
+  let accommodationTypesByTag = [];
   const {
+    tags = [],
     searchStr = "",
     features = [],
     villaType = "",
@@ -365,6 +367,21 @@ async function searchAccommodationType(input) {
     {},
     "wordpress"
   );
+
+  if (tags.length > 0) {
+    const motopressParams = {
+      filter: {
+        mphb_room_type_tag: tags,
+      }
+    };
+    const motopressResponse = await fetchApi(
+      `${MOTOPRESS_API_URL}/accommodation_types`,
+      "GET",
+      motopressParams
+    );
+    accommodationTypesByTag = [...motopressResponse];
+  }
+
   let accommodationTypes = [...response];
   if (noOfBathrooms && noOfBathrooms != 0) {
     if (noOfBathrooms == "6++") {
@@ -419,7 +436,23 @@ async function searchAccommodationType(input) {
     );
     accommodationTypes = accommodationTypes.filter((item) => ids.has(item.id));
   }
-  return accommodationTypes;
+
+  let results = [];
+  if(tags.length > 0) {
+    results = accommodationTypes.filter((a) => accommodationTypesByTag.some((b) => a.id === b.id));
+  } else {
+    results = accommodationTypes;
+  }
+
+  return results;
+}
+
+async function fetchAllTags() {
+   const response = await fetchApi(
+    `${MOTOPRESS_API_URL}/accommodation_types/tags`,
+    "GET"
+  );
+  return response;
 }
 
 async function fetchLocations(input) {
@@ -563,6 +596,7 @@ module.exports = {
   fetchBookingsByDate,
   fetchLocations,
   fetchReviews,
+  fetchAllTags,
   calculatePriceByDateRange,
   searchAccommodationType,
   checkAvailableAccommodationForBooking,
