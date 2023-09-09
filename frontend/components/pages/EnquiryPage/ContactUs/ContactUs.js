@@ -14,14 +14,14 @@ const NeedHelpContent = () => {
         If you have any question please don&apos;t hesitate to contact us
       </div>
       <div className={styles.info}>
-        <Image src="./phoneIcon.svg" className={styles.icon} /> 0407 008 176
+        <Image src="/phoneIcon.svg" className={styles.icon} /> 0407 008 176
       </div>
       <div className={styles.info}>
-        <Image src="./emailIcon.svg" className={styles.icon} />{" "}
+        <Image src="/emailIcon.svg" className={styles.icon} />{" "}
         julian@cocoonluxuryproperties.com
       </div>
       <div className={styles.info}>
-        <Image src="./emailIcon.svg" className={styles.icon} />{" "}
+        <Image src="/emailIcon.svg" className={styles.icon} />{" "}
         manish@cocoonluxuryproperties.com
       </div>
     </div>

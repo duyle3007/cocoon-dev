@@ -4,7 +4,7 @@ const MapCard = ({ location, onClick }) => {
   return (
     <div
       className={styles.locationCard}
-      onClick={() => onClick(location.lat, location.lng)}
+      onClick={() => onClick(location.acf.lat, location.acf.long)}
     >
       <img src="/map/marker.svg" />
       <div className={styles.locationContent}>

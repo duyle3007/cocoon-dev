@@ -1,48 +1,72 @@
-import { Button, DatePicker, Dropdown, Select } from "antd";
-import { useState } from "react";
+import { Button, Cascader, DatePicker, Dropdown } from "antd";
+import { useContext, useMemo, useState } from "react";
+import dayjs from "dayjs";
 
 import Link from "next/link";
 import Image from "@/components/Image/Image";
 import GuestDropdown from "./GuestDropdown/GuestDropdown";
 import { isMobile } from "@/utils/utils";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./SearchBanner.module.scss";
 
-const DESTINATION_LIST = [
-  {
-    name: "All destinations",
-    value: "all",
-  },
-  {
-    name: "Australia",
-    value: "australia",
-  },
-  {
-    name: "France",
-    value: "france",
-  },
-  {
-    name: "Egypt",
-    value: "egypt",
-  },
-];
-
 const SearchBanner = () => {
-  const [guestNumber, setGuestNumber] = useState();
+  const { allLocation } = useContext(PropertyListContext);
 
+  const [guestNumber, setGuestNumber] = useState();
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
+  const [destination, setDestination] = useState(null);
 
-  const disabledEndDate = (current) => {
-    return momentStartDate ? current && current < momentStartDate : false;
-  };
+  const searchValue = useMemo(() => {
+    if (destination?.length === 1) {
+      return `country=${destination}`;
+    } else if (destination?.length === 2) {
+      return `location1=${destination.join(",")}`;
+    } else if (destination?.length === 3) {
+      return `location2=${destination.join(",")}`;
+    }
+    return "";
+  }, [destination]);
+
+  const maxGuest = useMemo(() => {
+    const totalGuest = guestNumber
+      ?.split(" ")
+      .reduce((a, c) => a + (Number(c) || 0), 0);
+
+    return totalGuest;
+  }, [guestNumber]);
 
   const disabledStartDate = (current) => {
+    const currentDate = dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
+
+    if (isDateInThePast) {
+      return true;
+    }
+
     return momentEndDate ? current && current > momentEndDate : false;
+  };
+
+  const disabledEndDate = (current) => {
+    const currentDate = dayjs(current).format("YYYY-MM-DD");
+    const isDateInThePast = dayjs().format("YYYY-MM-DD") >= currentDate;
+
+    if (isDateInThePast) {
+      return true;
+    }
+
+    return momentStartDate ? current && current < momentStartDate : false;
   };
 
   const onChangeStartDay = (date) => {
     setMomentStartDate(date);
+
+    // Auto focus on check out calendar
+    if (date) {
+      const checkOutCalendar = document.getElementsByClassName("ant-picker")[1];
+      checkOutCalendar.click();
+    }
   };
 
   const onChangeEndDay = (date) => {
@@ -60,14 +84,23 @@ const SearchBanner = () => {
       </Link>
     );
   }
+
   return (
     <div className={styles.searchBanner}>
       <div className={styles.searchItem}>
         <div className={styles.title}>LOCATION</div>
-        <Select
-          placeholder="Choose a destination"
+        <Cascader
+          popupClassName={styles.selectPrefix}
           bordered={false}
-          options={DESTINATION_LIST}
+          value={destination}
+          displayRender={(labels) => {
+            return labels[labels.length - 1];
+          }}
+          placeholder="Choose a destination"
+          options={allLocation}
+          onChange={(value) => {
+            setDestination(value);
+          }}
         />
       </div>
       <div className={styles.searchItem}>
@@ -107,7 +140,14 @@ const SearchBanner = () => {
           </Dropdown>
         </div>
       </div>
-      <Link href="/search" className="mx-auto">
+      <Link
+        href={`/search?${searchValue}${
+          guestNumber ? `&guest=${maxGuest}` : ""
+        }${momentStartDate ? `&startDate=${momentStartDate}` : ""}${
+          momentEndDate ? `&endDate=${momentEndDate}` : ""
+        }`}
+        className="mx-auto"
+      >
         <Button className={styles.searchBtn}>SEARCH</Button>
       </Link>
     </div>

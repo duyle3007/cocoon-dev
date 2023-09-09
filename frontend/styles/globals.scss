@@ -51,6 +51,10 @@ h6 {
   margin-bottom: 0;
 }
 
+a {
+  color: unset !important;
+}
+
 @mixin mobile {
   @media (max-width: 768px) {
     @content;

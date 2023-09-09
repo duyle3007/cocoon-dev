@@ -152,8 +152,11 @@
 
   .socialMedia {
     @apply flex gap-5;
+    .icon {
+      @apply w-6 h-6;
+    }
     img {
-      @apply w-6 h-6 cursor-pointer;
+      @apply cursor-pointer;
     }
   }
 }

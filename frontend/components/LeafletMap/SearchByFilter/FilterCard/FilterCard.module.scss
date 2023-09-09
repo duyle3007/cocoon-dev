@@ -2,7 +2,7 @@
   @apply flex;
   font-family: "Whitney";
   .slider {
-    @apply w-[250px] h-[250px];
+    @apply w-[250px];
     img {
       @apply w-full h-full object-cover;
     }
@@ -32,7 +32,7 @@
       font-size: 14px;
       line-height: 20px;
       .info {
-        @apply flex gap-2 items-center min-w-[100px];
+        @apply flex gap-2 items-center min-w-[100px] max-w-[135px];
         img {
           @apply w-4 h-4;
         }
@@ -138,7 +138,7 @@
       }
     }
     .slider {
-      @apply w-full;
+      @apply w-full h-[250px];
     }
     .hotelDetail {
       @apply h-auto;

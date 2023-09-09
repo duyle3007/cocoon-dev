@@ -14,11 +14,13 @@ const Slideshow = forwardRef(
         carouselRef.current.goTo(slideNumber);
       },
     }));
-    const onNextSlide = () => {
+    const onNextSlide = (e) => {
+      e.preventDefault();
       carouselRef.current.next();
     };
 
-    const onPrevSlide = () => {
+    const onPrevSlide = (e) => {
+      e.preventDefault();
       carouselRef.current.prev();
     };
 

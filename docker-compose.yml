@@ -19,8 +19,8 @@ services:
     environment:
       MYSQL_DATABASE: wp
       MYSQL_USER: wp
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: JRAMaTGN6T4DzH
+      MYSQL_ROOT_PASSWORD: yHcRDv841GXZc
     volumes:
       - mysql:/var/lib/mysql:delegated
   
@@ -35,7 +35,6 @@ services:
     build:
       context: .
       dockerfile: php.dockerfile
-    container_name: wp
     entrypoint: ['wp', '--allow-root']
     volumes:
       - ./wordpress:/var/www/html:delegated
@@ -44,7 +43,6 @@ services:
     build:
       context: .
       dockerfile: frontend.dockerfile
-    container_name: frontend
     volumes:
       - ./frontend/:/app
     command: npm run dev

@@ -18,10 +18,10 @@ const Holiday = () => {
     <div className={styles.holidayContainer}>
       <div className={styles.header}>
         <div className={styles.leftHeader}>
-          <div>Holiday</div>
+          <div>HOLIDAYS</div>
           <div>All activities are allowed.</div>
         </div>
-        <Link href="/holiday">
+        <Link href="/search">
           <div className={styles.rightHeader}>
             CHECK ALL
             <span>
@@ -38,9 +38,11 @@ const Holiday = () => {
               .map((hotel, index) => (
                 <HotelCard key={index} item={hotel} className={styles.hotel} />
               ))
-          : holidayList.map((hotel, index) => (
-              <HotelCard key={index} item={hotel} className={styles.hotel} />
-            ))}
+          : holidayList
+              .slice(0, 3)
+              .map((hotel, index) => (
+                <HotelCard key={index} item={hotel} className={styles.hotel} />
+              ))}
       </div>
       {isMobile() && (
         <Link href="/holiday">

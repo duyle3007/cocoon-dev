@@ -1,0 +1,31 @@
+@import "styles/variables.scss";
+
+.termsPage {
+  @apply flex flex-col mx-auto w-full pb-6;
+  max-width: $mWidth;
+
+  h4 {
+    @apply text-3xl font-bold mt-6;
+    font-family: "Goudy Old Style";
+  }
+  .content {
+    @apply mt-4;
+    font-family: "Whitney Book";
+  }
+  a {
+    color: blue !important;
+    text-decoration: underline !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .termsPage {
+    @apply px-8;
+    h4 {
+      @apply text-lg;
+    }
+    .content {
+      @apply text-xs;
+    }
+  }
+}

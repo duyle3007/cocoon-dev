@@ -26,7 +26,7 @@
     @apply flex justify-between items-start;
   }
   .avatarReview {
-    @apply h-12 w-12 rounded-full;
+    @apply h-12 w-12 rounded-full overflow-hidden;
   }
   .description {
     @apply mt-4 mb-3;

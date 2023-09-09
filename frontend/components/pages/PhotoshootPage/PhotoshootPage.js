@@ -1,15 +1,15 @@
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import L from "leaflet";
-import { Form, Spin } from "antd";
+import { Form, Spin, notification } from "antd";
 import { useRouter } from "next/router";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import axios from "axios";
 
-import { isMobile } from "@/utils/utils";
+import { debounce, isMobile } from "@/utils/utils";
 import SearchControl from "@/components/LeafletMap/SearchControl";
 import FilterModal from "@/components/LeafletMap/FilterModal/FilterModal";
 import SearchByFilter, {
@@ -19,6 +19,7 @@ import MarkerCluster from "@/components/LeafletMap/MarketCluster";
 import MapCard from "@/components/LeafletMap/MapCard/MapCard";
 import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
+import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 
 import styles from "./PhotoshootPage.module.scss";
 
@@ -47,43 +48,90 @@ const PhotoshootPage = () => {
   const [tabActive, setTabActive] = useState("photoshoot");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPropertyList = async () => {
-      setLoading(true);
-      try {
-        const { data: resWp } = await axios.get(
-          `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type?mphb_room_type_category=13`
-        );
-        const { data: resMoto } = await axios.get(
-          "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
-          {
-            auth: {
-              username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-              password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
-            },
-          }
-        );
-        const res = resWp.map((result) => {
-          const findItemInMoto = resMoto.find(
-            (otherRes) => otherRes.id === result.id
-          );
-          if (findItemInMoto) {
-            return { ...findItemInMoto, ...result };
-          } else {
-            return result;
-          }
-        });
-        setListLocation(res);
-      } catch (err) {
-        console.log("Fetch list data", err);
-        notification.error({
-          message: "Something went wrong while trying to get list properties",
-        });
-      } finally {
-        setLoading(false);
-      }
+  const fetchPropertyList = async (fieldValues = {}) => {
+    const {
+      searchValue = null,
+      villaType,
+      rangeDate,
+      selectedBedroom,
+      selectedBed,
+      selectedBadroom,
+      rangePrice,
+      maxGuest,
+      feature,
+      sort,
+    } = fieldValues;
+    const params = {
+      searchStr: searchValue?.length ? searchValue : null,
+      villaType: villaType,
+      noOfBedrooms: selectedBedroom !== "Any" ? selectedBedroom : null,
+      beds: selectedBed !== "Any" ? selectedBed : null,
+      noOfBathrooms: selectedBadroom !== "Any" ? selectedBadroom : null,
+      guests: maxGuest,
+      features: feature?.length > 0 ? feature?.join(",") : null,
+      priceStart: rangePrice?.length > 0 ? rangePrice[0] : undefined,
+      priceEnd: rangePrice?.length > 0 ? rangePrice[1] : undefined,
+      mphb_room_type_category: 13,
+      orderBy: sort ? sort.split(":")[0] : undefined,
+      order: sort ? sort.split(":")[1] : undefined,
+      startDate:
+        rangeDate.length > 0 && rangeDate[0]
+          ? dayjs(rangeDate[0]).format("YYYY-MM-DD")
+          : null,
+      endDate:
+        rangeDate.length > 0 && rangeDate[1]
+          ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
+          : null,
     };
-    fetchPropertyList();
+
+    const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
+      params,
+    });
+    const searchMotoPress = axios.get(
+      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      {
+        auth: {
+          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
+          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+        },
+      }
+    );
+
+    setLoading(true);
+    try {
+      const [
+        {
+          data: { data: res },
+        },
+        { data: resMoto },
+      ] = await Promise.all([searchAccommodationType, searchMotoPress]);
+
+      const mergeRes = res.map((result) => {
+        const findItemInMoto = resMoto.find(
+          (otherRes) => otherRes.id === result.id
+        );
+        if (findItemInMoto) {
+          return { ...findItemInMoto, ...result };
+        } else {
+          return result;
+        }
+      });
+      setListLocation(mergeRes);
+    } catch (err) {
+      console.log("Fetch list data", err);
+      notification.error({
+        message: "Something went wrong while trying to get list properties",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debounceFetchData = useCallback(debounce(fetchPropertyList), [
+    tabActive,
+  ]);
+  useEffect(() => {
+    formRef.submit();
   }, []);
 
   const onSearch = (value) => {
@@ -94,8 +142,8 @@ const PhotoshootPage = () => {
       setListLocation(filterLocationList);
       if (searchType === "map" && filterLocationList.length > 0) {
         mapRef.current.flyTo([
-          filterLocationList[0]?.lat,
-          filterLocationList[0]?.lng,
+          filterLocationList[0]?.acf.lat,
+          filterLocationList[0]?.acf.long,
         ]);
       }
       return;
@@ -104,37 +152,34 @@ const PhotoshootPage = () => {
 
   const navigateTo = (lat, lng) => {
     if (lat && lng) {
-      mapRef.current.flyTo([lat, lng], 18);
+      mapRef.current.flyTo([lat, lng], DEFAULT_ZOOM_LEVEL);
     }
   };
 
   const onFinishForm = (formValues) => {
-    console.log("Form values", formValues);
     if (formValues.destination) {
       router.query.destination = formValues.destination;
       router.push(router);
     }
+    debounceFetchData(formValues);
     modalRef.current.closeFilterModal();
   };
 
   return (
     <Spin spinning={loading}>
-      <div className={styles.mapContainer}>
-        <Form
-          form={formRef}
-          initialValues={{
-            selectedLocation: [],
-            rangeDate: [],
-            rangePrice: [800, 2000],
-            maxGuest: 0,
-            selectedBedroom: "Any",
-            selectedBed: "Any",
-            selectedBadroom: "Any",
-            feature: [],
-            sort: SORT_VALUES[0].value,
-          }}
-          onFinish={onFinishForm}
-        >
+      <Form
+        form={formRef}
+        initialValues={{
+          rangeDate: [],
+          selectedBed: "Any",
+          selectedBadroom: "Any",
+          feature: [],
+          sort: SORT_VALUES[0].value,
+        }}
+        onFinish={onFinishForm}
+        onValuesChange={(_, allField) => debounceFetchData(allField)}
+      >
+        <div className={styles.mapContainer}>
           <SearchControl
             tabActive={tabActive}
             setTabActive={setTabActive}
@@ -150,62 +195,61 @@ const PhotoshootPage = () => {
 
           <FilterModal ref={modalRef} tabActive={tabActive} />
           <SortModal ref={sortModalRef} />
-        </Form>
-        <div className={styles.right}>
-          <ToolBarMobile
-            onClickFilter={() => modalRef.current.openFilterModal()}
-            onClickSort={() => sortModalRef.current.openSortModal()}
-          />
-          <div className={styles.searchTitle}>
-            PHOTOSHOOTS AND EVENTS
-            <div className={styles.note}>
-              <div className={styles.noteItem}>
-                <CheckOutlined /> Only Available for Photoshoots, Filming and TV
-                Production.
-              </div>
-              <div className={styles.noteItem}>
-                <CloseOutlined /> Strictly No Parties are allowed.
-              </div>
-              <div className={styles.noteItem}>
-                <CloseOutlined />
-                No Engagement Parties, No Birthday Parties, No Hens or Bucks
-                Parties.
+          <div className={styles.right}>
+            <ToolBarMobile
+              onClickFilter={() => modalRef.current.openFilterModal()}
+              onClickSort={() => sortModalRef.current.openSortModal()}
+            />
+            <div className={styles.searchTitle}>
+              PHOTOSHOOTS AND EVENTS
+              <div className={styles.note}>
+                <div className={styles.noteItem}>
+                  <CheckOutlined /> Only Available for Photoshoots, Filming and
+                  TV Production.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined /> Strictly No Parties are allowed.
+                </div>
+                <div className={styles.noteItem}>
+                  <CloseOutlined />
+                  No Engagement Parties, No Birthday Parties, No Hens or Bucks
+                  Parties.
+                </div>
               </div>
             </div>
+            {searchType === "filter" ? (
+              <SearchByFilter listLocation={listLocation} mode={mode} />
+            ) : (
+              <MapContainer
+                center={[-37.8839, 175.3745188667]}
+                ref={leafletRef}
+                zoom={13}
+                touchZoom={true}
+                zoomControl={false}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MarkerCluster ref={mapRef} markers={listLocation} />
+              </MapContainer>
+            )}
           </div>
-          {searchType === "filter" ? (
-            <SearchByFilter listLocation={listLocation} mode={mode} />
-          ) : (
-            <MapContainer
-              center={
-                // listLocation.length > 0
-                //   ? [listLocation[0].lat, listLocation[0].lng]
-                //   : [-37.8839, 175.3745188667]
-                [-37.8839, 175.3745188667]
-              }
-              ref={leafletRef}
-              zoom={13}
-              touchZoom={true}
-              zoomControl={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <MarkerCluster ref={mapRef} markers={listLocation} />
-            </MapContainer>
+          {isMobile() && searchType === "map" && (
+            <div className={styles.mapResultMobile}>
+              {listLocation.map((location, index) => {
+                return (
+                  <MapCard
+                    key={index}
+                    location={location}
+                    onClick={navigateTo}
+                  />
+                );
+              })}
+            </div>
           )}
         </div>
-        {isMobile() && searchType === "map" && (
-          <div className={styles.mapResultMobile}>
-            {listLocation.map((location, index) => {
-              return (
-                <MapCard key={index} location={location} onClick={navigateTo} />
-              );
-            })}
-          </div>
-        )}
-      </div>
+      </Form>
     </Spin>
   );
 };

@@ -14,10 +14,9 @@ const ServiceSelection = ({ selectedService, onChange }) => {
         onClick={() => onChange(SERVICE_LIST.CLEANING)}
       >
         <div className={styles.serviceName}>Cleaning</div>
-        Extra Cleaning when you need it.
       </div>
 
-      <Divider />
+      <Divider type="vertical" />
       <div
         className={`${styles.service} ${
           selectedService === SERVICE_LIST.COOKING && styles.active
@@ -25,10 +24,9 @@ const ServiceSelection = ({ selectedService, onChange }) => {
         onClick={() => onChange(SERVICE_LIST.COOKING)}
       >
         <div className={styles.serviceName}>Cooking</div>
-        Catering & Personal Chefs.
       </div>
 
-      <Divider />
+      <Divider type="vertical" />
       <div
         className={`${styles.service} ${
           selectedService === SERVICE_LIST.PICKUP && styles.active
@@ -36,7 +34,6 @@ const ServiceSelection = ({ selectedService, onChange }) => {
         onClick={() => onChange(SERVICE_LIST.PICKUP)}
       >
         <div className={styles.serviceName}>Airport pickups</div>
-        Airport pickups, car, boat and plane hire.
       </div>
     </div>
   );

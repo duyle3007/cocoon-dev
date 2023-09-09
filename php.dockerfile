@@ -1,10 +1,10 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-fpm
 
 RUN touch /var/log/error_log
 
 ADD ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-RUN addgroup -g 1000 wp && adduser -G wp -g wp -s /bin/sh -D wp
+RUN addgroup --gid 1000 wp && adduser --gid 1000 --shell=/bin/sh --disabled-password wp
 
 RUN mkdir -p /var/www/html
 
@@ -12,7 +12,17 @@ RUN chown wp:wp /var/www/html
 
 WORKDIR /var/www/html
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+RUN apt-get update \
+  && apt-get install --assume-yes --no-install-recommends --quiet \
+    build-essential \
+    libmagickwand-dev \
+    libzip-dev \
+    zip \
+  && apt-get clean all
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql gd exif zip intl \
+  && pecl install imagick \
+  && docker-php-ext-enable pdo_mysql intl
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 

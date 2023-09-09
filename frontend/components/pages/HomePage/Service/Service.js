@@ -4,9 +4,24 @@ import ServiceSelection from "./ServiceSelection";
 import { isMobile } from "@/utils/utils";
 
 export const SERVICE_LIST = {
-  CLEANING: { image: "/homepage/cleaningService.png", name: "cleaning" },
-  COOKING: { image: "/homepage/cookingService.png", name: "cooking" },
-  PICKUP: { image: "/homepage/pickupService.png", name: "pickup" },
+  CLEANING: {
+    image: "/homepage/cleaningService.png",
+    name: "cleaning",
+    title: "Cleaning",
+    description: "Extra Cleaning when you need it.",
+  },
+  COOKING: {
+    image: "/homepage/cookingService.png",
+    name: "cooking",
+    title: "Cooking",
+    description: "Catering & Personal Chefs.",
+  },
+  PICKUP: {
+    image: "/homepage/pickupService.png",
+    name: "pickup",
+    title: "Pickup",
+    description: "Airport pickups, car, boat and plane hire.",
+  },
 };
 const Service = () => {
   const [selectedService, setSelectedService] = useState(SERVICE_LIST.CLEANING);
@@ -27,7 +42,15 @@ const Service = () => {
           </div>
         </div>
       )}
-      <img src={selectedService?.image} />
+      <div className={styles.imgSelection}>
+        <img src={selectedService?.image} />
+        <div className={styles.serviceDetail}>
+          <div className={styles.name}>{selectedService.title}</div>
+          <div className={styles.description}>
+            {selectedService.description}
+          </div>
+        </div>
+      </div>
 
       <div className={styles.serviceSelection}>
         {!isMobile() && (

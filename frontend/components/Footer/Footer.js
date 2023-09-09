@@ -2,6 +2,7 @@ import { Button } from "antd";
 import styles from "./Footer.module.scss";
 import Link from "next/link";
 import Image from "../Image/Image";
+import moment from "moment";
 
 const Footer = () => {
   return (
@@ -27,8 +28,8 @@ const Footer = () => {
             <h4>COCOON</h4>
             <Link href="/about-us">About us</Link>
             <Link href="/photoshoots">Photoshoots / Events</Link>
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Term & Conditions</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-conditions">Term & Conditions</Link>
           </div>
 
           <div className={styles.contact}>
@@ -66,14 +67,16 @@ const Footer = () => {
       <div className={styles.copyrightContainer}>
         <div className={styles.copyright}>
           <div className={styles.left}>
-            Copyright 2022 Cocoon Luxury Properties All Rights Reserved.
+            Copyright {moment().format("YYYY")} Cocoon Luxury Properties All
+            Rights Reserved.
           </div>
 
           <div className={styles.right}>
             <h5>Follow us on</h5>
             <div className={styles.socialMedia}>
               <Image
-                src="/homepage/facebookLogo.svg"
+                className={styles.icon}
+                src="/homepage/facebookLogo.png"
                 onClick={() =>
                   window.open(
                     "https://www.facebook.com/cocoonluxuryproperties/"
@@ -81,7 +84,17 @@ const Footer = () => {
                 }
               />
               <Image
-                src="/homepage/youtubeLogo.svg"
+                className={styles.icon}
+                src="/homepage/instagram.png"
+                onClick={() =>
+                  window.open(
+                    "https://www.instagram.com/cocoonluxuryproperties"
+                  )
+                }
+              />
+              <Image
+                className={styles.icon}
+                src="/homepage/youtubeLogo.png"
                 onClick={() =>
                   window.open(
                     "https://www.youtube.com/channel/UCxprkxhJ9FodghRyyXUfPdw"
@@ -89,18 +102,11 @@ const Footer = () => {
                 }
               />
               <Image
-                src="/homepage/linkedInLogo.svg"
+                className={styles.icon}
+                src="/homepage/linkedInLogo.png"
                 onClick={() =>
                   window.open(
                     "https://au.linkedin.com/company/cocoon-luxury-properties"
-                  )
-                }
-              />
-              <Image
-                src="/homepage/twitterLogo.svg"
-                onClick={() =>
-                  window.open(
-                    "https://www.instagram.com/cocoonluxuryproperties/"
                   )
                 }
               />

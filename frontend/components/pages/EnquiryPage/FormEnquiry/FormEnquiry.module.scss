@@ -1,6 +1,6 @@
 .formEnquiry {
   .rowItem {
-    @apply grid grid-cols-2 gap-6 items-end;
+    @apply grid grid-cols-2 gap-6;
   }
   .numPeople {
     @apply p-0 gap-2;
@@ -16,9 +16,12 @@
   :global(.ant-picker),
   :global(.ant-select-selector),
   .formInput {
-    @apply p-4 w-full flex items-center;
+    @apply w-full flex items-center;
     height: 50px !important;
     font-family: "Whitney Book";
+    :global(.ant-input-number-in-form-item) {
+      @apply py-[5px];
+    }
   }
   :global(.ant-form-item-label) {
     font-family: Whitney;
@@ -34,6 +37,13 @@
   }
   :global(.ant-checkbox-wrapper) {
     @apply flex items-end w-fit;
+  }
+}
+
+.phoneSelect {
+  :global(.ant-select-selector) {
+    padding-inline: 10px !important;
+    width: fit-content !important;
   }
 }
 

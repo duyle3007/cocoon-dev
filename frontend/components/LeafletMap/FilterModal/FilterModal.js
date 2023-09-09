@@ -29,24 +29,23 @@ const FilterModal = forwardRef(({ tabActive }, ref) => {
       open={isOpen}
       onOk={() => formRef.submit()}
       onCancel={() => {
+        // Remove query "destination" from url
+        const { route } = router;
+        router.replace(route, undefined, { shallow: true });
+
         formRef.setFieldsValue({
           destination: null,
           searchValue: null,
           selectedLocation: [],
           villaType: null,
           rangeDate: [null, null],
-          rangePrice: [800, 2000],
-          maxGuest: 0,
+          rangePrice: [800, 5000],
+          maxGuest: null,
           selectedBedroom: "Any",
           selectedBed: "Any",
           selectedBadroom: "Any",
           feature: [],
         });
-
-        // Remove query "destination" from url
-        const { pathname, query } = router;
-        delete router.query.destination;
-        router.replace({ pathname, query }, undefined, { shallow: true });
       }}
       getContainer={false}
       closable={false}

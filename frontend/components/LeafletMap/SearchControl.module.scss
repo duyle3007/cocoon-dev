@@ -1,8 +1,9 @@
 .searchControl {
-  @apply h-full max-w-[390px];
+  @apply max-w-[390px];
+  max-height: calc(100vh - 85px);
   transition: 0.3s all;
   .topSearch {
-    @apply flex pt-6 pl-10 pr-6;
+    @apply flex pt-6 pl-10 pr-6 justify-end;
     border-bottom: 1px solid #e0e0e0;
     .tabBar {
       @apply flex gap-8 items-start;
@@ -15,6 +16,9 @@
         opacity: 1;
         border-bottom: 2px solid #404040;
       }
+      svg {
+        margin-bottom: 1.5rem;
+      }
     }
     svg {
       @apply text-lg opacity-50 cursor-pointer;
@@ -22,7 +26,7 @@
   }
   .searchWrapper {
     @apply overflow-auto;
-    height: calc(100% - 71px);
+    height: calc(100vh - 156px);
     .inputWrapper {
       @apply px-10 pt-8 pb-10 gap-4 flex flex-col;
       border-bottom: 1px solid rgba(64, 64, 64, 0.2);
@@ -120,7 +124,7 @@
     letter-spacing: 0.05em;
   }
   .searchResultList {
-    @apply flex flex-col gap-2 pb-10 px-10 overflow-auto;
+    @apply flex flex-col gap-2 pb-10 px-10;
     height: inherit;
     transition: 0.3 all;
   }
