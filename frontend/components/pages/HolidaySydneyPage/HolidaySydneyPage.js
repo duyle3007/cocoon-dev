@@ -21,6 +21,10 @@ import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+const {motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
+
 import styles from "./HolidaySydneyPage.module.scss";
 
 // Fix for the missing icon issue
@@ -89,11 +93,11 @@ const HolidaySydneyPage = () => {
       params,
     });
     const searchMotoPress = axios.get(
-      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      `${motopressAPIUrl}/accommodation_types`,
       {
         auth: {
-          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          username: motopressUsername,
+          password: motopressPassword,
         },
       }
     );

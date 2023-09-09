@@ -4,12 +4,16 @@ import axios from "axios";
 import { Spin, notification } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+const {wordpressAPIUrl, motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
 
 import Footer from "../Footer/Footer";
 
 import styles from "./Layout.module.scss";
 
 export const PropertyListContext = createContext();
+
 
 const Layout = ({ children }) => {
   const router = useRouter();
@@ -23,16 +27,16 @@ const Layout = ({ children }) => {
     const fetchData = async () => {
       setLoading(true);
       const searchMotoPress = axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+        `${motopressAPIUrl}/accommodation_types`,
         {
           auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+            username: motopressUsername,
+            password: motopressPassword,
           },
         }
       );
       const searchWp = axios.get(
-        "https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type"
+        `${wordpressAPIUrl}/mphb_room_type`
       );
 
       const getAllLocation = axios.get("/api/locations");
@@ -125,7 +129,7 @@ const Layout = ({ children }) => {
     const getMediaList = async () => {
       try {
         const { data: res } = await axios.get(
-          "https://cocoonluxury.in/wp-json/wp/v2/media?per_page=100"
+          `${wordpressAPIUrl}/media?per_page=100`
         );
         setMediaList(res);
       } catch (err) {

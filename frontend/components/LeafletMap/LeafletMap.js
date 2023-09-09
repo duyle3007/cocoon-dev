@@ -19,6 +19,10 @@ import { isMobile, debounce } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 import FilterModal from "./FilterModal/FilterModal";
 
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+const {motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
+
 import styles from "./LeafletMap.module.scss";
 
 // Fix for the missing icon issue
@@ -91,11 +95,11 @@ const LeafletMap = ({ mode }) => {
       params,
     });
     const searchMotoPress = axios.get(
-      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      `${motopressAPIUrl}/accommodation_types`,
       {
         auth: {
-          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          username: motopressUsername,
+          password: motopressPassword,
         },
       }
     );
