@@ -20,6 +20,10 @@ import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+const {wordpressAPIUrl, motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
+
 import styles from "./HolidayPage.module.scss";
 
 // Fix for the missing icon issue
@@ -77,15 +81,15 @@ const HolidayPage = () => {
     setLoading(true);
     try {
       const { data: resWp } = await axios.get(
-        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type`,
+        `${wordpressAPIUrl}/mphb_room_type`,
         { params }
       );
       const { data: resMoto } = await axios.get(
-        "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+        `${motopressAPIUrl}/accommodation_types`,
         {
           auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+            username: motopressUsername,
+            password: motopressPassword,
           },
         }
       );

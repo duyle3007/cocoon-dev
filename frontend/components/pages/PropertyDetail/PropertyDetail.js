@@ -5,6 +5,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+const {wordpressAPIUrl, motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
+
 import PropertyImage from "./PropertyImage/PropertyImage";
 import PropertyIntro from "./PropertyIntro/PropertyIntro";
 import MainTab from "./MainTab/MainTab";
@@ -28,17 +32,17 @@ const PropertyDetail = () => {
     const fetchAccomodationDetail = async () => {
       setLoading(true);
       const getAccommodationTypes = axios.get(
-        `https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types?slug=${propertySlug}`,
+        `${motopressAPIUrl}/accommodation_types?slug=${propertySlug}`,
         {
           auth: {
-            username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-            password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+            username: motopressUsername,
+            password: motopressPassword,
           },
         }
       );
 
       const getRoomTypes = axios.get(
-        `https://cocoonluxury.in/wp-json/wp/v2/mphb_room_type?slug=${propertySlug}`
+        `${wordpressAPIUrl}/mphb_room_type?slug=${propertySlug}`
       );
 
       Promise.all([getAccommodationTypes, getRoomTypes])

@@ -96,11 +96,11 @@ const HolidaySydneyPage = () => {
       params,
     });
     const searchMotoPress = axios.get(
-      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      `${motopressAPIUrl}/accommodation_types`,
       {
         auth: {
-          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          username: motopressUsername,
+          password: motopressPassword,
         },
       }
     );
