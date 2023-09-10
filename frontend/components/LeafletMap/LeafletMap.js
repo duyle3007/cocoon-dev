@@ -19,6 +19,11 @@ import { isMobile, debounce } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 import FilterModal from "./FilterModal/FilterModal";
 
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const { motopressAPIUrl, motopressUsername, motopressPassword } =
+  publicRuntimeConfig;
+
 import styles from "./LeafletMap.module.scss";
 
 // Fix for the missing icon issue
@@ -60,6 +65,7 @@ const LeafletMap = ({ mode }) => {
       location1,
       location2,
       sort,
+      tags,
     } = fieldValues;
     const params = {
       searchStr: searchValue?.length ? searchValue : null,
@@ -85,6 +91,7 @@ const LeafletMap = ({ mode }) => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
+      tags: tags.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
@@ -190,6 +197,7 @@ const LeafletMap = ({ mode }) => {
           selectedBadroom: "Any",
           feature: [],
           sort: SORT_VALUES[0].value,
+          tags: [],
         }}
         onFinish={onFinishForm}
         onValuesChange={(_, allField) => debounceFetchData(allField)}
