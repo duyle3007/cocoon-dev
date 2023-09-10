@@ -1,5 +1,4 @@
 import { Checkbox, Form, Input, Select, Slider, TreeSelect } from "antd";
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useContext, useMemo } from "react";
 import { useRouter } from "next/router";
 
@@ -7,6 +6,7 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
 import { isMobile } from "@/utils/utils";
 import { PropertyListContext } from "@/components/Layout/Layout";
+import { TAG_LIST } from "../SearchControl";
 
 import styles from "./SearchForm.module.scss";
 
@@ -20,12 +20,12 @@ const SearchForm = ({ tabActive }) => {
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
   const maxGuest = Form.useWatch("maxGuest", formRef);
-  const selectedLocation = Form.useWatch("selectedLocation", formRef);
   const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
   const selectedBed = Form.useWatch("selectedBed", formRef);
   const country = Form.useWatch("country", formRef);
   const location1 = Form.useWatch("location1", formRef);
   const location2 = Form.useWatch("location2", formRef);
+  const selectedTag = Form.useWatch("tags", formRef);
 
   const isShowDestination = useMemo(() => {
     if (router.asPath === "/holiday-sydney") {
@@ -34,6 +34,16 @@ const SearchForm = ({ tabActive }) => {
 
     return true;
   }, [router]);
+
+  const onSelectTag = (tag) => {
+    if (selectedTag.findIndex((tags) => tags === tag) === -1) {
+      formRef.setFieldsValue({ tags: [...selectedTag, tag] });
+    } else {
+      formRef.setFieldsValue({
+        tags: selectedTag.filter((tags) => tags !== tag),
+      });
+    }
+  };
 
   return (
     <div className={styles.searchWrapper}>
@@ -155,22 +165,22 @@ const SearchForm = ({ tabActive }) => {
         </Form.Item>
       </div>
 
-      {/* <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-        <Form.Item name="selectedLocation">
-          {LOCATION_LIST.map((location) => (
+      <Form.Item name="tags">
+        <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+          {TAG_LIST.map((tag) => (
             <div
-              key={location.value}
+              key={tag.value}
               className={`${styles.locationSelector} ${
-                selectedLocation?.some((item) => item === location.value) &&
+                selectedTag?.some((item) => item === tag.value) &&
                 styles.selectedLocation
               }`}
-              onClick={() => updateLocationFilter(location.value)}
+              onClick={() => onSelectTag(tag.value)}
             >
-              {location.label}
+              {tag.label}
             </div>
           ))}
-        </Form.Item>
-      </div> */}
+        </div>
+      </Form.Item>
     </div>
   );
 };
