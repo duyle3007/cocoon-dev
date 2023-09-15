@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Form, Input, Select, Slider } from "antd";
+import { Checkbox, Divider, Form, Input, Select, Slider, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
@@ -14,12 +14,11 @@ import styles from "./SearchControl.module.scss";
 const { Option } = Select;
 
 export const TAG_LIST = [
-  { label: "All location", value: "all" },
-  { label: "Beach holidays", value: "beach-holidays" },
   { label: "Beachfront", value: "beachfront" },
   { label: "Waterfront", value: "waterfront" },
-  { label: "Views", value: "views" },
-  { label: "Unique Places", value: "unique-places" },
+  { label: "Mansions", value: "mansions" },
+  { label: "Retreats", value: "retreats" },
+  { label: "Short Stays", value: "short-stays", tooltip: "Less than 7 nights" },
 ];
 
 const SearchControl = ({
@@ -248,16 +247,17 @@ const SearchControl = ({
             <Form.Item name="tags">
               <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
                 {TAG_LIST.map((tag) => (
-                  <div
-                    key={tag.value}
-                    className={`${styles.locationSelector} ${
-                      selectedTag?.some((item) => item === tag.value) &&
-                      styles.selectedLocation
-                    }`}
-                    onClick={() => onSelectTag(tag.value)}
-                  >
-                    {tag.label}
-                  </div>
+                  <Tooltip title={tag.tooltip} key={tag.value}>
+                    <div
+                      className={`${styles.locationSelector} ${
+                        selectedTag?.some((item) => item === tag.value) &&
+                        styles.selectedLocation
+                      }`}
+                      onClick={() => onSelectTag(tag.value)}
+                    >
+                      {tag.label}
+                    </div>
+                  </Tooltip>
                 ))}
               </div>
             </Form.Item>
