@@ -45,18 +45,25 @@
 
 @media (max-width: 768px) {
   .cocoonInstagram {
-    @apply px-8 max-w-full mt-16 mb-[80px];
+    @apply max-w-full mt-16 mb-[80px];
     .title {
+      @apply px-8;
       display: inline-block;
       word-wrap: break-word;
       font-size: 32px;
       line-height: 40px;
     }
+    .sub {
+      @apply px-8;
+    }
     .followInsta {
-      @apply mt-8 gap-1;
+      @apply px-8 mt-8 gap-1;
     }
     .listImage {
-      @apply flex flex-col h-auto;
+      @apply px-8 flex h-auto overflow-auto;
+      .instaCard {
+        @apply h-[192px] w-[192px];
+      }
     }
   }
 }
