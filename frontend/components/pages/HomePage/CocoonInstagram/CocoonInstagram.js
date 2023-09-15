@@ -1,38 +1,18 @@
-const INSTAGRAM_URL = "https://www.instagram.com/cocoonluxuryproperties/";
+import { useContext} from "react";
 import { InstagramOutlined } from "@ant-design/icons";
-
+import { PropertyListContext } from "@/components/Layout/Layout";
 import Image from "@/components/Image/Image";
 import { isMobile } from "@/utils/utils";
 
 import styles from "./CocoonInstagram.module.scss";
 
-const INSTA_LIST = [
-  {
-    imgUrl:
-      "https://i.ibb.co/fqgf4g2/z4322407638875-d306f5a9940fde805a2f0e07af74a0bb.jpg",
-    link: "https://www.instagram.com/p/Crnwng-LmIG/",
-  },
-  {
-    imgUrl:
-      "https://i.ibb.co/LPG13L5/z4322413498100-6cb879a08461ce641191040ff82e368c.jpg",
-    link: "https://www.instagram.com/p/Crj-5DCuyNR/",
-  },
-  {
-    imgUrl:
-      "https://i.ibb.co/5TdskyS/z4322414338274-dc0078818e7b0503b98acb92980d096f.jpg",
-    link: "https://www.instagram.com/p/CqZvkTugnNM/",
-  },
-  {
-    imgUrl:
-      "https://i.ibb.co/whKQnz4/z4322415139054-db383e0784c0c7ba7f6d61a5d164511e.jpg",
-    link: "https://www.instagram.com/p/CmSb0u9BuQW/",
-  },
-];
+const INSTAGRAM_URL = "https://www.instagram.com/cocoonluxuryproperties/";
+
 const InstaCard = ({ property }) => {
   return (
-    <a href={property.link}>
+    <a target="_blank" href={property.link}>
       <div className={styles.instaCard}>
-        <img src={property.imgUrl} />
+        <img src={`/api/imageProxy?imageUrl=${property.thumbnail_src}`}/>
         <div className={styles.instaIcon}>
           <InstagramOutlined />
         </div>
@@ -41,13 +21,14 @@ const InstaCard = ({ property }) => {
   );
 };
 const CocoonInstagram = () => {
+  const { instaPosts } = useContext(PropertyListContext);
   return (
     <div className={styles.cocoonInstagram}>
       <div className={styles.title}>@COCOONLUXURYPROPERTIES</div>
       <div className={styles.sub}>
         <span>Specializes in short term luxury vacation rental homes</span>
         {!isMobile() && (
-          <a href={INSTAGRAM_URL}>
+          <a target="_blank" href={INSTAGRAM_URL}>
             <div className={styles.followInsta}>
               FOLLOW INSTAGRAM
               <Image src="/rightArrow.png" />
@@ -56,12 +37,12 @@ const CocoonInstagram = () => {
         )}
       </div>
       <div className={styles.listImage}>
-        {INSTA_LIST.map((property, index) => (
-          <InstaCard key={index} property={property} />
+        {instaPosts.slice(0, 4).map((property, index) => (
+          <InstaCard key={property.id} property={property} />
         ))}
       </div>
       {isMobile() && (
-        <a href={INSTAGRAM_URL}>
+        <a target="_blank" href={INSTAGRAM_URL}>
           <div className={styles.followInsta}>
             FOLLOW INSTAGRAM
             <Image src="/rightArrow.png" />
