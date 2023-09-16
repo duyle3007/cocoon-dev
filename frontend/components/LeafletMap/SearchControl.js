@@ -183,7 +183,7 @@ const SearchControl = ({
                 </div>
               )}
             </div>
-            <div className={styles.inputWrapper} style={{ gap: "24px" }}>
+            <div className={styles.inputWrapper}>
               {tabActive === "holiday" && (
                 <div>
                   <div className={styles.inputTitle}>Bedrooms</div>
