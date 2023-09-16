@@ -2,7 +2,11 @@ import fetch from 'isomorphic-unfetch'
 import stream, { Stream } from 'stream'
 import UserAgent from 'user-agents'
 
-const WHITELISTED_PATTERNS = [/^https?:\/\/(.*).fbcdn.net/]
+const WHITELISTED_PATTERNS = [
+  /^https?:\/\/(.*).fbcdn.net/,
+  /^https?:\/\/(.*).instagram.com/,
+  /^https?:\/\/(.*).cdninstagram.com/
+]
 
 export default async function handler(req, res) {
   const url = new URL(req.query.imageUrl);
@@ -14,14 +18,14 @@ export default async function handler(req, res) {
   const imageUrl = url.href;
 
   if (!imageUrl || (imageUrl && Array.isArray(imageUrl))) {
-    res.status(400).send({ message: options.messages.wrongFormat })
+    res.status(400).send({ message: "Wrong image format!" })
     return
   }
 
   const isAllowed = isUrlWhitelisted(imageUrl, WHITELISTED_PATTERNS)
 
   if (!isAllowed) {
-    res.status(422).send({ message: options.messages.notWhitelisted })
+    res.status(422).send({ message: "Domain not allowed!" })
     return
   }
 
