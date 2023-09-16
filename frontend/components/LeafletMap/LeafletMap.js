@@ -247,7 +247,7 @@ const LeafletMap = ({ mode }) => {
                   ? "HOLIDAYS PROPERTIES"
                   : mode === "photoshoot"
                   ? "PHOTOSHOOTS AND EVENTS"
-                  : "HOLIDAYS VILLAS IN SYNDNEY"}
+                  : "HOLIDAYS VILLAS IN SYDNEY"}
                 {mode === "photoshoot" && (
                   <div className={styles.note}>
                     <div className={styles.noteItem}>

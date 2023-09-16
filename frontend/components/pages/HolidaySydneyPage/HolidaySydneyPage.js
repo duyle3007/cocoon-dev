@@ -210,7 +210,7 @@ const HolidaySydneyPage = () => {
             onClickFilter={() => modalRef.current.openFilterModal()}
             onClickSort={() => sortModalRef.current.openSortModal()}
           />
-          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYNDNEY</div>
+          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYDNEY</div>
           {searchType === "filter" ? (
             <SearchByFilter listLocation={listLocation} mode={mode} />
           ) : (
