@@ -89,7 +89,7 @@ const HolidaySydneyPage = () => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
-      tags: tags.toString(),
+      tags: tags?.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
