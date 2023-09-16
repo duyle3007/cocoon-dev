@@ -1,11 +1,6 @@
-import { Checkbox, Divider, Form, Input, Select, Slider } from "antd";
+import { Checkbox, Divider, Form, Input, Select, Slider, Tooltip } from "antd";
 import { useEffect, useState } from "react";
-import {
-  LeftOutlined,
-  RightOutlined,
-  MinusOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
@@ -18,13 +13,12 @@ import styles from "./SearchControl.module.scss";
 
 const { Option } = Select;
 
-export const LOCATION_LIST = [
-  { label: "All location", value: "all" },
-  { label: "Beach holidays", value: "beach" },
+export const TAG_LIST = [
   { label: "Beachfront", value: "beachfront" },
   { label: "Waterfront", value: "waterfront" },
-  { label: "Views", value: "view" },
-  { label: "Unique Places", value: "unique" },
+  { label: "Mansions", value: "mansions" },
+  { label: "Retreats", value: "retreats" },
+  { label: "Short Stays", value: "short-stays", tooltip: "Less than 7 nights" },
 ];
 
 const SearchControl = ({
@@ -46,7 +40,7 @@ const SearchControl = ({
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
   const maxGuest = Form.useWatch("maxGuest", formRef);
-  const selectedLocation = Form.useWatch("selectedLocation", formRef);
+  const selectedTag = Form.useWatch("tags", formRef);
   const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
   const selectedBed = Form.useWatch("selectedBed", formRef);
 
@@ -86,6 +80,17 @@ const SearchControl = ({
     setTimeout(() => {
       handleReinitClick();
     }, 200);
+  };
+
+  const onSelectTag = (tag) => {
+    if (selectedTag.findIndex((tags) => tags === tag) === -1) {
+      formRef.setFieldsValue({ tags: [...selectedTag, tag] });
+    } else {
+      formRef.setFieldsValue({
+        tags: selectedTag.filter((tags) => tags !== tag),
+      });
+    }
+    formRef.submit();
   };
 
   return (
@@ -239,23 +244,23 @@ const SearchControl = ({
               </Form.Item>
             </div>
 
-            {/* <Form.Item name="selectedLocation">
-              <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
-                {LOCATION_LIST.map((location) => (
-                  <div
-                    key={location.value}
-                    className={`${styles.locationSelector} ${
-                      selectedLocation?.some(
-                        (item) => item === location.value
-                      ) && styles.selectedLocation
-                    }`}
-                    onClick={() => updateLocationFilter(location.value)}
-                  >
-                    {location.label}
-                  </div>
+            <Form.Item name="tags">
+              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+                {TAG_LIST.map((tag) => (
+                  <Tooltip title={tag.tooltip} key={tag.value}>
+                    <div
+                      className={`${styles.locationSelector} ${
+                        selectedTag?.some((item) => item === tag.value) &&
+                        styles.selectedLocation
+                      }`}
+                      onClick={() => onSelectTag(tag.value)}
+                    >
+                      {tag.label}
+                    </div>
+                  </Tooltip>
                 ))}
               </div>
-            </Form.Item> */}
+            </Form.Item>
           </div>
         ) : (
           <div className={styles.searchWrapper}>

@@ -21,9 +21,10 @@ import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 
-import getConfig from 'next/config'
-const { publicRuntimeConfig } = getConfig()
-const {motopressAPIUrl, motopressUsername, motopressPassword} = publicRuntimeConfig;
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const { motopressAPIUrl, motopressUsername, motopressPassword } =
+  publicRuntimeConfig;
 
 import styles from "./PhotoshootPage.module.scss";
 
@@ -64,6 +65,7 @@ const PhotoshootPage = () => {
       maxGuest,
       feature,
       sort,
+      tags,
     } = fieldValues;
     const params = {
       searchStr: searchValue?.length ? searchValue : null,
@@ -86,6 +88,7 @@ const PhotoshootPage = () => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
+      tags: tags.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
