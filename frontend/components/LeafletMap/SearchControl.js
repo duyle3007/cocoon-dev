@@ -155,7 +155,7 @@ const SearchControl = ({
               {tabActive === "holiday" && (
                 <div>
                   <div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <div className={styles.priceTitle}>
                         PRICE PER NIGHT (AUD)
                       </div>
@@ -231,16 +231,16 @@ const SearchControl = ({
               <Form.Item name="feature">
                 <Checkbox.Group className={styles.featureSelector}>
                   <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
-                  <Checkbox value="Pool">Pool</Checkbox>
+                  <Checkbox value="Swimming Pool">Swimming Pool</Checkbox>
                   <Checkbox value="Gym">Gym</Checkbox>
-                  <Checkbox value="Hot Tub">Hot Tub</Checkbox>
+                  <Checkbox value="Jacuzzi">Jacuzzi</Checkbox>
                   <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
                 </Checkbox.Group>
               </Form.Item>
             </div>
 
             {/* <Form.Item name="selectedLocation">
-              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
+              <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
                 {LOCATION_LIST.map((location) => (
                   <div
                     key={location.value}
@@ -276,7 +276,7 @@ const SearchControl = ({
               </Form.Item>
               <div>
                 <div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <div className={styles.priceTitle}>
                       PRICE PER NIGHT (AUD)
                     </div>
