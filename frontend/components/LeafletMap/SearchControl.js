@@ -1,25 +1,19 @@
-import { Checkbox, Divider, Form, Input, Select, Slider, Tooltip } from "antd";
+import { Checkbox, Form, Input, Select, Slider, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
+import { PropertyListContext } from "@/components/Layout/Layout";
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
 import { isMobile } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 
 import styles from "./SearchControl.module.scss";
+import { useContext } from "react";
 
 const { Option } = Select;
-
-export const TAG_LIST = [
-  { label: "Beachfront", value: "beachfront" },
-  { label: "Waterfront", value: "waterfront" },
-  { label: "Mansions", value: "mansions" },
-  { label: "Retreats", value: "retreats" },
-  { label: "Short Stays", value: "short-stays", tooltip: "Less than 7 nights" },
-];
 
 const SearchControl = ({
   onSearch,
@@ -35,6 +29,7 @@ const SearchControl = ({
   const formRef = Form.useFormInstance();
 
   const [isMinimized, setIsMinimized] = useState(false);
+  const { allTags, allFeatures } = useContext(PropertyListContext);
 
   // search value
   const rangeDate = Form.useWatch("rangeDate", formRef);
@@ -234,28 +229,22 @@ const SearchControl = ({
             <div className={styles.inputWrapper}>
               <div className={styles.featuresTitle}>FEATURES</div>
               <Form.Item name="feature">
-                <Checkbox.Group className={styles.featureSelector}>
-                  <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
-                  <Checkbox value="Swimming Pool">Swimming Pool</Checkbox>
-                  <Checkbox value="Gym">Gym</Checkbox>
-                  <Checkbox value="Jacuzzi">Jacuzzi</Checkbox>
-                  <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
-                </Checkbox.Group>
+                <Checkbox.Group className={styles.featureSelector} options={allFeatures} />
               </Form.Item>
             </div>
 
             <Form.Item name="tags">
-              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-                {TAG_LIST.map((tag) => (
-                  <Tooltip title={tag.tooltip} key={tag.value}>
+              <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
+                {allTags.map((tag) => (
+                  <Tooltip title={tag.tooltip} key={tag.slug}>
                     <div
                       className={`${styles.locationSelector} ${
-                        selectedTag?.some((item) => item === tag.value) &&
+                        selectedTag?.some((item) => item === tag.slug) &&
                         styles.selectedLocation
                       }`}
-                      onClick={() => onSelectTag(tag.value)}
+                      onClick={() => onSelectTag(tag.slug)}
                     >
-                      {tag.label}
+                      {tag.name}
                     </div>
                   </Tooltip>
                 ))}

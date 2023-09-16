@@ -22,6 +22,8 @@ const Layout = ({ children }) => {
   const [mediaList, setMediaList] = useState([]);
   const [allLocation, setAllLocation] = useState([]);
   const [instaPosts, setInstaPosts] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+  const [allFeatures, setAllFeatures] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -75,6 +77,12 @@ const Layout = ({ children }) => {
 
         const { data: resInsta } = await axios.get("/api/instagram");
         setInstaPosts(resInsta.data);
+
+        const { data: resTags } = await axios.get("/api/tags");
+        setAllTags(resTags.data);
+
+        const { data: resFeatures } = await axios.get("/api/features");
+        setAllFeatures(resFeatures.data);
       } catch (err) {
         console.log("Fetch list data", err);
         notification.error({
@@ -159,6 +167,8 @@ const Layout = ({ children }) => {
         mediaList: mediaList,
         allLocation: allLocation,
         instaPosts: instaPosts,
+        allTags: allTags,
+        allFeatures: allFeatures,
       }}
     >
       <div className={styles.layout}>
