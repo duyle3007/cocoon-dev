@@ -1,0 +1,14 @@
+.phoneSelect {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 50px !important;
+  font-family: "Whitney Book";
+  :global(.ant-input-number-input) {
+    height: 50px;
+  }
+  :global(.ant-select-selector) {
+    padding-inline: 10px !important;
+    width: fit-content !important;
+  }
+}

@@ -4,8 +4,6 @@ import {
   DatePicker,
   Form,
   Input,
-  InputNumber,
-  Select,
   Spin,
   notification,
 } from "antd";
@@ -15,23 +13,20 @@ import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
 import GuestDropdown from "../../HomePage/SearchBanner/GuestDropdown/GuestDropdown";
-import { getCountryList, isMobile } from "@/utils/utils";
+import { isMobile } from "@/utils/utils";
+import PhoneInput from "@/components/PhoneInput/PhoneInput";
 
 import styles from "./FormEnquiry.module.scss";
-
-const { Option } = Select;
 
 const { TextArea } = Input;
 
 const FormEnquiry = () => {
   const router = useRouter();
   const [form] = Form.useForm();
-  const countryList = getCountryList();
 
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [countryPhone, setCountryPhone] = useState("61");
 
   const [renderClientSideComponent, setRenderClientSideComponent] =
     useState(false);
@@ -90,7 +85,7 @@ const FormEnquiry = () => {
         zip: zip,
         message: message,
         email,
-        phoneNumber: `+${countryPhone} ${phoneNumber}`,
+        phoneNumber: phoneNumber,
       };
 
       await axios.post("/api/createBooking", data);
@@ -98,39 +93,12 @@ const FormEnquiry = () => {
 
       // Reset form
       form.resetFields();
-      setCountryPhone("61");
     } catch (e) {
       console.log("e", e);
       notification.error({ message: e.response.data.error.props });
     } finally {
       setLoading(false);
     }
-  };
-
-  const PhoneCountrySelect = () => {
-    return (
-      <Select
-        value={countryPhone}
-        className={styles.phoneSelect}
-        getPopupContainer={(trigger) => trigger}
-        popupMatchSelectWidth={false}
-        onChange={(value) => setCountryPhone(value)}
-      >
-        {Object.keys(countryList).map(function (key) {
-          const country = countryList[key];
-          return (
-            <Option
-              key={country.name}
-              value={country.phone}
-              className="flex items-center"
-            >
-              {`${country.emoji} +`}
-              <span className="opacity-75">{country.phone}</span>
-            </Option>
-          );
-        })}
-      </Select>
-    );
   };
 
   if (!renderClientSideComponent) {
@@ -227,21 +195,7 @@ const FormEnquiry = () => {
                 />
               </Form.Item>
             )}
-            {/* <Form.Item label="NIGHT BUDGET" name="budget">
-              <Select
-                placeholder="Select"
-                options={[
-                  {
-                    value: "100",
-                    label: "100 AUD",
-                  },
-                  {
-                    value: "200",
-                    label: "200 AUD",
-                  },
-                ]}
-              />
-            </Form.Item> */}
+
             <Form.Item label="Postcode" name="zip">
               <Input
                 placeholder="Input postcode code"
@@ -249,9 +203,6 @@ const FormEnquiry = () => {
               />
             </Form.Item>
           </div>
-          {/* <Form.Item name="isFlexible">
-            <Checkbox>My dates are flexible</Checkbox>
-          </Form.Item> */}
 
           <div className={styles.rowItem}>
             <Form.Item
@@ -298,12 +249,7 @@ const FormEnquiry = () => {
               />
             </Form.Item>
             <Form.Item label="Phone number" name="phoneNumber">
-              <InputNumber
-                addonBefore={<PhoneCountrySelect />}
-                controls={false}
-                placeholder="Input your phone"
-                className={styles.formInput}
-              />
+              <PhoneInput />
             </Form.Item>
           </div>
 

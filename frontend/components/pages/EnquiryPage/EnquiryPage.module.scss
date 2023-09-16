@@ -7,7 +7,6 @@
   }
   h1 {
     margin-top: 16px;
-    margin-bottom: 60px;
     font-family: "Goudy Old Style";
     font-weight: 400;
     font-size: 40px;
@@ -26,7 +25,7 @@
     color: #404040;
   }
   .form {
-    @apply px-[212px] flex flex-col gap-4 py-[112px];
+    @apply px-[212px] flex flex-col gap-4 pb-[112px] pt-8;
   }
   .hotelCard {
     @apply h-[250px] mb-4;
