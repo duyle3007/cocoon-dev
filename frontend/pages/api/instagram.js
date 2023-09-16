@@ -1,14 +1,19 @@
 const {igApi} = require('insta-fetcher')
-const ig = new igApi()
 const cacheData = require('memory-cache')
+
+const getConfig = require('next/config')
+const { serverRuntimeConfig } = getConfig()
 
 const CACHE_TIME = 60 * 60 * 24 * 1000 // 1 day in milliseconds
 const CACHE_KEY = 'instagram'
 
+const ig = new igApi(serverRuntimeConfig.instagramCookie)
+
 export default async function handler(req, res) {
   try {
+    const noCache = req.query.noCache === 'true' || false;
     let data = cacheData.get(CACHE_KEY)
-    if (!data) {
+    if (!data || noCache) {
       const posts = await ig.fetchUserPosts("cocoonluxuryproperties")
       data = posts.edges.map((it) => {
         const item = {
