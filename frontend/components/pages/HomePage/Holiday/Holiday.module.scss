@@ -40,9 +40,9 @@
 
 @media (max-width: 768px) {
   .holidayContainer {
-    @apply px-8 w-full mt-[52px];
+    @apply w-full mt-[52px];
     .header {
-      @apply px-0 mb-7;
+      @apply px-7 mb-7;
       .leftHeader {
         div {
           font-size: 14px;
@@ -58,13 +58,13 @@
       }
     }
     .listHotel {
-      @apply flex h-auto overflow-auto;
+      @apply px-8 flex h-auto overflow-auto;
       .hotel {
         @apply h-[192px] min-w-[80%];
       }
     }
     .checkAll {
-      @apply mt-[44px] gap-2 flex;
+      @apply px-8 mt-[44px] gap-2 flex;
       font-size: 12px;
       line-height: 14px;
     }
