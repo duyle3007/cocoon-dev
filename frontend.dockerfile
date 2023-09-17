@@ -1,5 +1,16 @@
 FROM node:18-alpine AS base
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium-browser
+
+# Install dependencies for puppeteer 
+RUN apk update && apk add --no-cache --virtual \
+    .build-deps \
+    udev \
+    ttf-opensans \
+    chromium \
+    ca-certificates
+
 # Step 1. Rebuild the source code only when needed
 FROM base AS builder
 
@@ -34,6 +45,11 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+RUN mkdir -p /home/nextjs/Downloads \
+    && chown -R nextjs:nodejs /home/nextjs \
+    && chown -R nextjs:nodejs /app
+
 USER nextjs
 
 COPY --from=builder /app/public ./public
