@@ -21,6 +21,7 @@ const CountrySelect = () => {
       getPopupContainer={(trigger) => trigger}
       popupMatchSelectWidth={false}
       className={`${styles.countrySelect}`}
+      showSearch
       onChange={(value) => formRef.setFieldsValue({ country: value })}
     >
       {Object.keys(countryList).map(function (key) {

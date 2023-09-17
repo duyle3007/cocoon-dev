@@ -17,6 +17,7 @@ const PhoneInput = ({ className }) => {
     return (
       <Select
         value={countryPhone}
+        showSearch
         className={styles.phoneSelect}
         getPopupContainer={(trigger) => trigger}
         popupMatchSelectWidth={false}

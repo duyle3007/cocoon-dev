@@ -208,43 +208,43 @@ const FormEnquiry = () => {
                 placeholder="Nightly budget?"
                 options={[
                   {
-                    value: "300",
+                    value: "$300 - $500",
                     label: "$300 - $500",
                   },
                   {
-                    value: "500",
+                    value: "$500 - $750",
                     label: "$500 - $750",
                   },
                   {
-                    value: "750",
+                    value: "$750 - $1000",
                     label: "$750 - $1000",
                   },
                   {
-                    value: "1000",
+                    value: "$1000 - $1250",
                     label: "$1000 - $1250",
                   },
                   {
-                    value: "1250",
+                    value: "$1250 - $1500",
                     label: "$1250 - $1500",
                   },
                   {
-                    value: "1500",
+                    value: "$1500 - $2000",
                     label: "$1500 - $2000",
                   },
                   {
-                    value: "2000",
+                    value: "$2000 - $2500",
                     label: "$2000 - $2500",
                   },
                   {
-                    value: "2500",
+                    value: "$2500 - $5000",
                     label: "$2500 - $5000",
                   },
                   {
-                    value: "5000",
+                    value: "$5000 - $10000",
                     label: "$5000 - $10000",
                   },
                   {
-                    value: "10000",
+                    value: "$10000+",
                     label: "$10000+",
                   },
                 ]}
