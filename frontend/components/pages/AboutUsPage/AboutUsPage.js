@@ -38,8 +38,8 @@ const AboutUsPage = () => {
             <div className={styles.content}>
               Julian Ginailhac, the visionary behind Cocoon Luxury Properties,
               draws from over a decade of immersed experience in the realm of
-              luxury holiday villa rentals. His understanding of both the host's
-              perspective, having rented out homes himself, and the guest's
+              luxury holiday villa rentals. His understanding of both the host`s
+              perspective, having rented out homes himself, and the guest`s
               standpoint, underscores our commitment to delivering an
               unparalleled hospitality experience.
             </div>
