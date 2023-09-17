@@ -1,22 +1,13 @@
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Select,
-  notification,
-} from "antd";
+import { Button, Form, Input, notification } from "antd";
 
 import Image from "@/components/Image/Image";
 
 import styles from "./ContactUs.module.scss";
-import { getCountryList, isMobile } from "@/utils/utils";
 import PhoneInput from "@/components/PhoneInput/PhoneInput";
 import axios from "axios";
+import CountrySelect from "@/components/CountrySelect/CountrySelect";
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 const NeedHelpContent = () => {
   return (
@@ -40,7 +31,6 @@ const NeedHelpContent = () => {
 };
 
 const ContactUs = () => {
-  const countryList = getCountryList();
   const [form] = Form.useForm();
 
   const onSubmit = async (formData) => {
@@ -163,25 +153,7 @@ const ContactUs = () => {
                   { required: true, message: "Please fill your country!" },
                 ]}
               >
-                <Select
-                  defaultValue={"Andorra"}
-                  getPopupContainer={(trigger) => trigger}
-                  popupMatchSelectWidth={false}
-                  className={`${styles.countrySelect}`}
-                >
-                  {Object.keys(countryList).map(function (key) {
-                    const country = countryList[key];
-                    return (
-                      <Option
-                        key={country.name}
-                        value={country.name}
-                        className="flex items-center"
-                      >
-                        <span className="opacity-75">{country.name}</span>
-                      </Option>
-                    );
-                  })}
-                </Select>
+                <CountrySelect />
               </Form.Item>
             </div>
 

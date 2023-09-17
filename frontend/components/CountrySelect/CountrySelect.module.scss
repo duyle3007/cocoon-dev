@@ -1,0 +1,15 @@
+.countrySelect {
+  @apply w-full flex items-center;
+  height: 50px !important;
+  font-family: "Whitney Book";
+  :global(.ant-select-selector) {
+    height: 50px !important;
+  }
+  :global(.ant-select-selection-search-input) {
+    height: 50px;
+  }
+  :global(.ant-select-selection-item) {
+    display: flex;
+    align-items: center;
+  }
+}
