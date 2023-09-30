@@ -134,6 +134,7 @@ const HolidaySydneyPage = () => {
       setLoading(false);
     }
   };
+
   const debounceFetchData = useCallback(debounce(fetchPropertyList), [
     tabActive,
   ]);
@@ -185,6 +186,7 @@ const HolidaySydneyPage = () => {
         selectedBadroom: "Any",
         feature: [],
         sort: SORT_VALUES[0].value,
+        tags: [],
       }}
       onFinish={onFinishForm}
       onValuesChange={(_, allField) => debounceFetchData(allField)}
