@@ -2,27 +2,34 @@
 
 export default async function handler(req, res) {
   try {
+    // TODO: Fetch data from server
     // const response = await fetchAllTags();
     res.status(200).json({
       message: "Successful",
       data: [{
         id: 1,
-        name: "Air Conditioning",
+        label: "Air Conditioning",
+        value: "Air Conditioning",
       }, {
         id: 2,
-        name: "Swimming Pool",
+        label: "Swimming Pool",
+        value: "Swimming Pool",
       }, {
         id: 3,
-        name: "Gym",
+        label: "Gym",
+        value: "Gym",
       }, {
         id: 4,
-        name: "Jacuzzi",
+        label: "Jacuzzi",
+        value: "Jacuzzi",
       }, {
         id: 5,
-        name: "BBQ Grill",
+        label: "BBQ Grill",
+        value: "BBQ Grill",
       }, {
         id: 6,
-        name: "Water Views",
+        label: "Water Views",
+        value: "Water Views",
       }]
     });
   } catch (error) {

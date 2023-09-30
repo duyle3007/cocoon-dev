@@ -90,7 +90,7 @@ const HolidaySydneyPage = () => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
-      tags: tags.toString(),
+      tags: tags?.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
@@ -213,7 +213,7 @@ const HolidaySydneyPage = () => {
             onClickFilter={() => modalRef.current.openFilterModal()}
             onClickSort={() => sortModalRef.current.openSortModal()}
           />
-          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYNDNEY</div>
+          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYDNEY</div>
           {searchType === "filter" ? (
             <SearchByFilter listLocation={listLocation} mode={mode} />
           ) : (

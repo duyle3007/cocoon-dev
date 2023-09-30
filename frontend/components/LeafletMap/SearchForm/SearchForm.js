@@ -6,7 +6,6 @@ import RangeDatePicker from "@/components/RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "../SearchByFilter/SegmenedSelector/SegmenedSelector";
 import { isMobile } from "@/utils/utils";
 import { PropertyListContext } from "@/components/Layout/Layout";
-import { TAG_LIST } from "../SearchControl";
 
 import styles from "./SearchForm.module.scss";
 
@@ -15,7 +14,7 @@ const { Option } = Select;
 const SearchForm = ({ tabActive }) => {
   const formRef = Form.useFormInstance();
   const router = useRouter();
-  const { allLocation } = useContext(PropertyListContext);
+  const { allLocation, allTags, allFeatures } = useContext(PropertyListContext);
 
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
@@ -155,28 +154,22 @@ const SearchForm = ({ tabActive }) => {
       <div className={styles.inputWrapper}>
         <div className={styles.featuresTitle}>FEATURES</div>
         <Form.Item name="feature">
-          <Checkbox.Group className={styles.featureSelector}>
-            <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
-            <Checkbox value="Swimming Pool">Swimming Pool</Checkbox>
-            <Checkbox value="Gym">Gym</Checkbox>
-            <Checkbox value="Jacuzzi">Jacuzzi</Checkbox>
-            <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
-          </Checkbox.Group>
+          <Checkbox.Group className={styles.featureSelector} options={allFeatures} />
         </Form.Item>
       </div>
 
       <Form.Item name="tags">
-        <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-          {TAG_LIST.map((tag) => (
+        <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
+          {allTags.map((tag) => (
             <div
-              key={tag.value}
+              key={tag.slug}
               className={`${styles.locationSelector} ${
-                selectedTag?.some((item) => item === tag.value) &&
+                selectedTag?.some((item) => item === tag.slug) &&
                 styles.selectedLocation
               }`}
-              onClick={() => onSelectTag(tag.value)}
+              onClick={() => onSelectTag(tag.slug)}
             >
-              {tag.label}
+              {tag.name}
             </div>
           ))}
         </div>
