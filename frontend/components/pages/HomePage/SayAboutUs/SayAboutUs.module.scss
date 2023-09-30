@@ -20,7 +20,7 @@
       cursor: pointer;
     }
     .carouselContent {
-      @apply w-[60vw] flex items-center justify-between;
+      @apply w-[800px] flex items-center justify-between;
       :global(.slick-list) {
       }
     }

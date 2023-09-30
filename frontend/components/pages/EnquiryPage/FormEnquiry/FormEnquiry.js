@@ -4,7 +4,6 @@ import {
   DatePicker,
   Form,
   Input,
-  InputNumber,
   Select,
   Spin,
   notification,
@@ -15,23 +14,21 @@ import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
 import GuestDropdown from "../../HomePage/SearchBanner/GuestDropdown/GuestDropdown";
-import { getCountryList, isMobile } from "@/utils/utils";
+import { isMobile } from "@/utils/utils";
+import PhoneInput from "@/components/PhoneInput/PhoneInput";
 
 import styles from "./FormEnquiry.module.scss";
-
-const { Option } = Select;
+import CountrySelect from "@/components/CountrySelect/CountrySelect";
 
 const { TextArea } = Input;
 
 const FormEnquiry = () => {
   const router = useRouter();
   const [form] = Form.useForm();
-  const countryList = getCountryList();
 
   const [momentStartDate, setMomentStartDate] = useState(null);
   const [momentEndDate, setMomentEndDate] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [countryPhone, setCountryPhone] = useState("61");
 
   const [renderClientSideComponent, setRenderClientSideComponent] =
     useState(false);
@@ -71,10 +68,12 @@ const FormEnquiry = () => {
       lastName,
       numPeople,
       address,
-      zip,
+      budget,
       message,
       email,
       phoneNumber,
+      country,
+      exclusive,
     } = formData;
     setLoading(true);
     try {
@@ -84,13 +83,15 @@ const FormEnquiry = () => {
         checkOutDate: dayjs(checkOut).format("YYYY-MM-DD"),
         numberOfAdult: Number(numPeople.split(",")[0].split(" ")[0]),
         numberOfChild: Number(numPeople.split(",")[1].split(" ")[1]),
-        firstNam: firstName,
-        lastName: lastName,
-        address: address,
-        zip: zip,
-        message: message,
+        firstName,
+        lastName,
+        address,
+        budget,
+        message,
         email,
-        phoneNumber: `+${countryPhone} ${phoneNumber}`,
+        phoneNumber,
+        country,
+        exclusive,
       };
 
       await axios.post("/api/createBooking", data);
@@ -98,39 +99,12 @@ const FormEnquiry = () => {
 
       // Reset form
       form.resetFields();
-      setCountryPhone("61");
     } catch (e) {
       console.log("e", e);
       notification.error({ message: e.response.data.error.props });
     } finally {
       setLoading(false);
     }
-  };
-
-  const PhoneCountrySelect = () => {
-    return (
-      <Select
-        value={countryPhone}
-        className={styles.phoneSelect}
-        getPopupContainer={(trigger) => trigger}
-        popupMatchSelectWidth={false}
-        onChange={(value) => setCountryPhone(value)}
-      >
-        {Object.keys(countryList).map(function (key) {
-          const country = countryList[key];
-          return (
-            <Option
-              key={country.name}
-              value={country.phone}
-              className="flex items-center"
-            >
-              {`${country.emoji} +`}
-              <span className="opacity-75">{country.phone}</span>
-            </Option>
-          );
-        })}
-      </Select>
-    );
   };
 
   if (!renderClientSideComponent) {
@@ -147,6 +121,7 @@ const FormEnquiry = () => {
           onFinishFailed={({ errorFields }) =>
             notification.error({ message: errorFields[0].errors[0] })
           }
+          initialValues={{ exclusive: false }}
           scrollToFirstError
         >
           <div className={`${styles.rowItem} items-end`}>
@@ -227,31 +202,55 @@ const FormEnquiry = () => {
                 />
               </Form.Item>
             )}
-            {/* <Form.Item label="NIGHT BUDGET" name="budget">
+
+            <Form.Item label="Nightly Budget" name="budget">
               <Select
-                placeholder="Select"
+                placeholder="Nightly budget?"
                 options={[
                   {
-                    value: "100",
-                    label: "100 AUD",
+                    value: "$300 - $500",
+                    label: "$300 - $500",
                   },
                   {
-                    value: "200",
-                    label: "200 AUD",
+                    value: "$500 - $750",
+                    label: "$500 - $750",
+                  },
+                  {
+                    value: "$750 - $1000",
+                    label: "$750 - $1000",
+                  },
+                  {
+                    value: "$1000 - $1250",
+                    label: "$1000 - $1250",
+                  },
+                  {
+                    value: "$1250 - $1500",
+                    label: "$1250 - $1500",
+                  },
+                  {
+                    value: "$1500 - $2000",
+                    label: "$1500 - $2000",
+                  },
+                  {
+                    value: "$2000 - $2500",
+                    label: "$2000 - $2500",
+                  },
+                  {
+                    value: "$2500 - $5000",
+                    label: "$2500 - $5000",
+                  },
+                  {
+                    value: "$5000 - $10000",
+                    label: "$5000 - $10000",
+                  },
+                  {
+                    value: "$10000+",
+                    label: "$10000+",
                   },
                 ]}
               />
-            </Form.Item> */}
-            <Form.Item label="Postcode" name="zip">
-              <Input
-                placeholder="Input postcode code"
-                className={styles.formInput}
-              />
             </Form.Item>
           </div>
-          {/* <Form.Item name="isFlexible">
-            <Checkbox>My dates are flexible</Checkbox>
-          </Form.Item> */}
 
           <div className={styles.rowItem}>
             <Form.Item
@@ -298,78 +297,21 @@ const FormEnquiry = () => {
               />
             </Form.Item>
             <Form.Item label="Phone number" name="phoneNumber">
-              <InputNumber
-                addonBefore={<PhoneCountrySelect />}
-                controls={false}
-                placeholder="Input your phone"
-                className={styles.formInput}
-              />
+              <PhoneInput />
             </Form.Item>
           </div>
 
-          <Form.Item label="ADDRESS" name="address">
-            <Input
-              placeholder="Input your address"
-              className={styles.formInput}
-            />
-          </Form.Item>
-
-          {/* <div className={styles.rowItem}>
-            <Form.Item label="COUNTRY" name="country">
-              <Select
-                placeholder="Choose country"
-                options={[
-                  {
-                    value: "100",
-                    label: "100 AUD",
-                  },
-                  {
-                    value: "200",
-                    label: "200 AUD",
-                  },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item label="STATE" name="state">
-              <Select
-                placeholder="Choose state"
-                options={[
-                  {
-                    value: "100",
-                    label: "100 AUD",
-                  },
-                  {
-                    value: "200",
-                    label: "200 AUD",
-                  },
-                ]}
-              />
-            </Form.Item>
-          </div> */}
-
-          {/* <div className={styles.rowItem}>
-            <Form.Item label="CITY" name="city">
-              <Select
-                placeholder="Choose city"
-                options={[
-                  {
-                    value: "100",
-                    label: "100 AUD",
-                  },
-                  {
-                    value: "200",
-                    label: "200 AUD",
-                  },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item label="ZIP" name="zip">
+          <div className={styles.rowItem}>
+            <Form.Item label="ADDRESS" name="address">
               <Input
-                placeholder="Input zip code"
+                placeholder="Input your address"
                 className={styles.formInput}
               />
             </Form.Item>
-          </div> */}
+            <Form.Item label="COUNTRY" name="country">
+              <CountrySelect />
+            </Form.Item>
+          </div>
 
           <Form.Item label="MESSAGE" name="message">
             <TextArea
@@ -378,16 +320,14 @@ const FormEnquiry = () => {
             />
           </Form.Item>
 
-          <Form.Item name="remember">
-            <Checkbox>Remember my details</Checkbox>
-          </Form.Item>
-
-          <Form.Item name="exclusive">
-            <Checkbox>Send me exclusive Villa Getaways offers</Checkbox>
+          <Form.Item name="exclusive" valuePropName="checked">
+            <Checkbox>
+              Send me exclusive Cocoon Luxury Properties offers
+            </Checkbox>
           </Form.Item>
 
           <Button className={styles.sendBtn} type="primary" htmlType="submit">
-            SEND YOUR INQUIRY
+            SEND YOUR ENQUIRY
           </Button>
         </Form>
       </div>

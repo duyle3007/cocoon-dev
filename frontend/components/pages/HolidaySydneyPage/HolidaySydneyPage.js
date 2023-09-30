@@ -80,6 +80,7 @@ const HolidaySydneyPage = () => {
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
       orderBy: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
+      country: "Australia",
       location1: "sydney",
       startDate:
         rangeDate.length > 0 && rangeDate[0]
@@ -134,6 +135,7 @@ const HolidaySydneyPage = () => {
       setLoading(false);
     }
   };
+
   const debounceFetchData = useCallback(debounce(fetchPropertyList), [
     tabActive,
   ]);
@@ -185,6 +187,7 @@ const HolidaySydneyPage = () => {
         selectedBadroom: "Any",
         feature: [],
         sort: SORT_VALUES[0].value,
+        tags: [],
       }}
       onFinish={onFinishForm}
       onValuesChange={(_, allField) => debounceFetchData(allField)}

@@ -19,7 +19,9 @@ const Holiday = () => {
       <div className={styles.header}>
         <div className={styles.leftHeader}>
           <div>HOLIDAYS</div>
-          <div>All activities are allowed.</div>
+          <div>
+            Featured luxury rental holiday villas across attractive destinations
+          </div>
         </div>
         <Link href="/search">
           <div className={styles.rightHeader}>

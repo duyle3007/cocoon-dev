@@ -1,11 +1,16 @@
-import { Button, Form, Input, Popconfirm } from "antd";
+import { Button, Form, Input, Select, notification } from "antd";
+import axios from "axios";
 
 import Image from "@/components/Image/Image";
+import PhoneInput from "@/components/PhoneInput/PhoneInput";
+import CountrySelect from "@/components/CountrySelect/CountrySelect";
+import { useContext, useState } from "react";
+import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./ContactUs.module.scss";
-import { isMobile } from "@/utils/utils";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 const NeedHelpContent = () => {
   return (
@@ -29,10 +34,51 @@ const NeedHelpContent = () => {
 };
 
 const ContactUs = () => {
+  const [form] = Form.useForm();
+  const { allLocation } = useContext(PropertyListContext);
+
+  const [childLocation, setChildLocation] = useState([]);
+
+  const onSubmit = async (formData) => {
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      country,
+      destination,
+      location,
+    } = formData;
+    setLoading(true);
+    try {
+      const data = {
+        firstName,
+        lastName,
+        address: address,
+        email,
+        phoneNumber,
+        country,
+        destination,
+        location,
+      };
+
+      // await axios.post("/api/createBooking", data);
+      notification.success({ message: "Send successfully" });
+
+      // Reset form
+      form.resetFields();
+    } catch (e) {
+      console.log("e", e);
+      notification.error({ message: e.response.data.error.props });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.contactUs}>
       <div className={styles.wrapper}>
-        <Popconfirm
+        {/* <Popconfirm
           placement={isMobile() ? "bottom" : "bottomRight"}
           getPopupContainer={(trigger) => {
             return trigger;
@@ -43,20 +89,37 @@ const ContactUs = () => {
             <Image src="/enquiryPage/questionIcon.svg" />
             <span>NEED HELP?</span>
           </div>
-        </Popconfirm>
+        </Popconfirm> */}
 
         <h1>CONTACT US</h1>
 
         <div className={styles.form}>
-          <Form layout="vertical">
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{ country: "Andorra" }}
+            onFinish={onSubmit}
+          >
             <div className={styles.rowItem}>
-              <Form.Item label="FIRST NAME" name="firstName">
+              <Form.Item
+                label="FIRST NAME"
+                name="firstName"
+                rules={[
+                  { required: true, message: "Please fill your first name!" },
+                ]}
+              >
                 <Input
                   placeholder="Input your first name"
                   className={styles.formInput}
                 />
               </Form.Item>
-              <Form.Item label="LAST NAME" name="lastName">
+              <Form.Item
+                label="LAST NAME"
+                name="lastName"
+                rules={[
+                  { required: true, message: "Please fill your last name!" },
+                ]}
+              >
                 <Input
                   placeholder="Input your last name"
                   className={styles.formInput}
@@ -65,13 +128,26 @@ const ContactUs = () => {
             </div>
 
             <div className={styles.rowItem}>
-              <Form.Item label="YOUR PHONE NUMBER" name="phoneNumber">
-                <Input
-                  placeholder="Input your phone number"
-                  className={styles.formInput}
-                />
+              <Form.Item
+                label="YOUR PHONE NUMBER"
+                name="phoneNumber"
+                rules={[
+                  { required: true, message: "Please fill your phone number!" },
+                ]}
+              >
+                <PhoneInput />
               </Form.Item>
-              <Form.Item label="YOUR EMAIL" name="email">
+              <Form.Item
+                label="YOUR EMAIL"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please enter a valid email!",
+                  },
+                ]}
+              >
                 <Input
                   placeholder="Input your email"
                   className={styles.formInput}
@@ -79,18 +155,75 @@ const ContactUs = () => {
               </Form.Item>
             </div>
 
-            <Form.Item label="SUBJECT (OPTIONAL)" name="subject">
-              <Input
-                placeholder="Inquiry for..."
-                className={styles.formInput}
+            <div className={styles.rowItem}>
+              <Form.Item label="YOUR ADDRESS (OPTIONAL)" name="address">
+                <Input
+                  placeholder="Input your address"
+                  className={styles.formInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="YOUR COUNTRY"
+                name="country"
+                rules={[
+                  { required: true, message: "Please fill your country!" },
+                ]}
+              >
+                <CountrySelect />
+              </Form.Item>
+            </div>
+
+            <div className={styles.rowItem}>
+              <Form.Item label="DESTINATION" name="destination">
+                <Select
+                  placeholder="Select destination"
+                  className={styles.formSelect}
+                  size="large"
+                  onChange={(_, option) => {
+                    if (option.data) {
+                      setChildLocation(option.data);
+                    } else {
+                      setChildLocation([]);
+                    }
+                    form.setFieldsValue({ location: undefined });
+                  }}
+                >
+                  {allLocation.slice(1).map((location) => (
+                    <Option
+                      key={location.key}
+                      value={location.value}
+                      data={location.children}
+                    >
+                      {location.label.props.children}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              {childLocation.length > 0 && (
+                <Form.Item label="LOCATION" name="location">
+                  <Select
+                    placeholder="Select location"
+                    className={styles.formSelect}
+                    size="large"
+                  >
+                    {childLocation.map((location) => (
+                      <Option key={location.key} value={location.value}>
+                        {location.label.props.children}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              )}
+            </div>
+
+            <Form.Item label="MESSAGE" name="message">
+              <TextArea
+                rows={4}
+                placeholder="Tell us what you are looking for, such as dates, number of guests, and location."
               />
             </Form.Item>
 
-            <Form.Item label="MESSAGE" name="message">
-              <TextArea rows={4} placeholder="Input your message" />
-            </Form.Item>
-
-            <Button className={styles.sendBtn} type="primary">
+            <Button className={styles.sendBtn} type="primary" htmlType="submit">
               Send as message
             </Button>
           </Form>

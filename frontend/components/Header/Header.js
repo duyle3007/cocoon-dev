@@ -1,4 +1,5 @@
 import { Dropdown, Input } from "antd";
+import { MailOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -117,6 +118,7 @@ const Header = () => {
               router.push(`/search?searchValue=${e.target.value}&mode=map`)
             }
           />
+          <MailOutlined onClick={() => router.push("/contact-us")} />
           <Link href="/holiday-sydney">
             <span
               className={`${styles.bookBtn} ${

@@ -1,5 +1,5 @@
 .headline {
-  @apply flex max-w-[1050px] mx-auto pt-[131px] gap-[106px];
+  @apply flex max-w-[1050px] mx-auto pt-[70px] gap-[106px];
   .leftHeadline {
     font-family: Whitney Book;
     @apply text-lg w-3/4;
@@ -29,7 +29,7 @@
 
 @media (max-width: 768px) {
   .headline {
-    @apply flex-col pt-20 px-8 gap-8;
+    @apply flex-col pt-10 px-8 gap-8;
     .title {
       font-family: "Goudy Old Style";
       font-weight: 400;
