@@ -26,10 +26,13 @@
     @apply mt-8 grid gap-6 h-[250px];
     grid-template-columns: repeat(4, 1fr);
     .instaCard {
-      @apply aspect-square h-full w-full cursor-pointer relative;
+      @apply aspect-square h-full w-full cursor-pointer relative overflow-hidden;
+      &:hover img {
+        transform: scale(1.5);
+      }
       img {
-        @apply w-full h-full;
-        object-fit: cover;
+        @apply w-full h-full object-cover;
+        @apply transition-transform duration-500 ease-in-out;
       }
       .instaIcon {
         @apply absolute top-3 right-3 flex p-[11px] h-auto rounded;
