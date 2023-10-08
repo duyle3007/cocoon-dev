@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
           ...formattedLocation,
         ]);
 
-        const { data: resInsta } = await axios.get("/api/instagram2");
+        const { data: resInsta } = await axios.get("/api/instagram3");
         setInstaPosts(resInsta.data);
 
         const { data: resTags } = await axios.get("/api/tags");

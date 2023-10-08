@@ -10,9 +10,9 @@ const INSTAGRAM_URL = "https://www.instagram.com/cocoonluxuryproperties/";
 
 const InstaCard = ({ property }) => {
   return (
-    <a target="_blank" href={property.link}>
+    <a target="_blank" href={property.acf.post_link.url}>
       <div className={styles.instaCard}>
-        <img src={`/api/imageProxy?imageUrl=${property.thumbnail_src}`}/>
+        <img src={property.acf.image} alt={property.title.rendered} />
         <div className={styles.instaIcon}>
           <InstagramOutlined />
         </div>

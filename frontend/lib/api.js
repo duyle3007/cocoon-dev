@@ -544,6 +544,45 @@ async function createReviews(reviewData) {
   return response;
 }
 
+async function fetchInstagramPosts(limit=4) {
+  const params = {
+    _fields: ["id", "title", "acf", "status"],
+    limit,
+  };
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/instagram-post`,
+    "GET",
+    params,
+    {},
+    "wordpress"
+  );
+  return response;
+}
+
+async function fetchMedia(id) {
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/media/${id}`,
+    "GET",
+    {},
+    {},
+    "wordpress"
+  );
+  return response;
+}
+
+async function fetchMediaList(ids) {
+  const response = await fetchApi(
+    `${WORDPRESS_API_URL}/media`,
+    "GET",
+    {
+      include: ids,
+    },
+    {},
+    "wordpress"
+  );
+  return response;
+}
+
 function findRoots(data) {
   return data.filter((item) => !Array.isArray(item.acf.parent));
 }
@@ -597,6 +636,9 @@ module.exports = {
   fetchLocations,
   fetchReviews,
   fetchAllTags,
+  fetchInstagramPosts,
+  fetchMedia,
+  fetchMediaList,
   calculatePriceByDateRange,
   searchAccommodationType,
   checkAvailableAccommodationForBooking,
