@@ -13,10 +13,14 @@ const WORDPRESS_PASSWORD = process.env.WORDPRESS_PASSWORD;
 async function fetchApi(url, method, params, data, typeOfApi = "motopress") {
   let encodedCredentials;
   if (typeOfApi == "motopress") {
-    encodedCredentials = Buffer.from(`${MOTOPRESS_USERNAME}:${MOTOPRESS_PASSWORD}`).toString("base64");
+    encodedCredentials = Buffer.from(
+      `${MOTOPRESS_USERNAME}:${MOTOPRESS_PASSWORD}`
+    ).toString("base64");
   }
   if (typeOfApi == "wordpress") {
-    encodedCredentials = Buffer.from(`${WORDPRESS_USERNAME}:${WORDPRESS_PASSWORD}`).toString("base64");
+    encodedCredentials = Buffer.from(
+      `${WORDPRESS_USERNAME}:${WORDPRESS_PASSWORD}`
+    ).toString("base64");
   }
   const authHeader = `Basic ${encodedCredentials}`;
 
@@ -28,7 +32,7 @@ async function fetchApi(url, method, params, data, typeOfApi = "motopress") {
   }
   if (method == "POST" || method == "PUT") {
     options.data = JSON.stringify(data);
-  }
+  } 
   try {
     const response = await axios({
       url: url,
@@ -73,6 +77,33 @@ async function fetchAccommodations() {
 
 async function fetchRates() {
   const rates = await fetchApi(`${MOTOPRESS_API_URL}/rates`, "GET");
+  return rates ?? [];
+}
+
+async function fetchRateById(rateId) {
+  if (!rateId) {
+    throw new Error("Rate Id is required");
+  }
+  const rate = await fetchApi(`${MOTOPRESS_API_URL}/rates/${rateId}`, "GET");
+  return rate ?? {};
+}
+
+async function fetchRateByAccommodationTypeId(accommodationTypeId) {
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  const params = {
+    filter: {
+      meta_query: [
+        {
+          key: "mphb_room_type_id",
+          value: accommodationTypeId,
+          compare: "=",
+        },
+      ],
+    },
+  };
+  const rates = await fetchApi(`${MOTOPRESS_API_URL}/rates`, "GET", params);
   return rates ?? [];
 }
 
@@ -367,12 +398,11 @@ async function searchAccommodationType(input) {
     {},
     "wordpress"
   );
-
   if (tags.length > 0) {
     const motopressParams = {
       filter: {
         mphb_room_type_tag: tags,
-      }
+      },
     };
     const motopressResponse = await fetchApi(
       `${MOTOPRESS_API_URL}/accommodation_types`,
@@ -438,8 +468,10 @@ async function searchAccommodationType(input) {
   }
 
   let results = [];
-  if(tags.length > 0) {
-    results = accommodationTypes.filter((a) => accommodationTypesByTag.some((b) => a.id === b.id));
+  if (tags.length > 0) {
+    results = accommodationTypes.filter((a) =>
+      accommodationTypesByTag.some((b) => a.id === b.id)
+    );
   } else {
     results = accommodationTypes;
   }
@@ -448,7 +480,7 @@ async function searchAccommodationType(input) {
 }
 
 async function fetchAllTags() {
-   const response = await fetchApi(
+  const response = await fetchApi(
     `${MOTOPRESS_API_URL}/accommodation_types/tags`,
     "GET"
   );
@@ -507,7 +539,8 @@ async function fetchReviews(email, accommodationTypeId) {
   if (accommodationTypeId) {
     return response.filter(
       (item) =>
-        (item.acf.mphb_room_type[0] == accommodationTypeId || item.acf.mphb_room_type == accommodationTypeId) &&
+        (item.acf.mphb_room_type[0] == accommodationTypeId ||
+          item.acf.mphb_room_type == accommodationTypeId) &&
         item.acf.reviewStatus == "approved"
     );
   }
@@ -523,7 +556,7 @@ async function createReviews(reviewData) {
     throw new Error("Accommodation Type Id is required");
   }
   const body = {
-    title: email + ' wrote a review on ' + new Date().toISOString(),
+    title: email + " wrote a review on " + new Date().toISOString(),
     acf: {
       email: email,
       name: name,
@@ -532,7 +565,7 @@ async function createReviews(reviewData) {
       mphb_room_type: [Number(accommodationTypeId)],
       reviewStatus: "approved",
     },
-    status: 'publish'
+    status: "publish",
   };
   const response = await fetchApi(
     `${WORDPRESS_API_URL}/review`,
@@ -589,17 +622,224 @@ function removeEmptyChildren(data) {
   });
 }
 
+async function fetchAllSeasons() {
+  const seasons = await fetchApi(`${MOTOPRESS_API_URL}/seasons`, "GET");
+  return seasons ?? [];
+}
+
+async function fetchSeasonById(seasonId) {
+  if (!seasonId) {
+    throw new Error("Season Id is required");
+  }
+  const season = await fetchApi(
+    `${MOTOPRESS_API_URL}/seasons/${seasonId}`,
+    "GET"
+  );
+  return season ?? {};
+}
+
+async function createRateForAccommodationType(
+  accommodationTypeId,
+  title,
+  seasonPrices
+) {
+  if (!accommodationTypeId) {
+    throw new Error("Accommodation Type Id is required");
+  }
+  if (!seasonPrices) {
+    throw new Error("Season Prices is required");
+  }
+  const createdData = {
+    accommodation_type_id: accommodationTypeId,
+    title: title,
+    status: "active",
+    season_prices: seasonPrices,
+  };
+  const response = await fetchApi(
+    `${MOTOPRESS_API_URL}/rates`,
+    "POST",
+    {},
+    createdData,
+    "motopress"
+  );
+  return response;
+}
+
+async function createAccommodationType(input) {
+  const {
+    title,
+    description,
+    excerpt,
+    adults,
+    children,
+    totalCapacity,
+    bedType,
+    size,
+    view,
+    services = [],
+    categories = [],
+    tags = [],
+    amenities = [],
+    attributes = [],
+    villaType,
+    startingPrice = 3500,
+    beds = 1,
+    noOfBedrooms = 4,
+    noOfBathrooms = 5,
+    guests = 6,
+    minOfNights = 7,
+    features = [],
+    tagLine = "",
+    details = "",
+    country = "Australia",
+    location1 = "",
+    location2 = "",
+    lat = 10.7330408,
+    long = 106.7366513,
+    videos,
+    bedroomList,
+  } = input;
+
+  if (!title) {
+    throw new Error("Title is required");
+  }
+
+  const data = {
+    title: title,
+    description: description,
+    adults: adults,
+    children: children,
+    excerpt: excerpt,
+    total_capacity: totalCapacity,
+    bed_type: bedType,
+    size: size,
+    view: view,
+    services: services,
+    categories: categories,
+    tags: tags,
+    amenities: amenities,
+    attributes: attributes,
+  };
+  // Create accommodation type by WP API
+  const createdAccommodationType = await fetchApi(
+    `${MOTOPRESS_API_URL}/accommodation_types`,
+    "POST",
+    {},
+    data,
+    "motopress"
+  );
+  let updatedAccommodationType;
+  if (createdAccommodationType) {
+    //Create accommodation by Motopress API related to accommodation type
+    await fetchApi(
+      `${MOTOPRESS_API_URL}/accommodations`,
+      "POST",
+      {},
+      {
+        title: title,
+        excerpt: excerpt,
+        accommodation_type_id: createdAccommodationType.id,
+      },
+      "motopress"
+    );
+    //Update acf fields of accommodation type by WP API
+    updatedAccommodationType = await fetchApi(
+      `${WORDPRESS_API_URL}/mphb_room_type/${createdAccommodationType.id}`,
+      "POST",
+      {},
+      {
+        acf: {
+          starting_price: startingPrice,
+          beds: beds,
+          no_of_bedrooms: noOfBedrooms,
+          no_of_bathrooms: noOfBathrooms,
+          guests: guests,
+          min_of_nights: minOfNights,
+          features: features,
+          tag_line: tagLine,
+          description: description,
+          details: details,
+          videos: videos,
+          bedroom_list: bedroomList,
+          country: country,
+          location1: location1,
+          location2: location2,
+          lat: lat,
+          long: long,
+          villa_type: villaType,
+        }
+      },
+      "wordpress"
+    );
+  }
+
+  //Create rate for accommodation type for each season
+  const seasons = await fetchAllSeasons();
+  let createdRate;
+  if(seasons.length > 0) {
+    let seasonCounter = 0;
+    let currentDate = new Date();
+    const seasonPrices = []
+    for(const season of seasons) {
+      seasonCounter++;
+      if(moment(currentDate).isSameOrAfter(season.start_date) && moment(currentDate).isSameOrBefore(season.end_date)) {
+        seasonPrices.push(
+          {
+            "priority": 0,
+            "base_price": startingPrice ?? 0,
+            "season_id": season.id,
+            "variations": [
+              {
+                "adults": adults ?? 0,
+                "children": children ?? 0,
+                "price": startingPrice ?? 0
+              }
+            ]
+          }
+        );
+      } else {
+        seasonPrices.push(
+          {
+            "priority": seasonCounter,
+            "base_price": startingPrice ?? 0,
+            "season_id": season.id,
+            "variations": [
+              {
+                "adults": adults ?? 0,
+                "children": children ?? 0,
+                "price": startingPrice ?? 0
+              }
+            ]
+          }
+        );
+      }
+    }
+    createdRate = await createRateForAccommodationType(updatedAccommodationType.id, title, seasonPrices);
+  }
+  return {
+    ...updatedAccommodationType,
+    rates: {
+      ...createdRate,
+    }
+  };
+}
+
 module.exports = {
-  fetchApi,
+  fetchApi, 
   fetchAccommodations,
   fetchRates,
+  fetchRateById,
+  fetchRateByAccommodationTypeId,
   fetchBookingsByDate,
   fetchLocations,
   fetchReviews,
   fetchAllTags,
+  fetchAllSeasons,
+  fetchSeasonById,
   calculatePriceByDateRange,
   searchAccommodationType,
   checkAvailableAccommodationForBooking,
   createBooking,
   createReviews,
+  createAccommodationType,
 };
