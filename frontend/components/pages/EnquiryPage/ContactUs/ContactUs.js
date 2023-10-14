@@ -1,10 +1,13 @@
 import { Button, Form, Input, Select, notification } from "antd";
-import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
+import { verifyCaptcha } from "../../../../ServerActions";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 
 import Image from "@/components/Image/Image";
 import PhoneInput from "@/components/PhoneInput/PhoneInput";
 import CountrySelect from "@/components/CountrySelect/CountrySelect";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { PropertyListContext } from "@/components/Layout/Layout";
 
 import styles from "./ContactUs.module.scss";
@@ -34,10 +37,20 @@ const NeedHelpContent = () => {
 };
 
 const ContactUs = () => {
+  const recaptchaRef = useRef(null);
+  const [isVerified, setIsverified] = useState(false);
+
   const [form] = Form.useForm();
   const { allLocation } = useContext(PropertyListContext);
 
   const [childLocation, setChildLocation] = useState([]);
+
+  async function handleCaptchaSubmission(token) {
+    // Server function to verify captcha
+    await verifyCaptcha(token)
+      .then(() => setIsverified(true))
+      .catch(() => setIsverified(false));
+  }
 
   const onSubmit = async (formData) => {
     const {
@@ -223,7 +236,17 @@ const ContactUs = () => {
               />
             </Form.Item>
 
-            <Button className={styles.sendBtn} type="primary" htmlType="submit">
+            <ReCAPTCHA
+              sitekey={publicRuntimeConfig.recaptchaSiteKey}
+              ref={recaptchaRef}
+              onChange={handleCaptchaSubmission}
+            />
+            <Button
+              disabled={!isVerified}
+              className={styles.sendBtn}
+              type="primary"
+              htmlType="submit"
+            >
               Send message
             </Button>
           </Form>

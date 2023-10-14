@@ -1,7 +1,7 @@
 @import "styles/variables.scss";
 
 .contactUs {
-  @apply w-full h-[858px];
+  @apply w-full;
   background: url("/enquiryPage/contactUsBanner.png") no-repeat;
   background-size: cover;
   .wrapper {
@@ -76,7 +76,7 @@
     }
   }
   .sendBtn {
-    @apply px-6 py-4 h-auto uppercase self-center shadow-transparent;
+    @apply mt-4 px-6 py-4 h-auto uppercase self-center shadow-transparent;
     background-color: $primaryColor;
     font-family: "Whitney";
     font-weight: 500;
