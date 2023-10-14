@@ -20,7 +20,8 @@ const Holiday = () => {
         <div className={styles.leftHeader}>
           <div>HOLIDAYS</div>
           <div>
-            Featured luxury rental holiday villas across attractive destinations
+            Book your own private house to enjoy unforgettable holidays with
+            your family and friends.
           </div>
         </div>
         <Link href="/search">

@@ -224,7 +224,7 @@ const ContactUs = () => {
             </Form.Item>
 
             <Button className={styles.sendBtn} type="primary" htmlType="submit">
-              Send as message
+              Send message
             </Button>
           </Form>
         </div>

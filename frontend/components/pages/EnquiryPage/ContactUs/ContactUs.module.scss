@@ -2,7 +2,8 @@
 
 .contactUs {
   @apply w-full h-[858px];
-  background: url("/enquiryPage/contactUsBanner.png");
+  background: url("/enquiryPage/contactUsBanner.png") no-repeat;
+  background-size: cover;
   .wrapper {
     @apply mx-auto relative flex flex-col pt-12 pb-[120px];
     max-width: $mWidth;

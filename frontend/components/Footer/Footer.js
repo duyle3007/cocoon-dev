@@ -41,11 +41,19 @@ const Footer = () => {
             </div>
             <div className={styles.info}>
               <Image src="/phoneIcon.svg" />
-              0407 008 176
+              Office: +61 (0)2 8037 4099
+            </div>
+            <div className={styles.info}>
+              <Image src="/phoneIcon.svg" />
+              Julian: +61 (0)407 008 176
             </div>
             <div className={styles.info}>
               <Image src="/emailIcon.svg" />
               julian@cocoonluxuryproperties.com
+            </div>
+            <div className={styles.info}>
+              <Image src="/phoneIcon.svg" />
+              Manish: +91 72591 80241
             </div>
             <div className={styles.info}>
               <Image src="/emailIcon.svg" />
