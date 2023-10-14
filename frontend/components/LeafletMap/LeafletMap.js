@@ -19,6 +19,11 @@ import { isMobile, debounce } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 import FilterModal from "./FilterModal/FilterModal";
 
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const { motopressAPIUrl, motopressUsername, motopressPassword } =
+  publicRuntimeConfig;
+
 import styles from "./LeafletMap.module.scss";
 
 // Fix for the missing icon issue
@@ -60,6 +65,7 @@ const LeafletMap = ({ mode }) => {
       location1,
       location2,
       sort,
+      tags,
     } = fieldValues;
     const params = {
       searchStr: searchValue?.length ? searchValue : null,
@@ -85,17 +91,18 @@ const LeafletMap = ({ mode }) => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
+      tags: tags?.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
       params,
     });
     const searchMotoPress = axios.get(
-      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      `${motopressAPIUrl}/accommodation_types`,
       {
         auth: {
-          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          username: motopressUsername,
+          password: motopressPassword,
         },
       }
     );
@@ -190,6 +197,7 @@ const LeafletMap = ({ mode }) => {
           selectedBadroom: "Any",
           feature: [],
           sort: SORT_VALUES[0].value,
+          tags: [],
         }}
         onFinish={onFinishForm}
         onValuesChange={(_, allField) => debounceFetchData(allField)}
@@ -239,7 +247,7 @@ const LeafletMap = ({ mode }) => {
                   ? "HOLIDAYS PROPERTIES"
                   : mode === "photoshoot"
                   ? "PHOTOSHOOTS AND EVENTS"
-                  : "HOLIDAYS VILLAS IN SYNDNEY"}
+                  : "HOLIDAYS VILLAS IN SYDNEY"}
                 {mode === "photoshoot" && (
                   <div className={styles.note}>
                     <div className={styles.noteItem}>

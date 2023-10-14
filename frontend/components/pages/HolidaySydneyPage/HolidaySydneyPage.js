@@ -21,6 +21,11 @@ import ToolBarMobile from "@/components/ToolBarMobile/ToolBarMobile";
 import { DEFAULT_ZOOM_LEVEL } from "@/components/LeafletMap/LeafletMap";
 import SortModal from "@/components/LeafletMap/SortModal/SortModal";
 
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const { motopressAPIUrl, motopressUsername, motopressPassword } =
+  publicRuntimeConfig;
+
 import styles from "./HolidaySydneyPage.module.scss";
 
 // Fix for the missing icon issue
@@ -60,6 +65,7 @@ const HolidaySydneyPage = () => {
       maxGuest,
       feature,
       sort,
+      tags,
     } = fieldValues;
     const params = {
       searchStr: searchValue?.length ? searchValue : null,
@@ -74,6 +80,7 @@ const HolidaySydneyPage = () => {
       mphb_room_type_category: tabActive === "holiday" ? 12 : 13,
       orderBy: sort ? sort.split(":")[0] : undefined,
       order: sort ? sort.split(":")[1] : undefined,
+      country: "Australia",
       location1: "sydney",
       startDate:
         rangeDate.length > 0 && rangeDate[0]
@@ -83,17 +90,18 @@ const HolidaySydneyPage = () => {
         rangeDate.length > 0 && rangeDate[1]
           ? dayjs(rangeDate[1]).format("YYYY-MM-DD")
           : null,
+      tags: tags?.toString(),
     };
 
     const searchAccommodationType = axios.get("/api/searchAccommodationTypes", {
       params,
     });
     const searchMotoPress = axios.get(
-      "https://cocoonluxury.in/wp-json/mphb/v1/accommodation_types",
+      `${motopressAPIUrl}/accommodation_types`,
       {
         auth: {
-          username: process.env.NEXT_PUBLIC_MOTOPRESS_USERNAME,
-          password: process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD,
+          username: motopressUsername,
+          password: motopressPassword,
         },
       }
     );
@@ -127,6 +135,7 @@ const HolidaySydneyPage = () => {
       setLoading(false);
     }
   };
+
   const debounceFetchData = useCallback(debounce(fetchPropertyList), [
     tabActive,
   ]);
@@ -178,6 +187,7 @@ const HolidaySydneyPage = () => {
         selectedBadroom: "Any",
         feature: [],
         sort: SORT_VALUES[0].value,
+        tags: [],
       }}
       onFinish={onFinishForm}
       onValuesChange={(_, allField) => debounceFetchData(allField)}
@@ -203,7 +213,7 @@ const HolidaySydneyPage = () => {
             onClickFilter={() => modalRef.current.openFilterModal()}
             onClickSort={() => sortModalRef.current.openSortModal()}
           />
-          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYNDNEY</div>
+          <div className={styles.searchTitle}>HOLIDAYS VILLAS IN SYDNEY</div>
           {searchType === "filter" ? (
             <SearchByFilter listLocation={listLocation} mode={mode} />
           ) : (

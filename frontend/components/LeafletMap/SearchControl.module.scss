@@ -28,7 +28,7 @@
     @apply overflow-auto;
     height: calc(100vh - 156px);
     .inputWrapper {
-      @apply px-10 pt-8 pb-10 gap-4 flex flex-col;
+      @apply px-10 pt-8 pb-10 gap-0 flex flex-col;
       border-bottom: 1px solid rgba(64, 64, 64, 0.2);
       .inputTitle {
         @apply mb-2 text-sm text-[#333333];
@@ -95,7 +95,7 @@
     //   background-color: transparent;
     // }
     .featuresTitle {
-      @apply text-sm text-[#333333];
+      @apply text-sm text-[#333333] mb-4;
       letter-spacing: 0.07em;
       font-family: "Whitney";
     }

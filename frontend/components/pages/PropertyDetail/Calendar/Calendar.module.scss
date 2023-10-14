@@ -116,6 +116,18 @@
     text-transform: uppercase;
     color: #404040;
   }
+  :global(.react-calendar__tile:hover) {
+    background-color: transparent;
+  }
+  :global(.react-calendar__tile:focus) {
+    background-color: transparent;
+  }
+  :global(.react-calendar__tile) {
+    cursor: default !important;
+  }
+  :global(.react-calendar__tile > abbr) {
+    cursor: default;
+  }
   :global(.react-calendar__month-view__days__day--neighboringMonth) {
     opacity: 0.3;
   }

@@ -6,7 +6,6 @@ import { PropertyListContext } from "@/components/Layout/Layout";
 import Image from "@/components/Image/Image";
 import HotelCard from "@/components/HotelCard/HotelCard";
 import FormEnquiry from "./FormEnquiry/FormEnquiry";
-import ContactUs from "./ContactUs/ContactUs";
 
 import styles from "./EnquiryPage.module.scss";
 
@@ -29,7 +28,7 @@ const EnquiryPage = () => {
           <Image src="/leftArrow.png" />
           <span>BACK</span>
         </div>
-        <h1>MAKE AN INQUIRY</h1>
+        <h1>MAKE AN ENQUIRY</h1>
         <div className={styles.form}>
           <HotelCard item={inquiryProperty} className={styles.hotelCard} />
           <FormEnquiry />
@@ -61,7 +60,6 @@ const EnquiryPage = () => {
           </div>
         </div>
       </div>
-      <ContactUs />
     </div>
   );
 };

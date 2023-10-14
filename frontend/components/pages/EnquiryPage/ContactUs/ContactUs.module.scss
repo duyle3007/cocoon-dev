@@ -7,6 +7,16 @@
     @apply mx-auto relative flex flex-col pt-12 pb-[120px];
     max-width: $mWidth;
   }
+  h1 {
+    margin-top: 16px;
+    font-family: "Goudy Old Style";
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #90744f;
+  }
   .helpBtn {
     @apply flex gap-2 self-end rounded cursor-pointer;
     border: 1px solid #ffffff;
@@ -47,6 +57,22 @@
     @apply p-4 w-full flex items-center;
     height: 50px !important;
     font-family: "Whitney Book";
+  }
+
+  .formSelect {
+    @apply h-[50px];
+    :global(.ant-select-selector) {
+      height: 50px !important;
+    }
+    input {
+      height: 50px !important;
+    }
+    :global(.ant-select-selection-item) {
+      @apply flex items-center;
+    }
+    :global(.ant-select-selection-placeholder) {
+      @apply flex items-center;
+    }
   }
   .sendBtn {
     @apply px-6 py-4 h-auto uppercase self-center shadow-transparent;

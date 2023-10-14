@@ -1,31 +1,19 @@
-import { Checkbox, Divider, Form, Input, Select, Slider } from "antd";
+import { Checkbox, Form, Input, Select, Slider, Tooltip } from "antd";
 import { useEffect, useState } from "react";
-import {
-  LeftOutlined,
-  RightOutlined,
-  MinusOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
+import { PropertyListContext } from "@/components/Layout/Layout";
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
 import SegmenedSelector from "./SearchByFilter/SegmenedSelector/SegmenedSelector";
 import { isMobile } from "@/utils/utils";
 import MapCard from "./MapCard/MapCard";
 
 import styles from "./SearchControl.module.scss";
+import { useContext } from "react";
 
 const { Option } = Select;
-
-export const LOCATION_LIST = [
-  { label: "All location", value: "all" },
-  { label: "Beach holidays", value: "beach" },
-  { label: "Beachfront", value: "beachfront" },
-  { label: "Waterfront", value: "waterfront" },
-  { label: "Views", value: "view" },
-  { label: "Unique Places", value: "unique" },
-];
 
 const SearchControl = ({
   onSearch,
@@ -41,12 +29,13 @@ const SearchControl = ({
   const formRef = Form.useFormInstance();
 
   const [isMinimized, setIsMinimized] = useState(false);
+  const { allTags, allFeatures } = useContext(PropertyListContext);
 
   // search value
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
   const maxGuest = Form.useWatch("maxGuest", formRef);
-  const selectedLocation = Form.useWatch("selectedLocation", formRef);
+  const selectedTag = Form.useWatch("tags", formRef);
   const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
   const selectedBed = Form.useWatch("selectedBed", formRef);
 
@@ -86,6 +75,17 @@ const SearchControl = ({
     setTimeout(() => {
       handleReinitClick();
     }, 200);
+  };
+
+  const onSelectTag = (tag) => {
+    if (selectedTag.findIndex((tags) => tags === tag) === -1) {
+      formRef.setFieldsValue({ tags: [...selectedTag, tag] });
+    } else {
+      formRef.setFieldsValue({
+        tags: selectedTag.filter((tags) => tags !== tag),
+      });
+    }
+    formRef.submit();
   };
 
   return (
@@ -155,7 +155,7 @@ const SearchControl = ({
               {tabActive === "holiday" && (
                 <div>
                   <div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <div className={styles.priceTitle}>
                         PRICE PER NIGHT (AUD)
                       </div>
@@ -183,7 +183,7 @@ const SearchControl = ({
                 </div>
               )}
             </div>
-            <div className={styles.inputWrapper} style={{ gap: "24px" }}>
+            <div className={styles.inputWrapper}>
               {tabActive === "holiday" && (
                 <div>
                   <div className={styles.inputTitle}>Bedrooms</div>
@@ -229,33 +229,27 @@ const SearchControl = ({
             <div className={styles.inputWrapper}>
               <div className={styles.featuresTitle}>FEATURES</div>
               <Form.Item name="feature">
-                <Checkbox.Group className={styles.featureSelector}>
-                  <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
-                  <Checkbox value="Pool">Pool</Checkbox>
-                  <Checkbox value="Gym">Gym</Checkbox>
-                  <Checkbox value="Hot Tub">Hot Tub</Checkbox>
-                  <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
-                </Checkbox.Group>
+                <Checkbox.Group className={styles.featureSelector} options={allFeatures} />
               </Form.Item>
             </div>
 
-            {/* <Form.Item name="selectedLocation">
-              <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-                {LOCATION_LIST.map((location) => (
-                  <div
-                    key={location.value}
-                    className={`${styles.locationSelector} ${
-                      selectedLocation?.some(
-                        (item) => item === location.value
-                      ) && styles.selectedLocation
-                    }`}
-                    onClick={() => updateLocationFilter(location.value)}
-                  >
-                    {location.label}
-                  </div>
+            <Form.Item name="tags">
+              <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
+                {allTags.map((tag) => (
+                  <Tooltip title={tag.tooltip} key={tag.slug}>
+                    <div
+                      className={`${styles.locationSelector} ${
+                        selectedTag?.some((item) => item === tag.slug) &&
+                        styles.selectedLocation
+                      }`}
+                      onClick={() => onSelectTag(tag.slug)}
+                    >
+                      {tag.name}
+                    </div>
+                  </Tooltip>
                 ))}
               </div>
-            </Form.Item> */}
+            </Form.Item>
           </div>
         ) : (
           <div className={styles.searchWrapper}>
@@ -276,7 +270,7 @@ const SearchControl = ({
               </Form.Item>
               <div>
                 <div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <div className={styles.priceTitle}>
                       PRICE PER NIGHT (AUD)
                     </div>

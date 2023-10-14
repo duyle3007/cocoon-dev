@@ -34,6 +34,7 @@
     }
   }
   .info:hover + .thumbnailContainer > .thumbnail {
+    @apply transition-transform duration-500 ease-in-out;
     transform: scale(1.5);
   }
 }

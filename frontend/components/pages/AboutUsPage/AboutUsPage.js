@@ -1,4 +1,5 @@
 import { Divider } from "antd";
+import { useEffect, useState } from "react";
 
 import Image from "@/components/Image/Image";
 import Service from "./Service/Service";
@@ -7,6 +8,16 @@ import CocoonInstagram from "../HomePage/CocoonInstagram/CocoonInstagram";
 import styles from "./AboutUsPage.module.scss";
 
 const AboutUsPage = () => {
+  const [renderClientSideComponent, setRenderClientSideComponent] =
+    useState(false);
+
+  useEffect(() => {
+    setRenderClientSideComponent(true);
+  }, []);
+
+  if (!renderClientSideComponent) {
+    return <></>;
+  }
   return (
     <div className={styles.aboutUsPage}>
       <div className={styles.upperIntro}>
@@ -15,22 +26,38 @@ const AboutUsPage = () => {
             <h4> Cocoon Luxury Properties</h4>
             <Divider />
             <div className={styles.content}>
-              Cocoon Luxury Properties offers our guest and clients handpicked
-              luxury five star properties perfect for holiday accommodation. We
-              have a superb collection of luxury properties from waterfront
-              homes, beach houses, city penthouses, rural escapes or fully
-              crewed boats and super yachts.
+              Cocoon Luxury Properties presents a curated selection of{" "}
+              <b>exquisite five-star properties</b>, meticulously chosen to
+              provide our guests with the{" "}
+              <b>ultimate luxury holiday experience.</b>
             </div>
+            <br />
             <div className={styles.content}>
-              We also specialise in finding inspired and amazing properties for
-              corporate events, film and TV shows and advertisements, magazine
-              shoots, product launches, plus premium accommodation for you or
-              your clients.
+              Our portfolio boasts an exceptional array of opulent
+              accommodations, ranging from picturesque <b>waterfront estates</b>{" "}
+              and charming <b>beachfront houses</b> to sophisticated{" "}
+              <b>city penthouses</b>, tranquil <b>rural getaways</b>, and even{" "}
+              <b>fully crewed yachts</b> for those seeking a maritime adventure.
             </div>
+            <br />
             <div className={styles.content}>
-              The owner, Julian Ginailhac has a background in luxury holidays
-              villa rental for more than a decade. He appreciates what it means
-              as an owner to rent out homes and also as a guest to stay in them.
+              Beyond our prowess in luxury holiday villa rentals, we excel in
+              sourcing exceptional properties that transcend the ordinary,
+              catering to diverse needs such as{" "}
+              <b>corporate gatherings, film and television productions</b> for{" "}
+              <b>advertising campaigns</b>, magazine <b>photo shoots</b> and
+              exclusive <b>product launches</b>. Our offers extend to premium
+              accommodations tailored to meet your preferences or those of your
+              clients.
+            </div>
+            <br />
+            <div className={styles.content}>
+              Julian Ginailhac, the visionary behind Cocoon Luxury Properties,
+              draws from over a decade of immersed experience in the realm of
+              luxury holiday villa rentals. His understanding of both the host`s
+              perspective, having rented out homes himself, and the guest`s
+              standpoint, underscores our commitment to delivering an{" "}
+              <b>unparalleled hospitality experience.</b>
             </div>
           </div>
           <div className={styles.right}>

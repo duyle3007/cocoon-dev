@@ -6,12 +6,15 @@
     @apply p-0 gap-2;
   }
   .sendBtn {
-    @apply bg-[#90744f] h-[46px] flex items-center justify-center cursor-pointer mt-2;
+    @apply bg-[#4f9064]  h-[46px] flex items-center justify-center cursor-pointer mt-2;
     font-family: "Whitney";
     font-weight: 500;
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.05em;
+    &:hover {
+      background-color: #6e9c8c !important;
+    }
   }
   :global(.ant-picker),
   :global(.ant-select-selector),

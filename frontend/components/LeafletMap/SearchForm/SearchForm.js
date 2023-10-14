@@ -1,5 +1,4 @@
 import { Checkbox, Form, Input, Select, Slider, TreeSelect } from "antd";
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useContext, useMemo } from "react";
 import { useRouter } from "next/router";
 
@@ -15,17 +14,17 @@ const { Option } = Select;
 const SearchForm = ({ tabActive }) => {
   const formRef = Form.useFormInstance();
   const router = useRouter();
-  const { allLocation } = useContext(PropertyListContext);
+  const { allLocation, allTags, allFeatures } = useContext(PropertyListContext);
 
   const rangeDate = Form.useWatch("rangeDate", formRef);
   const selectedBadroom = Form.useWatch("selectedBadroom", formRef);
   const maxGuest = Form.useWatch("maxGuest", formRef);
-  const selectedLocation = Form.useWatch("selectedLocation", formRef);
   const selectedBedroom = Form.useWatch("selectedBedroom", formRef);
   const selectedBed = Form.useWatch("selectedBed", formRef);
   const country = Form.useWatch("country", formRef);
   const location1 = Form.useWatch("location1", formRef);
   const location2 = Form.useWatch("location2", formRef);
+  const selectedTag = Form.useWatch("tags", formRef);
 
   const isShowDestination = useMemo(() => {
     if (router.asPath === "/holiday-sydney") {
@@ -34,6 +33,16 @@ const SearchForm = ({ tabActive }) => {
 
     return true;
   }, [router]);
+
+  const onSelectTag = (tag) => {
+    if (selectedTag.findIndex((tags) => tags === tag) === -1) {
+      formRef.setFieldsValue({ tags: [...selectedTag, tag] });
+    } else {
+      formRef.setFieldsValue({
+        tags: selectedTag.filter((tags) => tags !== tag),
+      });
+    }
+  };
 
   return (
     <div className={styles.searchWrapper}>
@@ -77,7 +86,7 @@ const SearchForm = ({ tabActive }) => {
         </Form.Item>
         {tabActive === "holiday" && (
           <div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className={styles.priceTitle}>PRICE PER NIGHT (AUD)</div>
               <div className={styles.maxPrice}>$500 to +$5,000</div>
             </div>
@@ -145,32 +154,26 @@ const SearchForm = ({ tabActive }) => {
       <div className={styles.inputWrapper}>
         <div className={styles.featuresTitle}>FEATURES</div>
         <Form.Item name="feature">
-          <Checkbox.Group className={styles.featureSelector}>
-            <Checkbox value="Air Conditioning">Air Conditioning</Checkbox>
-            <Checkbox value="Pool">Pool</Checkbox>
-            <Checkbox value="Gym">Gym</Checkbox>
-            <Checkbox value="Hot Tub">Hot Tub</Checkbox>
-            <Checkbox value="BBQ Grill">BBQ Grill</Checkbox>
-          </Checkbox.Group>
+          <Checkbox.Group className={styles.featureSelector} options={allFeatures} />
         </Form.Item>
       </div>
 
-      {/* <div className="flex gap-4 flex-wrap pl-10 pt-8 pb-10 pr-14">
-        <Form.Item name="selectedLocation">
-          {LOCATION_LIST.map((location) => (
+      <Form.Item name="tags">
+        <div className="flex flex-wrap gap-4 pt-8 pb-10 pl-10 pr-14">
+          {allTags.map((tag) => (
             <div
-              key={location.value}
+              key={tag.slug}
               className={`${styles.locationSelector} ${
-                selectedLocation?.some((item) => item === location.value) &&
+                selectedTag?.some((item) => item === tag.slug) &&
                 styles.selectedLocation
               }`}
-              onClick={() => updateLocationFilter(location.value)}
+              onClick={() => onSelectTag(tag.slug)}
             >
-              {location.label}
+              {tag.name}
             </div>
           ))}
-        </Form.Item>
-      </div> */}
+        </div>
+      </Form.Item>
     </div>
   );
 };
