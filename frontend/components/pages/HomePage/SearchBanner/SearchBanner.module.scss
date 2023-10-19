@@ -58,7 +58,7 @@
 }
 @media (max-width: 768px) {
   .searchMobile {
-    @apply flex justify-center absolute top-[80%] left-0 right-0 mx-auto items-center px-8 z-[1];
+    @apply flex justify-center absolute top-[60%] left-0 right-0 mx-auto items-center px-8 z-[1];
     button {
       @apply bg-white h-[50px] w-full;
       font-family: "Whitney";
