@@ -1,4 +1,5 @@
 import axios from "axios";
+import FormData from "form-data";
 import moment from "moment";
 import Error from "next/error";
 
@@ -9,6 +10,9 @@ const MOTOPRESS_PASSWORD = process.env.NEXT_PUBLIC_MOTOPRESS_PASSWORD;
 const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL;
 const WORDPRESS_USERNAME = process.env.WORDPRESS_USERNAME;
 const WORDPRESS_PASSWORD = process.env.WORDPRESS_PASSWORD;
+
+const CONTACT_FORM_API_URL = process.env.CONTACT_FORM_API_URL;
+const CONTACT_FORM_ID = process.env.CONTACT_FORM_ID;
 
 async function fetchApi(url, method, params, data, typeOfApi = "motopress") {
   let encodedCredentials;
@@ -32,7 +36,7 @@ async function fetchApi(url, method, params, data, typeOfApi = "motopress") {
   }
   if (method == "POST" || method == "PUT") {
     options.data = JSON.stringify(data);
-  } 
+  }
   try {
     const response = await axios({
       url: url,
@@ -577,7 +581,7 @@ async function createReviews(reviewData) {
   return response;
 }
 
-async function fetchInstagramPosts(limit=4) {
+async function fetchInstagramPosts(limit = 4) {
   const params = {
     _fields: ["id", "title", "acf", "status"],
     limit,
@@ -806,7 +810,7 @@ async function createAccommodationType(input) {
           lat: lat,
           long: long,
           villa_type: villaType,
-        }
+        },
       },
       "wordpress"
     );
@@ -815,56 +819,115 @@ async function createAccommodationType(input) {
   //Create rate for accommodation type for each season
   const seasons = await fetchAllSeasons();
   let createdRate;
-  if(seasons.length > 0) {
+  if (seasons.length > 0) {
     let seasonCounter = 0;
     let currentDate = new Date();
-    const seasonPrices = []
-    for(const season of seasons) {
+    const seasonPrices = [];
+    for (const season of seasons) {
       seasonCounter++;
-      if(moment(currentDate).isSameOrAfter(season.start_date) && moment(currentDate).isSameOrBefore(season.end_date)) {
-        seasonPrices.push(
-          {
-            "priority": 0,
-            "base_price": startingPrice ?? 0,
-            "season_id": season.id,
-            "variations": [
-              {
-                "adults": adults ?? 0,
-                "children": children ?? 0,
-                "price": startingPrice ?? 0
-              }
-            ]
-          }
-        );
+      if (
+        moment(currentDate).isSameOrAfter(season.start_date) &&
+        moment(currentDate).isSameOrBefore(season.end_date)
+      ) {
+        seasonPrices.push({
+          priority: 0,
+          base_price: startingPrice ?? 0,
+          season_id: season.id,
+          variations: [
+            {
+              adults: adults ?? 0,
+              children: children ?? 0,
+              price: startingPrice ?? 0,
+            },
+          ],
+        });
       } else {
-        seasonPrices.push(
-          {
-            "priority": seasonCounter,
-            "base_price": startingPrice ?? 0,
-            "season_id": season.id,
-            "variations": [
-              {
-                "adults": adults ?? 0,
-                "children": children ?? 0,
-                "price": startingPrice ?? 0
-              }
-            ]
-          }
-        );
+        seasonPrices.push({
+          priority: seasonCounter,
+          base_price: startingPrice ?? 0,
+          season_id: season.id,
+          variations: [
+            {
+              adults: adults ?? 0,
+              children: children ?? 0,
+              price: startingPrice ?? 0,
+            },
+          ],
+        });
       }
     }
-    createdRate = await createRateForAccommodationType(updatedAccommodationType.id, title, seasonPrices);
+    createdRate = await createRateForAccommodationType(
+      updatedAccommodationType.id,
+      title,
+      seasonPrices
+    );
   }
   return {
     ...updatedAccommodationType,
     rates: {
       ...createdRate,
-    }
+    },
   };
 }
 
+async function submitContactForm(data) {
+  const {
+    firstName,
+    lastName,
+    phoneNumber,
+    email,
+    country,
+    address,
+    destination,
+    location,
+    message,
+  } = data;
+  if (!firstName) {
+    throw new Error("First name is required");
+  }
+  if (!lastName) {
+    throw new Error("Last name is required");
+  }
+  if (!phoneNumber) {
+    throw new Error("Phone is required");
+  }
+  if (!email) {
+    throw new Error("Email is required");
+  }
+  if (!country) {
+    throw new Error("Country is required");
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append("first-name", firstName);
+    formData.append("last-name", lastName);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("email", email);
+    formData.append("country", country);
+    formData.append("address", address || "");
+    formData.append("destination", destination || "");
+    formData.append("location", location || "");
+    formData.append("message", message || "");
+    const response = await axios.post(
+      `${CONTACT_FORM_API_URL}/contact-forms/${CONTACT_FORM_ID}/feedback`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.data);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
-  fetchApi, 
+  fetchApi,
   fetchAccommodations,
   fetchRates,
   fetchRateById,
@@ -884,4 +947,5 @@ module.exports = {
   createBooking,
   createReviews,
   createAccommodationType,
+  submitContactForm,
 };

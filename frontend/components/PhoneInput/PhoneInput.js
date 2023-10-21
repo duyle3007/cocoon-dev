@@ -44,7 +44,8 @@ const PhoneInput = ({ className }) => {
     <InputNumber
       addonBefore={<PhoneAddon />}
       controls={false}
-      placeholder="Input your phone"
+      placeholder="Enter your phone"
+      autoComplete="phone"
       className={`${styles.phoneSelect} ${className}`}
       onChange={(value) =>
         formRef.setFieldsValue({ phoneNumber: `+${countryPhone} ${value}` })
