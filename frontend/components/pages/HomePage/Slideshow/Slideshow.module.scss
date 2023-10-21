@@ -12,10 +12,16 @@
 
   .leftArrowCard {
     @apply left-0 absolute bottom-0 text-[10px] text-white p-4 cursor-pointer;
+    :global(.anticon) {
+      font-size: 18px;
+    }
   }
 
   .rightArrowCard {
     @apply right-0 absolute bottom-0 text-[10px] text-white p-4 cursor-pointer;
+    :global(.anticon) {
+      font-size: 18px;
+    }
   }
 
   .leftArrow {
@@ -27,7 +33,7 @@
   }
 
   :global(.slick-dots-bottom) {
-    @apply bottom-[21px] max-w-[70%] mx-auto;
+    @apply bottom-[25px] max-w-[70%] mx-auto;
   }
 
   :global(.slick-list),
