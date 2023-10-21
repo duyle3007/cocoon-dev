@@ -1,8 +1,8 @@
 import { Button, Form, Input, Select, notification } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
-import { verifyCaptcha } from "../../../../ServerActions";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
+import axios from "axios";
 
 import Image from "@/components/Image/Image";
 import PhoneInput from "@/components/PhoneInput/PhoneInput";
@@ -41,48 +41,33 @@ const ContactUs = () => {
   const [isVerified, setIsverified] = useState(false);
 
   const [form] = Form.useForm();
+  const [isLoading, setLoading] = useState(false);
   const { allLocation } = useContext(PropertyListContext);
 
   const [childLocation, setChildLocation] = useState([]);
 
   async function handleCaptchaSubmission(token) {
     // Server function to verify captcha
-    await verifyCaptcha(token)
+    // await verifyCaptcha(token)
+    //   .then(() => setIsverified(true))
+    //   .catch(() => setIsverified(false));
+    await axios
+      .post("/api/captcha", { token })
       .then(() => setIsverified(true))
       .catch(() => setIsverified(false));
   }
 
   const onSubmit = async (formData) => {
-    const {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      country,
-      destination,
-      location,
-    } = formData;
     setLoading(true);
     try {
-      const data = {
-        firstName,
-        lastName,
-        address: address,
-        email,
-        phoneNumber,
-        country,
-        destination,
-        location,
-      };
-
-      // await axios.post("/api/createBooking", data);
+      await axios.post("/api/contact", formData);
       notification.success({ message: "Send successfully" });
 
       // Reset form
       form.resetFields();
     } catch (e) {
       console.log("e", e);
-      notification.error({ message: e.response.data.error.props });
+      notification.error({ message: e.response.data.message });
     } finally {
       setLoading(false);
     }
@@ -122,7 +107,8 @@ const ContactUs = () => {
                 ]}
               >
                 <Input
-                  placeholder="Input your first name"
+                  placeholder="Enter your first name"
+                  autoComplete="given-name"
                   className={styles.formInput}
                 />
               </Form.Item>
@@ -134,7 +120,8 @@ const ContactUs = () => {
                 ]}
               >
                 <Input
-                  placeholder="Input your last name"
+                  placeholder="Enter your last name"
+                  autoComplete="family-name"
                   className={styles.formInput}
                 />
               </Form.Item>
@@ -162,7 +149,8 @@ const ContactUs = () => {
                 ]}
               >
                 <Input
-                  placeholder="Input your email"
+                  placeholder="Enter your email"
+                  autoComplete="email"
                   className={styles.formInput}
                 />
               </Form.Item>
@@ -171,7 +159,8 @@ const ContactUs = () => {
             <div className={styles.rowItem}>
               <Form.Item label="YOUR ADDRESS (OPTIONAL)" name="address">
                 <Input
-                  placeholder="Input your address"
+                  placeholder="Enter your address"
+                  autoComplete="street-address"
                   className={styles.formInput}
                 />
               </Form.Item>
